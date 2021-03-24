@@ -2,11 +2,18 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
-function App():JSX.Element {
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+
+import Main from './components/Main/Main';
+
+function App(): JSX.Element {
   return (
-    <div className="App">
-      Вечер в хату
-    </div>
+        <div className="App">
+            <Header />
+            <Main />
+            <Footer />
+        </div>
   );
 }
 
