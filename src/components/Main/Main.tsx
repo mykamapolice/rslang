@@ -11,15 +11,13 @@ import Vocabulary from '../Vocabulary/Vocabulary';
 function Main(): JSX.Element {
   return (
         <div className="Main">
-                <Switch>
-                    <Route path="/learning" component={Learning} />
-                    <Route path="/mini-games" component={MiniGames} />
-                    <Route path="/vocabulary" component={Vocabulary} />
-                    <Route path="/statistics" component={Statistics} />
-                    <Route path="/team" component={Team} />
-                    <Route path="/settings" component={Settings} />
-                    <Route exact path="/" component={Home} />
-                </Switch>
+                <Route path="/learning" component={Learning} />
+                <Route path="/mini-games" component={MiniGames} />
+                <Route path="/vocabulary" component={Vocabulary} />
+                <Route path="/statistics" component={Statistics} />
+                <Route path="/team" component={Team} />
+                <Route path="/settings" component={Settings} />
+                <Route exact path="/" component={Home} />
         </div>
   );
 }

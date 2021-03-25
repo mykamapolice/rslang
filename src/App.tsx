@@ -9,7 +9,7 @@ import Main from './components/Main/Main';
 
 function App(): JSX.Element {
   return (
-        <div className="App">
+        <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header />
             <Main />
             <Footer />
