@@ -4,14 +4,14 @@ import styles from './SoundSettings.module.css';
 
 const SoundSettings = (): JSX.Element => (
     <div key="custom-checkbox" className={`${styles.soundSettingsContainer} mb-3`}>
-
       <div>
+
         <Form.Group
           controlId="music-volume"
           onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
         >
-
           <Form.Label><h3>Настройки музыки</h3></Form.Label>
+
           <div className={styles.soundSettingItemsContainer}>
             <div style={{ margin: '1rem' }}>
               <Form.Check
@@ -22,12 +22,14 @@ const SoundSettings = (): JSX.Element => (
                 // onChange={turnOnOffMusicHandler}
               />
             </div>
+
             <div style={{ margin: '1rem' }}>
               <Form.Control
                 type="range"
                 // defaultValue={settings.musicVolume}
               />
             </div>
+
           </div>
         </Form.Group>
       </div>
@@ -38,6 +40,7 @@ const SoundSettings = (): JSX.Element => (
           onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
         >
           <Form.Label><h3>Настройки звука</h3></Form.Label>
+
           <div className={styles.soundSettingItemsContainer}>
             <div style={{ margin: '1rem' }}>
               <Form.Check
@@ -48,11 +51,13 @@ const SoundSettings = (): JSX.Element => (
                 // onChange={turnOnOffSoundHandler}
               />
             </div>
+
             <Form.Control
               type="range"
               // defaultValue={settings.soundVolume}
             />
           </div>
+
         </Form.Group>
       </div>
 
