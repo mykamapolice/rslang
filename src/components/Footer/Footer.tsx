@@ -5,7 +5,7 @@ import { SocialLink } from '../Team/TeamMember/TeamMember';
 
 function Footer(): JSX.Element {
   return (
-        <div className="col-lg-12 mt-3 bg-light d-flex justify-content-around">
+        <div className="col-lg-12 mt-3 bg-light d-flex mt-auto justify-content-around">
             <a href="https://rs.school/react/" target="_blank" rel="noreferrer">
                 <img
                   style={{ height: '2rem' }}

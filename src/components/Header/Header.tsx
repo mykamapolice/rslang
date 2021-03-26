@@ -1,11 +1,7 @@
 import React from 'react';
 
 import {
-  Button,
-  Form,
-  FormControl,
-  Nav,
-  Navbar,
+  Button, Form, FormControl, Nav, Navbar,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
