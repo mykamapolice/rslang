@@ -2,7 +2,7 @@ import React from 'react';
 import { CardDeck } from 'react-bootstrap';
 import TeamMember, { ITeamMember } from './TeamMember/TeamMember';
 
-const teamMembers: ITeamMember[] = [
+export const teamMembers: ITeamMember[] = [
   {
     name: 'Vlad',
     photoUrl:
@@ -11,9 +11,11 @@ const teamMembers: ITeamMember[] = [
     links: [
       {
         name: 'github',
-        imageUrl:
-                    'https://www.flaticon.com/free-icon/github_733609?term=github&page=1&position=4&page=1&position=4&related_id=733609&origin=style',
         url: 'https://github.com/vladstepway',
+      },
+      {
+        name: 'linkedin',
+        url: 'https://www.linkedin.com/in/vlad-stepovoy/',
       },
     ],
   },
@@ -25,8 +27,6 @@ const teamMembers: ITeamMember[] = [
     links: [
       {
         name: 'github',
-        imageUrl:
-                    'https://www.flaticon.com/free-icon/github_733609?term=github&page=1&position=4&page=1&position=4&related_id=733609&origin=style',
         url: 'https://github.com/mykamapolice',
       },
     ],
@@ -39,8 +39,6 @@ const teamMembers: ITeamMember[] = [
     links: [
       {
         name: 'github',
-        imageUrl:
-                    'https://www.flaticon.com/free-icon/github_733609?term=github&page=1&position=4&page=1&position=4&related_id=733609&origin=style',
         url: 'https://github.com/svdfsdev',
       },
     ],
@@ -53,8 +51,6 @@ const teamMembers: ITeamMember[] = [
     links: [
       {
         name: 'github',
-        imageUrl:
-                    'https://www.flaticon.com/free-icon/github_733609?term=github&page=1&position=4&page=1&position=4&related_id=733609&origin=style',
         url: 'https://github.com/sixstringer91',
       },
     ],
@@ -65,7 +61,7 @@ function Team() {
   return (
         <CardDeck>
             {teamMembers.map((t) => (
-                <TeamMember key={t.name} personData={t} />
+                <TeamMember key={t.name} personData={t}/>
             ))}
         </CardDeck>
   );

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { Github } from 'react-bootstrap-icons';
-import styles from './TeamMember.module.css';
+import { Github, Linkedin } from 'react-bootstrap-icons';
+import './TeamMember.css';
 
 export interface ISocialLink {
     name: string
-    imageUrl: string
     url: string
 }
 
@@ -16,24 +15,34 @@ export interface ITeamMember {
     name: string
 }
 
+export const SocialLink = ({ link: { name, url } }: any) => (
+        <div className="p-2" >
+            <a
+              href={url}
+              className={`social-icon ${name} animate`}
+              target="_blank"
+              rel="noreferrer"
+            >
+                {name === 'github' ? <Github/> : <Linkedin/>}
+            </a>
+        </div>
+);
+
 function TeamMember({
   personData: {
     links, photoUrl, description, name,
   },
 }: any) {
   return (
-        <Card className={styles.card}>
-            <Card.Img variant="top" src={photoUrl} />
+        <Card className="card">
+            <Card.Img variant="top" src={photoUrl}/>
             <Card.Body>
                 <Card.Title>{name}</Card.Title>
                 <Card.Text>{description}</Card.Text>
             </Card.Body>
-            <Card.Body>
-                {links.map((l: any) => (
-                    <Card.Link href={l.url} target="_blank">
-                        <Github />
-                        {l.name}
-                    </Card.Link>
+            <Card.Body className="d-flex justify-content-around">
+                {links.map((l: ISocialLink) => (
+                    <SocialLink key={l.name} link={l}/>
                 ))}
             </Card.Body>
         </Card>
