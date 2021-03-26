@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Col, Row, ToggleButtonGroup, ToggleButton, Card, CardColumns, Nav, Navbar,
+  Button, ToggleButtonGroup, ToggleButton,
 } from 'react-bootstrap';
 
 const baseUrl = 'https://rs-lang-rs-team-41.herokuapp.com/';
@@ -37,7 +37,9 @@ function Vocabulary(): JSX.Element {
             {el.textMeaning}
           </p>
           </div>
-          <Button onClick={() => audioHandler(`${baseUrl}${el.audio}`)}>Auditon</Button>
+          <Button onClick={() => audioHandler(`${baseUrl}${el.audio}`)}>В сложные</Button>
+          <Button >Удалить</Button>
+          <Button >Auditon</Button>
         </div>
     );
   });
