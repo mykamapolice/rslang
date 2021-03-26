@@ -37,9 +37,9 @@ function Vocabulary(): JSX.Element {
             {el.textMeaning}
           </p>
           </div>
-          <Button onClick={() => audioHandler(`${baseUrl}${el.audio}`)}>В сложные</Button>
+          <Button >В сложные</Button>
           <Button >Удалить</Button>
-          <Button >Auditon</Button>
+          <Button onClick={() => audioHandler(`${baseUrl}${el.audio}`)}>Auditon</Button>
         </div>
     );
   });
