@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Accordion, Button, Card, Table,
+  Table,
 } from 'react-bootstrap';
 import { Binoculars, BookHalf, Percent } from 'react-bootstrap-icons';
 

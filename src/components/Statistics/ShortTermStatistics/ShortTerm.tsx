@@ -8,7 +8,11 @@ import GeneralStatistic from './GeneralStatistic/GeneralStatistics';
 const ShortTermStatistics = () => (
   <div>
     <Accordion defaultActiveKey="0">
-      <Card>
+      <Card style={{
+        margin: '0 auto',
+        width: '100%',
+      }}
+      >
         <Card.Header>
           <Accordion.Toggle as={Button} variant="link" eventKey="0">
             Общая статистика за день
@@ -20,7 +24,11 @@ const ShortTermStatistics = () => (
           </Card.Body>
         </Accordion.Collapse>
       </Card>
-      <Card>
+      <Card style={{
+        margin: '0 auto',
+        width: '100%',
+      }}
+      >
         <Card.Header>
           <Accordion.Toggle as={Button} variant="link" eventKey="1">
             Саванна
@@ -30,7 +38,11 @@ const ShortTermStatistics = () => (
           <Card.Body><StatItem /></Card.Body>
         </Accordion.Collapse>
       </Card>
-      <Card>
+      <Card style={{
+        margin: '0 auto',
+        width: '100%',
+      }}
+      >
         <Card.Header>
           <Accordion.Toggle as={Button} variant="link" eventKey="2">
             Аудиовызов
@@ -40,7 +52,11 @@ const ShortTermStatistics = () => (
           <Card.Body><StatItem /></Card.Body>
         </Accordion.Collapse>
       </Card>
-      <Card>
+      <Card style={{
+        margin: '0 auto',
+        width: '100%',
+      }}
+      >
         <Card.Header>
           <Accordion.Toggle as={Button} variant="link" eventKey="3">
             Спринт
@@ -50,7 +66,11 @@ const ShortTermStatistics = () => (
           <Card.Body><StatItem /></Card.Body>
         </Accordion.Collapse>
       </Card>
-      <Card>
+      <Card style={{
+        margin: '0 auto',
+        width: '100%',
+      }}
+      >
         <Card.Header>
           <Accordion.Toggle as={Button} variant="link" eventKey="4">
             Своя игра
