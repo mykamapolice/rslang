@@ -2,7 +2,8 @@ import React from 'react';
 import {
   Button, ToggleButtonGroup, ToggleButton,
 } from 'react-bootstrap';
-
+// import { audioFile } from '../../assets/apple-hrum.mp3';
+console.dir(process.env.PUBLIC_URL);
 const baseUrl = 'https://rs-lang-rs-team-41.herokuapp.com/';
 const fetching:any = async (url:string) => {
   const response = await fetch(url);
@@ -38,7 +39,7 @@ function Vocabulary(): JSX.Element {
           </p>
           </div>
           <Button >В сложные</Button>
-          <Button >Удалить</Button>
+          <Button onClick={() => audioHandler(`${process.env.PUBLIC_URL}/apple-hrum.mp3`)}>Удалить</Button>
           <Button onClick={() => audioHandler(`${baseUrl}${el.audio}`)}>Auditon</Button>
         </div>
     );
