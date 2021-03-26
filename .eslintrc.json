@@ -45,6 +45,7 @@
         //     }
         // ],
         "@typescript-eslint/explicit-function-return-type":"off",
+        "@typescript-eslint/ban-ts-comment": "off",
         "max-len": [
             "warn",
             {
@@ -54,7 +55,8 @@
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "import/prefer-default-export": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "linebreak-style": "off"
     },
     "settings": {
         "import/resolver": {

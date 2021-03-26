@@ -1,0 +1,13 @@
+
+.gameSettingItemsContainer {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    width: 30rem;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+    .gameSettingItemsContainer {
+        width: 18rem;
+    }
+}
