@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
+import useSound from 'use-sound';
 import styles from './SoundSettings.module.css';
 
-const SoundSettings = (): JSX.Element => (
-    <div key="custom-checkbox" className={`${styles.soundSettingsContainer} mb-3`}>
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const alarm = require('../../../assets/sounds/sound.mp3');
+
+const SoundSettings = (): JSX.Element => {
+  const [play] = useSound(alarm);
+  useEffect(() => {
+    play();
+  }, []);
+
+  return (
+    <div
+      key="custom-checkbox"
+      className={`${styles.soundSettingsContainer} mb-3`}
+    >
       <div>
 
         <Form.Group
           controlId="music-volume"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
+          onChange={() => play()}
         >
           <Form.Label><h3>Настройки музыки</h3></Form.Label>
 
@@ -19,7 +32,7 @@ const SoundSettings = (): JSX.Element => (
                 id="custom-switch-music"
                 label="Музыка выкл/вкл"
                 // checked={settings.musicOn}
-                // onChange={turnOnOffMusicHandler}
+                onChange={() => play()}
               />
             </div>
 
@@ -62,6 +75,7 @@ const SoundSettings = (): JSX.Element => (
       </div>
 
     </div>
-);
+  );
+};
 
 export default SoundSettings;
