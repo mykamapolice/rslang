@@ -6,12 +6,12 @@ import styles from './Settings.module.css';
 
 function Settings(): JSX.Element {
   return (
-    <div className={styles.settingContainer}>
-      <Form>
-        <GameSettings />
-        <SoundSettings />
-      </Form>
-    </div>
+        <div className={styles.settingContainer}>
+            <Form>
+                <GameSettings />
+                <SoundSettings />
+            </Form>
+        </div>
   );
 }
 
