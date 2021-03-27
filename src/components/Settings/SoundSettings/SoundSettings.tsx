@@ -3,7 +3,6 @@ import { Form } from 'react-bootstrap';
 import useSound from 'use-sound';
 import styles from './SoundSettings.module.css';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const alarm = require('../../../assets/sounds/sound.mp3');
 
 const SoundSettings = (): JSX.Element => {
@@ -18,12 +17,10 @@ const SoundSettings = (): JSX.Element => {
       className={`${styles.soundSettingsContainer} mb-3`}
     >
       <div>
-
-        <Form.Group
-          controlId="music-volume"
-          onChange={() => play()}
-        >
-          <Form.Label><h3>Настройки музыки</h3></Form.Label>
+        <Form.Group controlId="music-volume" onChange={() => play()}>
+          <Form.Label>
+            <h3>Настройки музыки</h3>
+          </Form.Label>
 
           <div className={styles.soundSettingItemsContainer}>
             <div style={{ margin: '1rem' }}>
@@ -39,10 +36,9 @@ const SoundSettings = (): JSX.Element => {
             <div style={{ margin: '1rem' }}>
               <Form.Control
                 type="range"
-                // defaultValue={settings.musicVolume}
+              // defaultValue={settings.musicVolume}
               />
             </div>
-
           </div>
         </Form.Group>
       </div>
@@ -52,7 +48,9 @@ const SoundSettings = (): JSX.Element => {
           controlId="sound-volume"
           onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
         >
-          <Form.Label><h3>Настройки звука</h3></Form.Label>
+          <Form.Label>
+            <h3>Настройки звука</h3>
+          </Form.Label>
 
           <div className={styles.soundSettingItemsContainer}>
             <div style={{ margin: '1rem' }}>
@@ -60,20 +58,18 @@ const SoundSettings = (): JSX.Element => {
                 type="switch"
                 id="custom-switch-sound"
                 label="Звуки выкл/вкл"
-                // checked={settings.soundOn}
-                // onChange={turnOnOffSoundHandler}
+              // checked={settings.soundOn}
+              // onChange={turnOnOffSoundHandler}
               />
             </div>
 
             <Form.Control
               type="range"
-              // defaultValue={settings.soundVolume}
+            // defaultValue={settings.soundVolume}
             />
           </div>
-
         </Form.Group>
       </div>
-
     </div>
   );
 };

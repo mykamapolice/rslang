@@ -61,7 +61,7 @@ function Team() {
   return (
         <CardDeck>
             {teamMembers.map((t) => (
-                <TeamMember key={t.name} personData={t}/>
+                <TeamMember key={t.name} personData={t} />
             ))}
         </CardDeck>
   );

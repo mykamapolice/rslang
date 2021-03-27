@@ -13,18 +13,30 @@ function Statistics(): JSX.Element {
   return (
     <div>
       <div style={{ margin: '1rem' }}>
-        <Button onClick={() => onClickHandler(true)} variant="primary" size="lg" active>
+        <Button
+          onClick={() => onClickHandler(true)}
+          variant="primary"
+          size="lg"
+          active
+        >
           Долгосрочная статистика
-        </Button>
-{'   '}
-        <Button onClick={() => onClickHandler(false)} variant="primary" size="lg" active>
+                </Button>
+        {'   '}
+        <Button
+          onClick={() => onClickHandler(false)}
+          variant="primary"
+          size="lg"
+          active
+        >
           Краткосрочная статистика
-        </Button>
+                </Button>
       </div>
       <div>
-        {longTermStat
-          ? <LongTermStatistics/>
-          : <ShortTermStatistics/>}
+        {longTermStat ? (
+          <LongTermStatistics />
+        ) : (
+          <ShortTermStatistics />
+        )}
       </div>
     </div>
   );
