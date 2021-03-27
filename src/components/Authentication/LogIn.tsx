@@ -1,30 +1,27 @@
 import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 
-const Authentication: FC = (): JSX.Element => {
+const LogIn: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
   const handleEmailChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-  const handleNameChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value)
+    const mail = event.target.value
+    setEmail(mail)
   }
   const handlePasswordChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
+    const pass = event.target.value
+    setPassword(pass)
   }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSubmit = (event:React.FormEvent) => {
-    console.log(name, password, email)
+    console.log( password, email)
     const form: any = event.currentTarget;
-    console.log(form.checkValidity())
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -35,7 +32,7 @@ const Authentication: FC = (): JSX.Element => {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Зарегестрироваться
+        Войти
       </Button>
 
       <Modal
@@ -45,7 +42,7 @@ const Authentication: FC = (): JSX.Element => {
         keyboard={true}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Регистрация</Modal.Title>
+          <Modal.Title>Введите данные для входа</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -55,22 +52,12 @@ const Authentication: FC = (): JSX.Element => {
               <Form.Control.Feedback type="invalid">
                 Введите корректную почту
               </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                Мы не передадим ваш email 3 лицам
-              </Form.Text>
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Пароль</Form.Label>
               <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} required/>
               <Form.Control.Feedback type="invalid">
                 Введите пароль
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="formBasicName">
-              <Form.Label>Имя</Form.Label>
-              <Form.Control type="name" placeholder="Name" value={name} onChange={handleNameChange} required/>
-              <Form.Control.Feedback type="invalid">
-                Введите имя
               </Form.Control.Feedback>
             </Form.Group>
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -88,4 +75,4 @@ const Authentication: FC = (): JSX.Element => {
   );
 }
 
-export default Authentication
+export default LogIn
