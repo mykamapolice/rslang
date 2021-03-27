@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { createUser } from '../../utils/user-helper'
 
 const Authentication: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
@@ -22,14 +23,22 @@ const Authentication: FC = (): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const handleSubmit = (event:React.FormEvent) => {
-    console.log(name, password, email)
+    const user = {
+      password,
+      email,
+      name
+    }
+
+    createUser(user)
+
     const form: any = event.currentTarget;
-    console.log(form.checkValidity())
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
     setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   return (

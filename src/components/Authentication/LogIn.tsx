@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { loginUser } from '../../utils/user-helper'
 
 const LogIn: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
@@ -20,7 +21,13 @@ const LogIn: FC = (): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const handleSubmit = (event:React.FormEvent) => {
-    console.log( password, email)
+    const user = {
+      email,
+      password
+    };
+
+    loginUser(user)
+
     const form: any = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();

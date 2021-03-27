@@ -5,6 +5,7 @@ import {
   Button, Form, FormControl, Nav, Navbar,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import LogIn from '../Authentication/LogIn';
 
 function Header(): JSX.Element {
   return (
@@ -35,6 +36,7 @@ function Header(): JSX.Element {
                     </Nav.Link>
                 </Nav>
                 <Authentication />
+                <LogIn />
             </Navbar.Collapse>
         </Navbar>
   );
