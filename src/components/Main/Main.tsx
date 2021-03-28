@@ -6,6 +6,7 @@ import MiniGames from '../MiniGames/MiniGames';
 import Settings from '../Settings/Settings';
 import Statistics from '../Statistics/Statistics';
 import Team from '../Team/Team';
+import WordList from '../WordList/WordList';
 import Vocabulary from '../Vocabulary/Vocabulary';
 
 function Main(): JSX.Element {
@@ -13,6 +14,7 @@ function Main(): JSX.Element {
         <div className="Main">
                     <Route path="/learning" component={Learning} />
                     <Route path="/mini-games" component={MiniGames} />
+                    <Route path="/word-list" component={WordList} />
                     <Route path="/vocabulary" component={Vocabulary} />
                     <Route path="/statistics" component={Statistics} />
                     <Route path="/team" component={Team} />

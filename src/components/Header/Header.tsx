@@ -20,6 +20,9 @@ function Header(): JSX.Element {
                         <Nav.Link eventKey="2" to="/mini-games" as={NavLink}>
                             MiniGames
                         </Nav.Link>
+                        <Nav.Link eventKey="3" to="/word-list" as={NavLink}>
+                            Word-list
+                        </Nav.Link>
                         <Nav.Link eventKey="3" to="/vocabulary" as={NavLink}>
                             Vocabulary
                         </Nav.Link>
