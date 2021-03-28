@@ -19,10 +19,7 @@ function Footer(): JSX.Element {
                     <Card.Body className="d-flex p-0">
                         <Card.Title className="m-2">{t.name}</Card.Title>
                         {t.links.map((l) => (
-                            <SocialLink
-                              key={l.name}
-                              link={l}
-                            />
+                            <SocialLink key={l.name} link={l} />
                         ))}
                     </Card.Body>
                 </Card>

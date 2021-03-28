@@ -1,11 +1,11 @@
 import React from 'react';
+
 import {
   Button, ToggleButtonGroup, ToggleButton,
 } from 'react-bootstrap';
-// import { audioFile } from '../../assets/apple-hrum.mp3';
-console.dir(process.env.PUBLIC_URL);
+
 const baseUrl = 'https://rs-lang-rs-team-41.herokuapp.com/';
-const fetching:any = async (url:string) => {
+const fetching: any = async (url: string) => {
   const response = await fetch(url);
   const answer = await response.json();
   return answer;
@@ -15,13 +15,13 @@ function Vocabulary(): JSX.Element {
   const [words, setWords] = React.useState([]);
   React.useEffect(() => {
     if (!words.length) {
-      fetching(`${baseUrl}words`).then((data:[]) => {
+      fetching(`${baseUrl}words`).then((data: []) => {
         setWords(data);
         console.log(data);
       });
     }
   });
-  const audioHandler = (src:string):void => {
+  const audioHandler = (src: string): void => {
     audio.src = src;
     audio.play();
   };
@@ -44,19 +44,31 @@ function Vocabulary(): JSX.Element {
         </div>
     );
   });
+
   return (
-  <div className="Vocabulary">
-    <ToggleButtonGroup size="lg" type="radio" name="options" defaultValue={1}>
-      <ToggleButton variant="primary" value={1}>Изучаемые слова</ToggleButton>
-      <ToggleButton variant="primary" value={2}>Сложные слова</ToggleButton>
-      <ToggleButton variant="primary" value={3}>Удалённые слова</ToggleButton>
-    </ToggleButtonGroup>
-    <div className="container-fluid">
-    <div className="d-sm-flex p-2 flex-wrap justify-content-center">
-      {mappedWords}
-    </div>
-    </div>
-  </div>
+        <div className="Vocabulary">
+            <ToggleButtonGroup
+              size="lg"
+              type="radio"
+              name="options"
+              defaultValue={1}
+            >
+                <ToggleButton variant="primary" value={1}>
+                    Изучаемые слова
+                </ToggleButton>
+                <ToggleButton variant="primary" value={2}>
+                    Сложные слова
+                </ToggleButton>
+                <ToggleButton variant="primary" value={3}>
+                    Удалённые слова
+                </ToggleButton>
+            </ToggleButtonGroup>
+            <div className="container-fluid">
+                <div className="d-sm-flex p-2 flex-wrap justify-content-center">
+                    {mappedWords}
+                </div>
+            </div>
+        </div>
   );
 }
 
