@@ -12,7 +12,6 @@ export const createUser = async (user: IUserRegistration) => {
     urlSignUp,
     user,
   );
-  console.log(response.data)
   return response.data;
 };
 
@@ -21,8 +20,7 @@ export const loginUser = async (user: IUserAuthData) => {
     urlSignIn,
     user,
   );
-  console.log(response.data)
-  setItemsInLocalStorage(response.data);
+  await setItemsInLocalStorage(response.data);
 
   return response.data;
 }

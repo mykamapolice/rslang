@@ -1,54 +1,50 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { loginUser } from '../../utils/user-helper'
+import { createUser } from '../../utils/user-helper'
 
-const LogIn = (props: any): JSX.Element => {
+const Registration: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
   const handleEmailChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    const mail = event.target.value
-    setEmail(mail)
+    setEmail(event.target.value)
+  }
+  const handleNameChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
   }
   const handlePasswordChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    const pass = event.target.value
-    setPassword(pass)
+    setPassword(event.target.value)
   }
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
-  const handleSubmit =  async (event:React.FormEvent) => {
-    event.preventDefault()
-    event.stopPropagation()
+  const handleSubmit = (event:React.FormEvent) => {
     const user = {
+      password,
       email,
-      password
-    };
-
+      name
+    }
     setValidated(true);
     const form: any = event.currentTarget;
-
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
     }
     try {
-      const userData = await loginUser(user)
-      console.log(userData)
-      props.setloggedIn(true);
+      createUser(user)
     } catch (err) {
       console.log(err)
     }
-
   };
 
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Войти
+        Зарегестрироваться
       </Button>
 
       <Modal
@@ -58,7 +54,7 @@ const LogIn = (props: any): JSX.Element => {
         keyboard={true}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Введите данные для входа</Modal.Title>
+          <Modal.Title>Регистрация</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -68,12 +64,22 @@ const LogIn = (props: any): JSX.Element => {
               <Form.Control.Feedback type="invalid">
                 Введите корректную почту
               </Form.Control.Feedback>
+              <Form.Text className="text-muted">
+                Мы не передадим ваш email 3 лицам
+              </Form.Text>
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Пароль</Form.Label>
               <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} required/>
               <Form.Control.Feedback type="invalid">
                 Введите пароль
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Имя</Form.Label>
+              <Form.Control type="name" placeholder="Name" value={name} onChange={handleNameChange} required/>
+              <Form.Control.Feedback type="invalid">
+                Введите имя
               </Form.Control.Feedback>
             </Form.Group>
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -91,4 +97,4 @@ const LogIn = (props: any): JSX.Element => {
   );
 }
 
-export default LogIn
+export default Registration

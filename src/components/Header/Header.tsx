@@ -36,7 +36,6 @@ function Header(): JSX.Element {
                     </Nav.Link>
                 </Nav>
                 <Authentication />
-                <LogIn />
             </Navbar.Collapse>
         </Navbar>
   );
