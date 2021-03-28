@@ -2,10 +2,9 @@ import React from 'react';
 import Authentication from '../Authentication/Authentication';
 
 import {
-  Button, Form, FormControl, Nav, Navbar,
+    Nav, Navbar,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import LogIn from '../Authentication/LogIn';
 
 function Header(): JSX.Element {
   return (
