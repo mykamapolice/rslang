@@ -1,7 +1,8 @@
 import React from 'react';
+import Authentication from '../Authentication/Authentication';
 
 import {
-  Button, Form, FormControl, Nav, Navbar,
+    Nav, Navbar,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
@@ -33,14 +34,7 @@ function Header(): JSX.Element {
                         Settings
                     </Nav.Link>
                 </Nav>
-                <Form inline>
-                    <FormControl
-                      type="text"
-                      placeholder="Search"
-                      className="mr-sm-2"
-                    />
-                    <Button variant="outline-success">Search</Button>
-                </Form>
+                <Authentication />
             </Navbar.Collapse>
         </Navbar>
   );

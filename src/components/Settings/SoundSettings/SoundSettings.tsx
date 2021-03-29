@@ -3,10 +3,10 @@ import { Form } from 'react-bootstrap';
 import useSound from 'use-sound';
 import styles from './SoundSettings.module.css';
 
-const alarm = require('../../../assets/sounds/sound.mp3');
+// const alarm = require('../../../assets/sounds/sound.mp3');
 
 const SoundSettings = (): JSX.Element => {
-  const [play] = useSound(alarm);
+  const [play] = useSound(`${process.env.PUBLIC_URL}/sound.mp3`);
   useEffect(() => {
     play();
   }, []);
@@ -17,11 +17,11 @@ const SoundSettings = (): JSX.Element => {
       className={`${styles.soundSettingsContainer} mb-3`}
     >
       <div>
-        <Form.Group controlId="music-volume" onChange={() => play()}>
-          <Form.Label>
-            <h3>Настройки музыки</h3>
-          </Form.Label>
-
+        <Form.Group
+          controlId="music-volume"
+          onChange={() => play()}
+        >
+          <Form.Label><h3>Настройки музыки</h3></Form.Label>
           <div className={styles.soundSettingItemsContainer}>
             <div style={{ margin: '1rem' }}>
               <Form.Check
@@ -36,9 +36,10 @@ const SoundSettings = (): JSX.Element => {
             <div style={{ margin: '1rem' }}>
               <Form.Control
                 type="range"
-              // defaultValue={settings.musicVolume}
+                // defaultValue={settings.musicVolume}
               />
             </div>
+
           </div>
         </Form.Group>
       </div>
@@ -48,10 +49,9 @@ const SoundSettings = (): JSX.Element => {
           controlId="sound-volume"
           onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
         >
-          <Form.Label>
+         <Form.Label>
             <h3>Настройки звука</h3>
           </Form.Label>
-
           <div className={styles.soundSettingItemsContainer}>
             <div style={{ margin: '1rem' }}>
               <Form.Check

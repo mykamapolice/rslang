@@ -1,5 +1,8 @@
 import React from 'react';
-import { Button, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+
+import {
+  Button, ToggleButtonGroup, ToggleButton,
+} from 'react-bootstrap';
 
 const baseUrl = 'https://rs-lang-rs-team-41.herokuapp.com/';
 const fetching: any = async (url: string) => {
@@ -22,33 +25,26 @@ function Vocabulary(): JSX.Element {
     audio.src = src;
     audio.play();
   };
-  const mappedWords = words.map(
-    (el: any): JSX.Element => {
-      console.log(el);
-      return (
-                <div className="card mx-3 mb-3" style={{ width: '25rem' }}>
-                    <img
-                      className="card-img-top"
-                      src={`${baseUrl}${el.image}`}
-                      alt="хуй"
-                    />
-                    <h4 className="card-title">{el.word}</h4>
-                    <h5>{el.transcription}</h5>
-                    <h6>{el.wordTranslate}</h6>
-                    <div className="card-body">
-                        <p className="card-text">{el.textMeaning}</p>
-                    </div>
-                    <Button>В сложные</Button>
-                    <Button>Удалить</Button>
-                    <Button
-                      onClick={() => audioHandler(`${baseUrl}${el.audio}`)}
-                    >
-                        Auditon
-                    </Button>
-                </div>
-      );
-    },
-  );
+  const mappedWords = words.map((el:any):JSX.Element => {
+    console.log(el);
+    return (
+        <div className="card mx-3 mb-3" style={{ width: '25rem' }}>
+          <img className="card-img-top" src={`${baseUrl}${el.image}`} alt="хуй"/>
+          <h4 className="card-title">{el.word}</h4>
+          <h5>{el.transcription}</h5>
+          <h6>{el.wordTranslate}</h6>
+          <div className="card-body">
+          <p className="card-text">
+            {el.textMeaning}
+          </p>
+          </div>
+          <Button >В сложные</Button>
+          <Button onClick={() => audioHandler(`${process.env.PUBLIC_URL}/apple-hrum.mp3`)}>Удалить</Button>
+          <Button onClick={() => audioHandler(`${baseUrl}${el.audio}`)}>Auditon</Button>
+        </div>
+    );
+  });
+
   return (
         <div className="Vocabulary">
             <ToggleButtonGroup
