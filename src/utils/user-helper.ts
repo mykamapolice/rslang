@@ -1,25 +1,26 @@
 import axios from 'axios';
-import {
-  IUserRegistration, 
-  IUserAuthData 
-} from '../interfaces';
+import { IUserRegistration, IUserAuthData } from '../interfaces';
 
-const url = 'https://rs-lang-rs-team-41.herokuapp.com/users'
+const baseUrl = 'https://rs-lang-rs-team-41.herokuapp.com';
 
 export const createUser = async (user: IUserRegistration) => {
-  const response = await axios.post(
-    url,
-    user,
-  );
+  try {
+    const response = await axios.post(`${baseUrl}/users`, user);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const loginUser = async (user: IUserAuthData) => {
-  const response = await axios.post(
-    url,
-    user,
-  );
+  let response;
 
-  return response.data;
-}
+  try {
+    response = await axios.post(`${baseUrl}/signin`, user);
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
