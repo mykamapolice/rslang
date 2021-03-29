@@ -4,7 +4,6 @@ import Registration from './Registration';
 import { Button } from 'react-bootstrap';
 
 const Authentication: FC = (): JSX.Element => {
-  console.log('hi')
 
   const userName = (localStorage.getItem('name'));
     const [name, setName] = useState(userName);

@@ -17,14 +17,9 @@ export const createUser = async (user: IUserRegistration) => {
 export const loginUser = async (user: IUserAuthData) => {
   let response;
 
-  try {
     response = await axios.post(`${baseUrl}/signin`, user);
-
     await setItemsInLocalStorage(response.data);
     return response.data;
-  } catch (error) {
-    return error.response.data;
-  }
 };
 
 function setItemsInLocalStorage(value: any) {

@@ -40,7 +40,8 @@ const LogIn = (props: any): JSX.Element => {
       console.log(userData)
       props.setloggedIn(true);
     } catch (err) {
-      console.log(err)
+      console.log('хуй', err)
+      props.setloggedIn(false);
     }
 
   };
