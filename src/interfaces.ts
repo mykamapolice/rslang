@@ -2,13 +2,36 @@ export interface IUser {
   isLoginForm: boolean;
   isAuth: boolean;
   name: string;
-  email: string | null;
+  userId: string | null;
+  message: string | null;
+}
+
+export interface IGeneralVocabulary{
+  page:number;
+  lvl:number;
+  words:IWord[] | null;
+}
+
+export interface IWord {
+  word:string;
+  id: string;
+  group: number;
+  page : number;
+  image:string;
+  audio:string;
+  audioMeaning:string;
+  audioExample:string;
+  transcription:string;
+  textMeaning:string;
+  textExampleTranslate:string;
+  textMeaningTranslate:string;
+  wordTranslate:string;
 }
 
 export interface IUserRegistration {
   password: string;
   email: string;
-  name: string
+  name: string;
 }
 
 export interface IUserAuthData {
@@ -17,7 +40,7 @@ export interface IUserAuthData {
 }
 
 export interface IUserLoginResponse {
-  message: string,
-  token: string,
-  userId: string
+  message: string;
+  token: string;
+  userId: string;
 }

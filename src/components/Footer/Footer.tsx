@@ -8,10 +8,10 @@ function Footer(): JSX.Element {
         <div className="col-lg-12 mt-3 bg-light d-flex mt-auto justify-content-around">
             <a href="https://rs.school/react/" target="_blank" rel="noreferrer">
                 <img
-                  style={{ height: '2rem' }}
-                  src="https://rs.school/images/rs_school_js.svg"
-                  alt="rs-logo"
-                  className="img-fluid"
+                    style={{ height: '2rem' }}
+                    src="https://rs.school/images/rs_school_js.svg"
+                    alt="rs-logo"
+                    className="img-fluid"
                 />
             </a>
             {teamMembers.map((t) => (

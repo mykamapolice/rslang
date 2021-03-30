@@ -2,39 +2,35 @@ import React, { FC, useEffect, useState } from 'react';
 import LogIn from './LogIn';
 import Registration from './Registration';
 import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import {logout} from '../../redux/reducers/user';
 
 const Authentication: FC = (): JSX.Element => {
-  console.log('hi')
 
   const userName = (localStorage.getItem('name'));
-    const [name, setName] = useState(userName);
-    const [loggedIn, setloggedIn] = useState(false);
 
-    useEffect(() => {
-      if (userName !== null) {
-        setloggedIn(true);
-      } else {
-        setloggedIn(false);
-      }
-    }, []);
+    const dispatch = useDispatch();
+    const state:any = useSelector(state => state);
+    const { isAuth, name } = state.user;
+    
 
     const onLogOutButtonClick = () => {
       localStorage.clear();
-      setloggedIn(false);
+      dispatch(logout());
     };
 
     return (<div>
-      {loggedIn
+      {isAuth
         ?
-        <div>Вечер в хату{'  '}<Button variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
+        <div>Вечер в хату, {name}<Button style={{marginLeft: "0.5rem"}} variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
         </div>
-        : <div>
-          <LogIn setloggedIn={setloggedIn} />
+        : 
+        <div>
+          <LogIn isAuth={isAuth}/>
           {'  '}
           <Registration />
         </div>
       }
-
     </div>);
   }
 

@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import { userReducer } from './user';
+import userSlice from './user';
+import vocabularySlice from './vocabulary'
 
 export const rootReducer = combineReducers({
-  user: userReducer,
+  user: userSlice,
+  vocabulary:vocabularySlice
 });
