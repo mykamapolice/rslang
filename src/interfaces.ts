@@ -6,6 +6,28 @@ export interface IUser {
   message: string | null;
 }
 
+export interface IGeneralVocabulary{
+  page:number;
+  lvl:number;
+  words:IWord[] | null;
+}
+
+export interface IWord {
+  word:string;
+  id: string;
+  group: number;
+  page : number;
+  image:string;
+  audio:string;
+  audioMeaning:string;
+  audioExample:string;
+  transcription:string;
+  textMeaning:string;
+  textExampleTranslate:string;
+  textMeaningTranslate:string;
+  wordTranslate:string;
+}
+
 export interface IUserRegistration {
   password: string;
   email: string;

@@ -46,7 +46,7 @@ const Registration: FC = (): JSX.Element => {
       event.stopPropagation()
       return
     }
-    dispatch(registration(user))
+    dispatch(registration(user));
 
     handleClose()
   };

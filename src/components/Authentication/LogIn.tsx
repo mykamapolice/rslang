@@ -36,8 +36,8 @@ const LogIn = (props: any): JSX.Element => {
     const form: any = event.currentTarget;
 
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
     }
       await dispatch(login(user));
       handleClose()
