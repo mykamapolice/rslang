@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { createUser } from '../../utils/user-helper'
+import { useDispatch, useSelector } from 'react-redux';
+import { registration } from '../../redux/reducers/user';
 
 const Registration: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
@@ -8,8 +9,9 @@ const Registration: FC = (): JSX.Element => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
-  const [passwordError, setPasswordError] = useState('Пароль должен быть больше 8 символов')
 
+  const dispatch = useDispatch()
+  const state:any = useSelector(state => state);
 
   const handleEmailChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)
@@ -43,11 +45,8 @@ const Registration: FC = (): JSX.Element => {
       event.preventDefault()
       event.stopPropagation()
     }
-    try {
-      createUser(user)
-    } catch (err) {
-      console.log(err)
-    }
+    dispatch(registration(user))
+
     handleClose()
   };
 
