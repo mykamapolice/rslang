@@ -9,15 +9,14 @@ const Authentication: FC = (): JSX.Element => {
 
   const userName = (localStorage.getItem('name'));
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const state:any = useSelector(state => state);
-    const { isAuth } = state.user
-    const { name } = state.user
-
+    const { isAuth, name } = state.user;
+    
 
     const onLogOutButtonClick = () => {
       localStorage.clear();
-      dispatch(logout())
+      dispatch(logout());
     };
 
     return (<div>
@@ -25,7 +24,8 @@ const Authentication: FC = (): JSX.Element => {
         ?
         <div>Вечер в хату, {name}<Button style={{marginLeft: "0.5rem"}} variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
         </div>
-        : <div>
+        : 
+        <div>
           <LogIn isAuth={isAuth}/>
           {'  '}
           <Registration />

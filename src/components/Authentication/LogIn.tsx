@@ -1,16 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { loginUser } from '../../utils/user-helper'
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/reducers/user';
 
 const LogIn = (props: any): JSX.Element => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
-
-  const dispatch = useDispatch();
 
   const handleEmailChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
     const mail = event.target.value
@@ -39,8 +35,6 @@ const LogIn = (props: any): JSX.Element => {
       event.preventDefault()
       event.stopPropagation()
     }
-      await dispatch(login(user));
-      handleClose()
   };
 
   return (

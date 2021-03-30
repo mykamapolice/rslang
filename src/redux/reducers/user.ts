@@ -7,7 +7,7 @@ const initialState: IUser = {
   isAuth: false,
   name: 'Guest',
   userId: null,
-  message: null,
+  message: null, 
 };
 
 export const registration = createAsyncThunk('user/registration', createUser);

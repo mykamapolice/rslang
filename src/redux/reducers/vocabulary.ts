@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IGeneralVocabulary } from '../../interfaces';
 import { fetchingGeneralVocabulary } from '../../utils/vocabulary-helper';
 
@@ -27,7 +27,7 @@ const vocabularySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchingGeneral.fulfilled, (state, action) => {
-        state.words = action.payload.words;
+        state.words = [...action.payload];
       })
 
 }});
