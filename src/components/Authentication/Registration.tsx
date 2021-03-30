@@ -34,16 +34,17 @@ const Registration: FC = (): JSX.Element => {
       email,
       name
     }
-    if(password.length < 8) {
-      event.preventDefault()
-      event.stopPropagation()
-      return
-    }
+    // if(password.length < 1) {
+    //   event.preventDefault()
+    //   event.stopPropagation()
+    //   return
+    // }
     setValidated(true);
     const form: any = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
+      return
     }
     dispatch(registration(user))
 
@@ -79,14 +80,14 @@ const Registration: FC = (): JSX.Element => {
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Пароль</Form.Label>
-              <Form.Control isValid={password.length > 8} isInvalid={password.length < 8} type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+              <Form.Control  type="password" placeholder="Password" value={password} onChange={handlePasswordChange} minLength={8} required/>
               <Form.Control.Feedback type="invalid">
                 Пароль должен быть больше 8 символов
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="formBasicName">
               <Form.Label>Имя</Form.Label>
-              <Form.Control type="name" placeholder="Name" value={name} onChange={handleNameChange} required minLength={8}/>
+              <Form.Control type="name" placeholder="Name" value={name} onChange={handleNameChange} required />
               <Form.Control.Feedback type="invalid">
                 Введите имя
               </Form.Control.Feedback>

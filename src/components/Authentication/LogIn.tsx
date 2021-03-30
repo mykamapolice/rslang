@@ -41,7 +41,6 @@ const LogIn = (props: any): JSX.Element => {
     }
       await dispatch(login(user));
       handleClose()
-
   };
 
   return (

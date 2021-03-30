@@ -8,11 +8,11 @@ import {logout} from '../../redux/reducers/user';
 const Authentication: FC = (): JSX.Element => {
 
   const userName = (localStorage.getItem('name'));
-    const [name, setName] = useState(userName);
 
     const dispatch = useDispatch()
     const state:any = useSelector(state => state);
     const { isAuth } = state.user
+    const { name } = state.user
 
 
     const onLogOutButtonClick = () => {
@@ -23,7 +23,7 @@ const Authentication: FC = (): JSX.Element => {
     return (<div>
       {isAuth
         ?
-        <div>Вечер в хату{'  '}<Button variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
+        <div>Вечер в хату, {name}<Button style={{marginLeft: "0.5rem"}} variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
         </div>
         : <div>
           <LogIn isAuth={isAuth}/>
