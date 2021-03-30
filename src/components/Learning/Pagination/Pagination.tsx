@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Pagination({ page, setPage }: any): JSX.Element {
-  const paginationNumbs = [...Array(30)].map((_, i: number, arr: any[]) => {
+  const paginationNumbs = [...Array(30)].map((_, i: number, arr: null[]) => {
     const diggCheck = i === page - 1 || i === page || i === page + 1 || (page === 0 && i === page + 2) || (page === arr.length - 1 && i === page - 2);
     return (
       <li key={arr.length - i} style={{ display: `${diggCheck ? 'inline' : 'none'}` }} className={`page-item ${page === i ? 'active' : ''}`}>
