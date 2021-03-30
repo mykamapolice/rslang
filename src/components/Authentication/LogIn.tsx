@@ -32,8 +32,16 @@ const LogIn = (props: any): JSX.Element => {
     const form: any = event.currentTarget;
 
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    try {
+      const userData = await loginUser(user)
+      console.log(userData)
+      props.setloggedIn(true);
+    } 
+    catch (err) {
+      console.log(err)
     }
   };
 
