@@ -1,15 +1,28 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
+import {useAudio} from 'react-use';
 import useSound from 'use-sound';
 import styles from './SoundSettings.module.css';
 
-// const alarm = require('../../../assets/sounds/sound.mp3');
-
 const SoundSettings = (): JSX.Element => {
-  const [play] = useSound(`${process.env.PUBLIC_URL}/sound.mp3`);
-  useEffect(() => {
-    play();
-  }, []);
+  // const [play] = useSound(`${process.env.PUBLIC_URL}/sound.mp3`);
+  // useEffect(() => {
+  //   play();
+  // }, []);
+
+  const audioBackground = new Audio(`${process.env.PUBLIC_URL}/sound.mp3`)
+
+  const toggleMusic = () => {
+
+    if(audioBackground.paused) {
+      audioBackground.play()
+    } else {
+      audioBackground.pause()
+    }
+  }
+   const musicPause = () => {
+     audioBackground.pause()
+   }
 
   return (
     <div
@@ -19,7 +32,7 @@ const SoundSettings = (): JSX.Element => {
       <div>
         <Form.Group
           controlId="music-volume"
-          onChange={() => play()}
+          onChange={() => toggleMusic()}
         >
           <Form.Label><h3>Настройки музыки</h3></Form.Label>
           <div className={styles.soundSettingItemsContainer}>
@@ -29,7 +42,7 @@ const SoundSettings = (): JSX.Element => {
                 id="custom-switch-music"
                 label="Музыка выкл/вкл"
                 // checked={settings.musicOn}
-                onChange={() => play()}
+                // onChange={() => play()}
               />
             </div>
 
@@ -47,7 +60,8 @@ const SoundSettings = (): JSX.Element => {
       <div>
         <Form.Group
           controlId="sound-volume"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
+          onChange={() => musicPause()}
+          // onChange={(e: React.FormEvent<HTMLInputElement>) => console.log(e.target)}
         >
          <Form.Label>
             <h3>Настройки звука</h3>
@@ -59,7 +73,7 @@ const SoundSettings = (): JSX.Element => {
                 id="custom-switch-sound"
                 label="Звуки выкл/вкл"
               // checked={settings.soundOn}
-              // onChange={turnOnOffSoundHandler}
+              // onChange={}
               />
             </div>
 
