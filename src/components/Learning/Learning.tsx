@@ -3,7 +3,9 @@ import {
   Button,
 } from 'react-bootstrap';
 import { X, VolumeUp, LightningFill } from 'react-bootstrap-icons';
-import Pagination from './Pagination/Pagination'
+import {IWord} from '../../interfaces';
+import Pagination from './Pagination/Pagination';
+
 
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/';
@@ -12,22 +14,6 @@ const fetching = async (url: string) => {
   const answer = await response.json();
   return answer;
 };
-
-interface IWord {
-  word:string;
-  id: string;
-  group: number;
-  page : number;
-  image:string;
-  audio:string;
-  audioMeaning:string;
-  audioExample:string;
-  transcription:string;
-  textMeaning:string;
-  textExampleTranslate:string;
-  textMeaningTranslate:string;
-  wordTranslate:string;
-}
 
 const audio: HTMLAudioElement = new Audio();
 function WordList(): JSX.Element {
