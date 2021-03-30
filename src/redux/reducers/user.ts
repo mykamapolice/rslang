@@ -26,13 +26,16 @@ const userSlice = createSlice({
     },
 
     logout: (state) => {
-      state = {
+
+      const newState = {
         isLoginForm: true,
         isAuth: false,
         name: 'Guest',
         userId: null,
         message: null,
       };
+
+      return state = {...newState}
     },
   },
 
@@ -41,11 +44,11 @@ const userSlice = createSlice({
 
       .addCase(registration.fulfilled, (state, action) => {
         state.isLoginForm = true;
-        state.userId = action.payload.userId;
       })
 
       .addCase(login.fulfilled, (state, action) => {
-        if (action.payload !== 'Forbidden') {
+        console.log(action.payload)
+        if (action.payload.message === 'Authenticated') {
           const { name, userId, message } = action.payload;
 
           state.isAuth = true;

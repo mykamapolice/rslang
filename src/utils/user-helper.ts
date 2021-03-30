@@ -16,7 +16,6 @@ export const createUser = async (user: IUserRegistration) => {
 
 export const loginUser = async (user: IUserAuthData) => {
   let response;
-
   try {
     response = await axios.post(`${baseUrl}/signin`, user);
 
@@ -25,16 +24,14 @@ export const loginUser = async (user: IUserAuthData) => {
   } catch (error) {
     return error.response.data;
   }
-};
-
-function setItemsInLocalStorage(value: any) {
-  const token = value.token;
-
-  const userName = value.name;
-
-  const userID = value.userId;
-
-  localStorage.setItem('token', JSON.stringify(token));
-  localStorage.setItem('name', JSON.stringify(userName));
-  localStorage.setItem('id', JSON.stringify(userID));
 }
+
+  function setItemsInLocalStorage(value: any) {
+    const token = value.token;
+    const userName = value.name;
+    const userID = value.userId;
+
+    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('name', JSON.stringify(userName));
+    localStorage.setItem('id', JSON.stringify(userID));
+  }
