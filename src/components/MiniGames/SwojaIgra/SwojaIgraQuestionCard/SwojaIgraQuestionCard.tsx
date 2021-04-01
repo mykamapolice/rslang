@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const QuestionCard = (props: any) => {
 
   const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/';
 
   const [btnDisabled, setBtnDisabled] = useState(false)
+
+  const setKey = (event: any) => {
+    if (event.key !== ' ') {
+      const btn: any = document.querySelector(`#${event.key}`);
+      if (btn !== null) {
+        btn.click();
+      }
+    }
+    if (event.key === ' ') {
+      const space: any  = document.querySelector('#next');
+      if (space !== null) {
+        space.click()
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', setKey);
+    return () => {
+      window.removeEventListener('keydown', setKey);
+    };
+  }, []);
 
   const nextButtonClickHandler = () => {
     props.setQuestionNumber(props.questionNumber + 1)
@@ -22,49 +44,60 @@ const QuestionCard = (props: any) => {
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <button
+              id='a'
               type="button"
               style={{ width: '100%' }}
-              className="btn btn-primary"
+              className="btn btn-outline-warning"
               disabled = {btnDisabled}
               onClick={buttonClickHandler}
             >
-              {props.answers[0].word}
+              {`a ${props.answers[0].word}`}
             </button>
           </li>
           <li className="list-group-item">
             <button
+              id='b'
               type="button"
               style={{ width: '100%' }}
-              className="btn btn-primary"
+              className="btn btn-outline-warning"
               disabled = {btnDisabled}
               onClick={buttonClickHandler}
             >
-              {props.answers[1].word}
+              {`b ${props.answers[1].word}`}
             </button>
           </li>
           <li className="list-group-item">
             <button
+              id='c'
               type="button"
               style={{ width: '100%' }}
-              className="btn btn-primary"
+              className="btn btn-outline-warning"
               disabled = {btnDisabled}
               onClick={buttonClickHandler}
             >
-              {props.answers[2].word}
+              {`c ${props.answers[2].word}`}
             </button>
           </li>
           <li className="list-group-item">
             <button
+              id='d'
               type="button"
               style={{ width: '100%' }}
-              className="btn btn-primary"
+              className="btn btn-outline-warning"
               disabled = {btnDisabled}
               onClick={buttonClickHandler}
             >
-              {props.answers[3].word}
+              {`d ${props.answers[3].word}`}
             </button>
           </li>
-          {btnDisabled && <button onClick={nextButtonClickHandler}>Next Question</button>}
+          {btnDisabled && <button
+            id="next"
+            type="button"
+            className="btn btn-info"
+            onClick={nextButtonClickHandler}
+          >
+            Следующее слово (Space)
+          </button>}
         </ul>
         </div>
     </div>

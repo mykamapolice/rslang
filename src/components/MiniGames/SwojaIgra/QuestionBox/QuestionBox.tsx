@@ -4,6 +4,7 @@ import QuestionCard from '../SwojaIgraQuestionCard/SwojaIgraQuestionCard';
 const QuestionBox = (props: any)=>{
 
   const [questionNumber, setQuestionNumber] = useState(0)
+  const [score, setScore] = useState(0)
 
   const {questions} = props
 
@@ -19,13 +20,16 @@ const QuestionBox = (props: any)=>{
      questionNumber={questionNumber}
      setQuestionNumber={setQuestionNumber}
      image={item.image}
-     answers={item.answers}/>
+     answers={item.answers}
+     score={score}
+     setScore={setScore}
+   />
   })
 
   return (
     <div>
-      <h1>Question Number: {questionNumber + 1}</h1>
-      <h2>Score:</h2>
+      <h1>Номер вопроса: {questionNumber + 1} / 10</h1>
+      <h2>Количество правильных ответов: {score}</h2>
       {cards[questionNumber]}
     </div>
   )

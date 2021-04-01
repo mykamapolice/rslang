@@ -39,11 +39,6 @@ const SwojaIgra: FC = (): JSX.Element => {
       const randomQuestionNumber: number = Math.floor(Math.random()  * (20));
       const { word } = wordsCopy[randomQuestionNumber]
 
-      const check = arrayOfIncorrect.map((item) => {
-        return item.word === word
-      })
-
-
       if(word !== correctWord && !wordsToCheck.includes(word)) {
         arrayOfIncorrect.push({ word, isCorrect: false })
         wordsToCheck.push(word)
@@ -89,14 +84,19 @@ const SwojaIgra: FC = (): JSX.Element => {
 
   return (
     <div className='Vocabulary'>
-      <div className='container-fluid'>
-        <div className='d-sm-flex p-2 flex-wrap justify-content-center'>
-          <Lvl levels={levels} lvl={lvl}
-               setLvl={(n: number) => dispatch(setLvl(n))} />
-        </div>
-
-        {isStarted ? <QuestionBox setStarted={setStarted} questions={questions}/> : <button onClick={getQuestions}>start game</button>}
-      </div>
+      {isStarted ? <QuestionBox setStarted={setStarted} questions={questions}/> :
+        <>
+          <p className="fs-3">Выберите сложность слов:</p>
+          <div className='container-fluid'>
+            <div className='d-sm-flex p-2 flex-wrap justify-content-center'>
+              <Lvl levels={levels} lvl={lvl}
+                   setLvl={(n: number) => dispatch(setLvl(n))} />
+            </div>
+          </div>
+          <button onClick={getQuestions} type="button" className="btn btn-outline-success">Нажмите чтобы начать игру :)
+          </button>
+        </>
+      }
     </div>
   );
 };
