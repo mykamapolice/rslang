@@ -28,13 +28,31 @@ const QuestionCard = (props: any) => {
     };
   }, []);
 
-  const nextButtonClickHandler = () => {
+  const nextButtonClickHandler = (e: any) => {
     props.setQuestionNumber(props.questionNumber + 1)
     setBtnDisabled(false)
   }
 
-  const buttonClickHandler = () => {
+  const buttonClickHandler = (e: any) => {
+    const word = e.target.innerHTML.split(' ')[1]
+    const ans: any = checkAnswer(word)
+    if( ans.isCorrect ) {
+      props.setScore(props.score + 1)
+    }
+
     setBtnDisabled(true)
+  }
+
+  const checkAnswer = (word: string) => {
+    let ans;
+
+    props.answers.map((item: any) => {
+      if(item.word === word) {
+        ans =  item
+      }
+    })
+
+    return ans;
   }
 
   return (
