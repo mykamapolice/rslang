@@ -10,7 +10,6 @@ import QuestionBox from './QuestionBox/QuestionBox';
 const SwojaIgra: FC = (): JSX.Element => {
 
   const [isStarted, setStarted] = useState(false)
-  const [asd, setasd]: any = useState(null)
   const [isFinish, setFinish] = useState(true)
   const [questions, setQuestions]: any[] = useState([])
   const [answers, setAnswers] = useState([])
@@ -28,18 +27,26 @@ const SwojaIgra: FC = (): JSX.Element => {
     const page = Math.floor(Math.random() * (30));
     const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/';
     dispatch(fetchingGeneral(`${baseUrl}words?page=${page}&group=${lvl}`));
-    console.log(state)
-  }, [])
+    console.log('asd')
+  }, [questions])
 
   const getIncorrectWords = (correctWord: string) => {
-    let arrayOfIncorrect = []
+    const arrayOfIncorrect: any[] = []
+    const wordsToCheck: any[] = []
+
 
     while (arrayOfIncorrect.length !== 3) {
       const randomQuestionNumber: number = Math.floor(Math.random()  * (20));
       const { word } = wordsCopy[randomQuestionNumber]
 
-      if(word !== correctWord) {
+      const check = arrayOfIncorrect.map((item) => {
+        return item.word === word
+      })
+
+
+      if(word !== correctWord && !wordsToCheck.includes(word)) {
         arrayOfIncorrect.push({ word, isCorrect: false })
+        wordsToCheck.push(word)
       }
 
     }
@@ -76,7 +83,6 @@ const SwojaIgra: FC = (): JSX.Element => {
       }
     }
     setQuestions(questionsCopy)
-    console.log(questionsCopy)
     setStarted(true)
     return questionsCopy
   }
@@ -88,8 +94,8 @@ const SwojaIgra: FC = (): JSX.Element => {
           <Lvl levels={levels} lvl={lvl}
                setLvl={(n: number) => dispatch(setLvl(n))} />
         </div>
-        <button onClick={getQuestions}>start game</button>
-        {isStarted && <QuestionBox questions={questions}/>}
+
+        {isStarted ? <QuestionBox setStarted={setStarted} questions={questions}/> : <button onClick={getQuestions}>start game</button>}
       </div>
     </div>
   );

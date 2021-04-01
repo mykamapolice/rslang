@@ -1,21 +1,32 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import QuestionCard from '../SwojaIgraQuestionCard/SwojaIgraQuestionCard';
 
 const QuestionBox = (props: any)=>{
 
+  const [questionNumber, setQuestionNumber] = useState(0)
+
   const {questions} = props
 
-  const cards = questions.map((item: any) => {
-   return  <QuestionCard image={item.image} answers={item.answers}/>
-  })
+  useEffect(() => {
+    if(questionNumber === 10) {
+      props.setStarted(false)
+    }
 
-  console.log(cards)
+  }, [questionNumber])
+
+  const cards = questions.map((item: any) => {
+   return  <QuestionCard
+     questionNumber={questionNumber}
+     setQuestionNumber={setQuestionNumber}
+     image={item.image}
+     answers={item.answers}/>
+  })
 
   return (
     <div>
-      <h1>Question Number:{questions[0].image}</h1>
+      <h1>Question Number: {questionNumber + 1}</h1>
       <h2>Score:</h2>
-      {cards}
+      {cards[questionNumber]}
     </div>
   )
 }
