@@ -6,13 +6,13 @@ import {
 } from '../../../redux/reducers/vocabulary';
 import Lvl from '../../Learning/Lvl/Lvl';
 import QuestionBox from './QuestionBox/QuestionBox';
+import Rules from './RulesOfSwojaIgra/RulesOfSwojaIgra';
 
 const SwojaIgra: FC = (): JSX.Element => {
 
   const [isStarted, setStarted] = useState(false)
   const [isFinish, setFinish] = useState(true)
   const [questions, setQuestions]: any[] = useState([])
-  const [answers, setAnswers] = useState([])
   const [questionsNumbers, setQuestionsNumbers] = useState(10)
   const usedQuestions: any[] = []
 
@@ -86,13 +86,14 @@ const SwojaIgra: FC = (): JSX.Element => {
     <div className='Vocabulary'>
       {isStarted ? <QuestionBox setStarted={setStarted} questions={questions}/> :
         <>
-          <p className="fs-3">Выберите сложность слов:</p>
+          <h2 className="fs-3">Выберите сложность слов:</h2>
           <div className='container-fluid'>
             <div className='d-sm-flex p-2 flex-wrap justify-content-center'>
               <Lvl levels={levels} lvl={lvl}
                    setLvl={(n: number) => dispatch(setLvl(n))} />
             </div>
           </div>
+          <Rules />
           <button onClick={getQuestions} type="button" className="btn btn-outline-success">Нажмите чтобы начать игру :)
           </button>
         </>

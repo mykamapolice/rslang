@@ -15,10 +15,6 @@ const QuestionBox = (props: any)=>{
 
   }, [questionNumber])
 
-  const checkAnswer = () => {
-    // if
-  }
-
   const cards = questions.map((item: any) => {
    return  <QuestionCard
      questionNumber={questionNumber}

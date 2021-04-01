@@ -29,8 +29,6 @@ function WordList(): JSX.Element {
     dispatch(fetchingGeneral(`${baseUrl}words?page=${page}&group=${lvl}`));
   };
 
-
-
   React.useEffect(() => {
     radioButtonHandler();
   }, [page, lvl]);
@@ -55,7 +53,7 @@ function WordList(): JSX.Element {
             <Lvl levels={levels} lvl = {lvl} setLvl={(n:number)=>dispatch(setLvl(n))} />
             <Pagination page={page} setPage={(n:number)=>dispatch(setPage(n))} />
           </div>
-  
+
         </div>
       <div className="container-fluid">
         <div className="d-sm-flex p-2 flex-wrap justify-content-center">
