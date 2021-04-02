@@ -8,6 +8,8 @@ const initialState: IUser = {
   name: 'Guest',
   userId: null,
   message: null, 
+  token : null,
+  refreshToken: null
 };
 
 export const registration = createAsyncThunk('user/registration', createUser);
@@ -33,6 +35,8 @@ const userSlice = createSlice({
         name: 'Guest',
         userId: null,
         message: null,
+        token:null,
+        refreshToken: null
       };
 
       return state = {...newState}
@@ -49,12 +53,14 @@ const userSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         console.log(action.payload)
         if (action.payload.message === 'Authenticated') {
-          const { name, userId, message } = action.payload;
+          const { name, userId, message, token,refreshToken } = action.payload;
 
           state.isAuth = true;
           state.name = name;
           state.userId = userId;
           state.message = message;
+          state.token = token;
+          state.refreshToken = refreshToken;
         } else {
           state.message = action.payload;
         }
