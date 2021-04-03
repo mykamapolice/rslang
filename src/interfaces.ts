@@ -32,6 +32,7 @@ export interface IUserRegistration {
   password: string;
   email: string;
   name: string;
+  photoUrl: string;
 }
 
 export interface IUserAuthData {

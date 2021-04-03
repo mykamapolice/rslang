@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const QuestionCard = (props: any) => {
 
@@ -6,19 +6,29 @@ const QuestionCard = (props: any) => {
 
   const [btnDisabled, setBtnDisabled] = useState(false)
 
+  const aBtn = useRef(null)
+  const bBtn = useRef(null)
+  const cBtn = useRef(null)
+  const dBtn = useRef(null)
+
   const setKey = (event: any) => {
-    if (event.key !== ' ') {
-      const btn: any = document.querySelector(`#${event.key}`);
-      if (btn !== null) {
-        btn.click();
+    try {
+      if (event.key !== ' ') {
+        const btn: any = document.querySelector(`#${event.key}`);
+        if (btn !== null) {
+          btn.click();
+        }
       }
-    }
-    if (event.key === ' ') {
-      const space: any  = document.querySelector('#next');
-      if (space !== null) {
-        space.click()
+      if (event.key === ' ') {
+        const space: any  = document.querySelector('#next');
+        if (space !== null) {
+          space.click()
+        }
       }
+    } catch (e) {
+      console.log(e)
     }
+
   };
 
   useEffect(() => {
@@ -58,10 +68,11 @@ const QuestionCard = (props: any) => {
   return (
     <div className="card" style={{ width: '18rem', margin: "0 auto" }}>
       <img src={`${baseUrl}${props.image}`} alt='[eq' />
-        <div className="card-body">
+        <div className="card-body" >
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <button
+              ref={aBtn}
               id='a'
               type="button"
               style={{ width: '100%' }}
@@ -74,6 +85,7 @@ const QuestionCard = (props: any) => {
           </li>
           <li className="list-group-item">
             <button
+              ref={bBtn}
               id='b'
               type="button"
               style={{ width: '100%' }}
@@ -86,6 +98,7 @@ const QuestionCard = (props: any) => {
           </li>
           <li className="list-group-item">
             <button
+              ref={cBtn}
               id='c'
               type="button"
               style={{ width: '100%' }}
@@ -98,6 +111,7 @@ const QuestionCard = (props: any) => {
           </li>
           <li className="list-group-item">
             <button
+              ref={dBtn}
               id='d'
               type="button"
               style={{ width: '100%' }}

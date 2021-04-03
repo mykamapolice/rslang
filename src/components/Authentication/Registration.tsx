@@ -2,11 +2,13 @@ import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { registration } from '../../redux/reducers/user';
+import Axios from 'axios'
 
 const Registration: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [photo, setPhoto]: any  = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
@@ -23,30 +25,55 @@ const Registration: FC = (): JSX.Element => {
     setPassword(event.target.value)
   }
 
-  const handleClose = () => setShow(false)
+  const handleChangeImage = (e: any) => {
+    const photo = e.target.files[0]
+    console.log(photo.type)
+
+    if(photo.type === "image/png" || photo.type === "image/jpeg") {
+      setPhoto(photo)
+    }
+  }
+
+  const uploadImage = async () => {
+    const formData = new FormData()
+    formData.append("file", photo)
+    formData.append("upload_preset", "ealjihlj")
+    try {
+      const response = await Axios.post("https://api.cloudinary.com/v1_1/dhp3eaod5/image/upload", formData)
+      console.log(response.data.url)
+      return (response.data.url)
+    } catch (e) {
+      return ''
+    }
+  }
+
+  const handleClose = () => {
+    setPhoto('')
+    setShow(false);
+  }
   const handleShow = () => setShow(true)
 
-  const handleSubmit = (event:React.FormEvent) => {
+  const handleSubmit = async (event:React.FormEvent) => {
     event.preventDefault()
     event.stopPropagation()
-    const user = {
-      password,
-      email,
-      name
-    }
-    // if(password.length < 1) {
-    //   event.preventDefault()
-    //   event.stopPropagation()
-    //   return
-    // }
-    setValidated(true);
+
+    setValidated(true)
     const form: any = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
       return
     }
-    dispatch(registration(user));
+
+    const photoUrl = await uploadImage()
+
+    const user = {
+      password,
+      email,
+      name,
+      photoUrl
+    }
+    dispatch(registration(user))
 
     handleClose()
   };
@@ -56,6 +83,7 @@ const Registration: FC = (): JSX.Element => {
       <Button variant="primary" onClick={handleShow}>
         Зарегестрироваться
       </Button>
+
 
       <Modal
         show={show}
@@ -92,10 +120,23 @@ const Registration: FC = (): JSX.Element => {
                 Введите имя
               </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group>
+              <Form.File
+                name="file"
+                label="Фоточка(jpeg, png)"
+                onChange={handleChangeImage}
+                feedbackTooltip
+              />
+              <Form.Control.Feedback type="invalid">
+                Введите имя
+              </Form.Control.Feedback>
+            </Form.Group>
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
               <Button variant="primary" type="submit" >
                 Отправить
               </Button>
+              <button onClick={uploadImage}>upload image</button>
+              <button onClick={() => {console.log(photo)}}>check image</button>
               <Button variant="secondary" onClick={handleClose}>
                 Закрыть
               </Button>

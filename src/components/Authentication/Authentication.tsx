@@ -7,12 +7,9 @@ import {logout} from '../../redux/reducers/user';
 
 const Authentication: FC = (): JSX.Element => {
 
-  const userName = (localStorage.getItem('name'));
-
     const dispatch = useDispatch();
     const state:any = useSelector(state => state);
     const { isAuth, name } = state.user;
-    
 
     const onLogOutButtonClick = () => {
       localStorage.clear();
@@ -22,9 +19,9 @@ const Authentication: FC = (): JSX.Element => {
     return (<div>
       {isAuth
         ?
-        <div>Вечер в хату, {name}<Button style={{marginLeft: "0.5rem"}} variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
+        <div><img style={{width: "3rem", borderRadius: "50%",marginRight: "1rem"}} src='https://res.cloudinary.com/dhp3eaod5/image/upload/v1617469256/zis4dwt5edgtu0iy1ueu.jpg' alt='[eq' />Вечер в хату, {name}<Button style={{marginLeft: "0.5rem"}} variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
         </div>
-        : 
+        :
         <div>
           <LogIn isAuth={isAuth}/>
           {'  '}
