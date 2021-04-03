@@ -6,11 +6,6 @@ const QuestionCard = (props: any) => {
 
   const [btnDisabled, setBtnDisabled] = useState(false)
 
-  const aBtn = useRef(null)
-  const bBtn = useRef(null)
-  const cBtn = useRef(null)
-  const dBtn = useRef(null)
-
   const setKey = (event: any) => {
     try {
       if (event.key !== ' ') {
@@ -28,7 +23,6 @@ const QuestionCard = (props: any) => {
     } catch (e) {
       console.log(e)
     }
-
   };
 
   useEffect(() => {
@@ -72,7 +66,6 @@ const QuestionCard = (props: any) => {
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <button
-              ref={aBtn}
               id='a'
               type="button"
               style={{ width: '100%' }}
@@ -85,7 +78,6 @@ const QuestionCard = (props: any) => {
           </li>
           <li className="list-group-item">
             <button
-              ref={bBtn}
               id='b'
               type="button"
               style={{ width: '100%' }}
@@ -98,7 +90,6 @@ const QuestionCard = (props: any) => {
           </li>
           <li className="list-group-item">
             <button
-              ref={cBtn}
               id='c'
               type="button"
               style={{ width: '100%' }}
@@ -111,7 +102,6 @@ const QuestionCard = (props: any) => {
           </li>
           <li className="list-group-item">
             <button
-              ref={dBtn}
               id='d'
               type="button"
               style={{ width: '100%' }}
