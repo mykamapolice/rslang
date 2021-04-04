@@ -27,7 +27,6 @@ const Registration: FC = (): JSX.Element => {
 
   const handleChangeImage = (e: any) => {
     const photo = e.target.files[0]
-    console.log(photo.type)
 
     if(photo.type === "image/png" || photo.type === "image/jpeg") {
       setPhoto(photo)
@@ -40,7 +39,6 @@ const Registration: FC = (): JSX.Element => {
     formData.append("upload_preset", "ealjihlj")
     try {
       const response = await Axios.post("https://api.cloudinary.com/v1_1/dhp3eaod5/image/upload", formData)
-      console.log(response.data.url)
       return (response.data.url)
     } catch (e) {
       return ''
@@ -135,8 +133,6 @@ const Registration: FC = (): JSX.Element => {
               <Button variant="primary" type="submit" >
                 Отправить
               </Button>
-              <button onClick={uploadImage}>upload image</button>
-              <button onClick={() => {console.log(photo)}}>check image</button>
               <Button variant="secondary" onClick={handleClose}>
                 Закрыть
               </Button>

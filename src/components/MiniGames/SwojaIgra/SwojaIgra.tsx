@@ -27,7 +27,6 @@ const SwojaIgra: FC = (): JSX.Element => {
     const page = Math.floor(Math.random() * (30));
     const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/';
     dispatch(fetchingGeneral(`${baseUrl}words?page=${page}&group=${lvl}`));
-    console.log('asd')
   }, [questions])
 
   const getIncorrectWords = (correctWord: string) => {

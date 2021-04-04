@@ -7,8 +7,23 @@ const initialState: IUser = {
   isAuth: false,
   name: 'Guest',
   userId: null,
-  message: null, 
+  message: null,
+  photoUrl: '',
+
 };
+
+const photoUrl: any = localStorage.getItem('photoUrl')
+const userId = localStorage.getItem('id')
+const name: any = localStorage.getItem('name')
+
+if(userId !== null) {
+  initialState.isAuth = true
+  initialState.name = JSON.parse(name)
+  initialState.userId = JSON.parse(userId)
+  initialState.photoUrl = JSON.parse(photoUrl)
+}
+
+console.log(initialState)
 
 export const registration = createAsyncThunk('user/registration', createUser);
 export const login = createAsyncThunk('user/login', loginUser);
@@ -33,9 +48,10 @@ const userSlice = createSlice({
         name: 'Guest',
         userId: null,
         message: null,
+        photoUrl: '',
       };
 
-      return state = {...newState}
+      return state = { ...newState };
     },
   },
 
@@ -47,14 +63,19 @@ const userSlice = createSlice({
       })
 
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload)
+        console.log(action.payload);
         if (action.payload.message === 'Authenticated') {
-          const { name, userId, message } = action.payload;
-
+          const {
+            name,
+            userId,
+            message,
+            photoUrl,
+          } = action.payload;
           state.isAuth = true;
           state.name = name;
           state.userId = userId;
           state.message = message;
+          state.photoUrl = photoUrl;
         } else {
           state.message = action.payload;
         }
@@ -62,5 +83,8 @@ const userSlice = createSlice({
   },
 });
 
-export const { changeLoginForm, logout } = userSlice.actions;
+export const {
+  changeLoginForm,
+  logout,
+} = userSlice.actions;
 export default userSlice.reducer;
