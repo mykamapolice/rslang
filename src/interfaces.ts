@@ -26,6 +26,7 @@ export interface IWord {
   audioMeaning:string;
   audioExample:string;
   transcription:string;
+  textExample:string;
   textMeaning:string;
   textExampleTranslate:string;
   textMeaningTranslate:string;

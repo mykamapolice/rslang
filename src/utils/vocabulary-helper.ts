@@ -25,6 +25,20 @@ export const createUserWord = async ({ userId, wordId, word, token }:any) => {
     console.log(error);
   }
 };
+//https://rs-lang-rs-team-41.herokuapp.com/users/60650a3b94d2280015da29c2
+export const fetchingAggregatedWords = async ({lvl,page,userId, token}:any) =>{
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/json',
+  }
+  try {
+    const response = await axios.get(`${baseUrl}users/${userId}/aggregatedWords?group=${lvl}&page=${page}&wordsPerPage=20`,{headers});
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const getUserWords = async ({ userId, token }:any) => {
   const headers = {
@@ -40,17 +54,18 @@ export const getUserWords = async ({ userId, token }:any) => {
   }
 };
 
-export const updateUserWord = async ({ userId, token, wordId, difficulty }:any) => {
-  debugger
+export const updateUserWord = async ({ userId, token, wordId, type }:any) => {
+
   const headers = {
     'Authorization': `Bearer ${token}`,
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
   const word = { 
-    "difficulty": `${difficulty}`, 
     "optional": { 
-      "isExist": true 
+ ...type, "isExist" : true
+ //пометить сколько раз слово участвоввало в играх
+// пометить сколько раз слово было угадано
     } 
   };
   try { 

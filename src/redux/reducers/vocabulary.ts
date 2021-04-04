@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { IGeneralVocabulary,IWord } from '../../interfaces';
-import { fetchingGeneralVocabulary, createUserWord, getUserWords, updateUserWord } from '../../utils/vocabulary-helper';
+import { fetchingGeneralVocabulary, fetchingAggregatedWords, createUserWord, getUserWords, updateUserWord } from '../../utils/vocabulary-helper';
+import user from './user';
 
 const initialState: IGeneralVocabulary = {
   page:0,
@@ -10,6 +11,7 @@ const initialState: IGeneralVocabulary = {
 };
 
 export const fetchingGeneral = createAsyncThunk('vocabulary/fetching', fetchingGeneralVocabulary);
+export const fetchingAggregated = createAsyncThunk('vocabulary/fetchingAggregated', fetchingAggregatedWords);
 export const createWord = createAsyncThunk('vocabulary/createUser', createUserWord);
 export const getWords = createAsyncThunk('vocabulary/getUserWords', getUserWords);
 export const updateWord = createAsyncThunk('vocabulary/updateWord', updateUserWord);
@@ -30,6 +32,10 @@ const vocabularySlice = createSlice({
     clearWords: (state) => ({
       ...state,
       words: null
+    }),
+    clearUserList: (state) => ({
+      ...state,
+      userList: null
     })
   },
   extraReducers: (builder) => {
@@ -37,22 +43,64 @@ const vocabularySlice = createSlice({
       .addCase(fetchingGeneral.fulfilled, (state, action) => {
         state.words = [...action.payload];
       })
+      .addCase(fetchingAggregated.fulfilled, (state, action) => {
+        state.words = [...action.payload[0].paginatedResults];
+      })
       .addCase(createWord.fulfilled, (state, action) => {
         console.log(action.payload);
-      })
+        const stateCopy = current(state);
+        if(state.words){
+          try {
+          const mappedState = state.words.map((el:IWord)=>{
+            if(el._id===action.payload.wordId){
+              el.userWord = {
+                optional: {...action.payload.optional}
+              }
+            }
+            return el
+          });
+          state.words = [...mappedState]
+        } catch (error) {
+            console.log(error);
+            
+        }
+        }
+      }
+      )
       .addCase(updateWord.fulfilled,(state, action)=>{
-        const userList = current(state).userList;
-        if(userList){
-            const stateCopy = userList.map(el => {
+        const stateCopy = current(state);
+        console.log(action.payload)
+        if(stateCopy.userList){
+          try {
+            const userListCopy = stateCopy.userList.map(el => {
               if(el._id === action.payload.wordId) {
-                return {...el, userWord:{...el.userWord,difficulty:action.payload.difficulty}}
+                return {...el, userWord:{...el.userWord,optional:action.payload.optional}}
               }
               else
               return el;
           
       })
-      state.userList = [...stateCopy];
+         state.userList = [...userListCopy]
+          } catch (e) {
+            console.log(e)
+          }
     }
+    if(stateCopy.words){
+      try {
+        const wordsCopy = stateCopy.words.map(el => {
+          if(el._id === action.payload.wordId) {
+            return {...el, userWord:{...el.userWord,optional:action.payload.optional}}
+          }
+          else
+          return el;
+      
+  })
+     state.words = [...wordsCopy]
+      } catch (e) {
+        console.log(e)
+      }
+
+}
       })
       .addCase(getWords.fulfilled, (state,action) => {
         console.log(action.payload[0].paginatedResults);
@@ -60,5 +108,5 @@ const vocabularySlice = createSlice({
       })
 }});
 
-export const { setLvl, setPage, clearWords } = vocabularySlice.actions;
+export const { setLvl, setPage, clearWords,clearUserList } = vocabularySlice.actions;
 export default vocabularySlice.reducer;
