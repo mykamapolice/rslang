@@ -9,6 +9,7 @@ import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
 import Pagination from './Pagination/Pagination';
 import WordCards from './WordCards/WordCards';
+import Vocabulary from '../Vocabulary/Vocabulary'
 
 const images: string[] = [
   `${process.env.PUBLIC_URL}/images/1.jpg`,
@@ -75,8 +76,8 @@ function WordList(): JSX.Element {
       {
         minHeight: 'calc(100vh - 50px)',
         backgroundImage: `url(${images[lvl]})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover'
+        // backgroundRepeat: 'no-repeat',
+        backgroundSize: 'auto'
       }}>
       <div className="container-fluid">
         <div className="row mt-2 ">
@@ -100,7 +101,6 @@ function WordList(): JSX.Element {
             }
           </div>
         </div>
-
       </div>
       <div className="container-fluid">
         <div className="d-sm-flex p-2 flex-wrap justify-content-center">

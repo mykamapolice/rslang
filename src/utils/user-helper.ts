@@ -28,8 +28,10 @@ export const loginUser = async (user: IUserAuthData) => {
     const token = value.token;
     const userName = value.name;
     const userID = value.userId;
+    const photoUrl = value.photoUrl;
 
     localStorage.setItem('token', JSON.stringify(token));
     localStorage.setItem('name', JSON.stringify(userName));
     localStorage.setItem('id', JSON.stringify(userID));
+    localStorage.setItem('photoUrl', JSON.stringify(photoUrl));
   }

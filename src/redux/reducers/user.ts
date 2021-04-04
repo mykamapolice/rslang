@@ -9,8 +9,25 @@ const initialState: IUser = {
   userId: null,
   message: null, 
   token : null,
-  refreshToken: null
+  // refreshToken: null,
+  photoUrl: ''
 };
+
+const photoUrl: any = localStorage.getItem('photoUrl')
+const userId = localStorage.getItem('id')
+const name: any = localStorage.getItem('name')
+const token:any = localStorage.getItem('token');
+console.log('token: ', token)
+
+if(userId !== null) {
+  initialState.isAuth = true
+  initialState.name = JSON.parse(name)
+  initialState.userId = JSON.parse(userId)
+  initialState.photoUrl = JSON.parse(photoUrl)
+  initialState.token = JSON.parse(token)
+}
+
+console.log(initialState)
 
 export const registration = createAsyncThunk('user/registration', createUser);
 export const login = createAsyncThunk('user/login', loginUser);
@@ -36,10 +53,11 @@ const userSlice = createSlice({
         userId: null,
         message: null,
         token:null,
-        refreshToken: null
+        // refreshToken: null,
+        photoUrl: ''
       };
 
-      return state = {...newState}
+      return state = { ...newState };
     },
   },
 
@@ -51,16 +69,24 @@ const userSlice = createSlice({
       })
 
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload)
-        if (action.payload.message === 'Authenticated') {
-          const { name, userId, message, token,refreshToken } = action.payload;
+        console.log(action.payload);
+        if (action.payload.message === 'Authenticated') {       
+          const {
+            name,
+            userId,
+            message,
+            photoUrl,
+            token,
+            refreshToken
+          } = action.payload;
 
           state.isAuth = true;
           state.name = name;
           state.userId = userId;
           state.message = message;
           state.token = token;
-          state.refreshToken = refreshToken;
+          // state.refreshToken = refreshToken;
+          state.photoUrl = photoUrl;
         } else {
           state.message = action.payload;
         }
@@ -68,5 +94,8 @@ const userSlice = createSlice({
   },
 });
 
-export const { changeLoginForm, logout } = userSlice.actions;
+export const {
+  changeLoginForm,
+  logout,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -5,7 +5,9 @@ export interface IUser {
   userId: string | null;
   message: string | null;
   token : string | null;
-  refreshToken : string | null;
+  // refreshToken : string | null;
+  photoUrl: string;
+
 }
 
 export interface IGeneralVocabulary{
@@ -38,6 +40,7 @@ export interface IUserRegistration {
   password: string;
   email: string;
   name: string;
+  photoUrl: string;
 }
 
 export interface IUserAuthData {
@@ -49,4 +52,5 @@ export interface IUserLoginResponse {
   message: string;
   token: string;
   userId: string;
+  photoUrl?: string;
 }
