@@ -11,10 +11,12 @@ export interface IUser {
 }
 
 export interface IGeneralVocabulary{
+  vMode:boolean;
   page:number;
   lvl:number;
   words:IWord[] | null;
   userList:IWord[] | null;
+  value:0|1|2
 }
 
 export interface IWord {

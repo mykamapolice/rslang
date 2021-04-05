@@ -4,12 +4,12 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { clearWords, createWord, fetchingAggregated, fetchingGeneral, setLvl, setPage, updateWord } from '../../redux/reducers/vocabulary';
+import { clearWords, createWord, fetchingAggregated, fetchingGeneral,updateWord, setLvl, setPage, setValue, vModeToggle } from '../../redux/reducers/vocabulary';
 import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
 import Pagination from './Pagination/Pagination';
-import WordCards from './WordCards/WordCards';
-import Vocabulary from '../Vocabulary/Vocabulary'
+import WordList from './WordList/WordList';
+import Vocabulary from './Vocabulary/Vocabulary';
 
 const images: string[] = [
   `${process.env.PUBLIC_URL}/images/1.jpg`,
@@ -23,21 +23,23 @@ const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 const audio: HTMLAudioElement = new Audio();
 
-function WordList(): JSX.Element {
+function Learning(): JSX.Element {
   const dispatch = useDispatch();
   const state: any = useSelector(state => state);
   const {
-    vocabulary: { page, lvl, words },
+    vocabulary: { vMode, page, lvl, words, value },
     user: { userId, token, isAuth }
   } = state;
+
   const radioButtonHandler = (): void => {
     dispatch(clearWords());
     isAuth ? dispatch(fetchingAggregated({ lvl, page, userId, token })) : dispatch(fetchingGeneral({ lvl, page }));
   };
-
+ 
   React.useEffect(() => {
     radioButtonHandler();
   }, [page, lvl, isAuth]);
+
 
   const addWordToUser = async (wordId: string, type: any) => {
     const obj = {
@@ -83,7 +85,7 @@ function WordList(): JSX.Element {
         <div className="row mt-2 ">
           <div className="col">
             <Button title="саванна" variant="primary">Саванна</Button>
-            <Button title="удиовызов" variant="secondary">Аудиовызов</Button>
+            <Button title="аудиовызов" variant="secondary">Аудиовызов</Button>
             <Button title="Спринт" variant="success">Спринт</Button>
             <Button title="Своя Игра" variant="danger">Своя Игра</Button>
           </div>
@@ -94,28 +96,32 @@ function WordList(): JSX.Element {
             </div>
           </div>
           <div className="col">
-            {isAuth && (<NavLink to="/vocabulary">
-              <Button className='buttonMarginer' title="Cловарь" variant="info">
-                Словарь
-                </Button></NavLink>)
+            {isAuth && (
+              <Button className='buttonMarginer' size = 'lg' title="Cловарь" variant="info" onClick= {()=>dispatch(vModeToggle())}>
+             {vMode ? 'В учебник' : 'В словарь'}
+                </Button>
+                )
             }
           </div>
         </div>
-      </div>
+      </div>      
       <div className="container-fluid">
         <div className="d-sm-flex p-2 flex-wrap justify-content-center">
-          {words
-            ?
-            <WordCards isAuth={isAuth} words={words} updateUserWord={updateUserWord} audioHandler={audioHandler} baseUrl={baseUrl} addWordToUser={addWordToUser} />
-            :
-            <div className="spinner-border text-info" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          }
+        {vMode ? 
+        <Vocabulary  
+        isAuth={isAuth} value = {value} vMode={vMode} token ={token} userId={userId} updateUserWord={updateUserWord} 
+        audioHandler={audioHandler}  baseUrl={baseUrl} addWordToUser={addWordToUser} setValue = {setValue}
+        />
+        :  
+        <WordList 
+        isAuth={isAuth} vMode={vMode} token ={token} words={words} updateUserWord={updateUserWord} 
+        audioHandler={audioHandler} baseUrl={baseUrl} addWordToUser={addWordToUser} 
+        />
+      }
         </div>
       </div>
     </div>
   );
 }
 
-export default WordList;
+export default Learning;

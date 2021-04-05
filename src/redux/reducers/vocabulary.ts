@@ -4,10 +4,12 @@ import { fetchingGeneralVocabulary, fetchingAggregatedWords, createUserWord, get
 import user from './user';
 
 const initialState: IGeneralVocabulary = {
+  vMode: false,
   page:0,
   lvl:0,
   words:null,
-  userList:null
+  userList:null,
+  value:0
 };
 
 export const fetchingGeneral = createAsyncThunk('vocabulary/fetching', fetchingGeneralVocabulary);
@@ -20,23 +22,25 @@ const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
   reducers:{
-    setLvl:(state, action) => ({
-      ...state,
-      lvl: action.payload,
-    }),
-
-    setPage:(state, action) => ({
-      ...state,
-      page: action.payload,
-    }),
-    clearWords: (state) => ({
-      ...state,
-      words: null
-    }),
-    clearUserList: (state) => ({
-      ...state,
-      userList: null
-    })
+    vModeToggle:(state) => {
+      const { vMode } = state;
+      state.vMode = !vMode;
+    },
+    setLvl:(state, action) => {
+      state.lvl = action.payload;
+    },
+    setPage:(state, action) => {     
+      state.page = action.payload;
+    },
+    clearWords: (state) => {
+      state.words = null;
+    },
+    clearUserList: (state) => {
+      state.userList = null
+    },
+    setValue: (state,action) => {
+      state.value = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -108,5 +112,5 @@ const vocabularySlice = createSlice({
       })
 }});
 
-export const { setLvl, setPage, clearWords,clearUserList } = vocabularySlice.actions;
+export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle } = vocabularySlice.actions;
 export default vocabularySlice.reducer;

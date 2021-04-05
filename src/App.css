@@ -36,7 +36,7 @@ button{
    
   /*Оформляем саму карточку*/
   .cart3d {
-    height: 300px;
+    height: 350px;
     position: relative;
     perspective: 1000px; /*Добавляем эффект 3D*/
   }
