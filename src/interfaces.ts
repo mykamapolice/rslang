@@ -7,26 +7,26 @@ export interface IUser {
   photoUrl: string;
 }
 
-export interface IGeneralVocabulary{
-  page:number;
-  lvl:number;
-  words:IWord[] | null;
+export interface IGeneralVocabulary {
+  page: number;
+  lvl: number;
+  words: IWord[] | null;
 }
 
 export interface IWord {
-  word:string;
+  word: string;
   id: string;
   group: number;
-  page : number;
-  image:string;
-  audio:string;
-  audioMeaning:string;
-  audioExample:string;
-  transcription:string;
-  textMeaning:string;
-  textExampleTranslate:string;
-  textMeaningTranslate:string;
-  wordTranslate:string;
+  page: number;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  transcription: string;
+  textMeaning: string;
+  textExampleTranslate: string;
+  textMeaningTranslate: string;
+  wordTranslate: string;
 }
 
 export interface IUserRegistration {
@@ -46,4 +46,45 @@ export interface IUserLoginResponse {
   token: string;
   userId: string;
   photoUrl?: string;
+}
+
+interface IResult {
+  date: number;
+  bestSeries: number;
+  attempts: number;
+  rightAnswers: number;
+  learnedWords: number;
+}
+export interface IGameResult {
+  game: string;
+  result: IResult;
+}
+
+export interface IStatistics {
+  learnedWords: number;
+  optional: {
+    games: {
+      savannah?: {
+        days: IResult[];
+      };
+
+      audiocall?: {
+        days: IResult[];
+      };
+
+      sprint?: {
+        days: IResult[];
+      };
+
+      owngame?: {
+        days: IResult[];
+      };
+    };
+  };
+}
+
+export interface IRootState {
+  user: IUser;
+  statistics: IStatistics;
+  vocabulary: IGeneralVocabulary;
 }

@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  Button,
-} from 'react-bootstrap';
-import { X, VolumeUp, LightningFill } from 'react-bootstrap-icons';
-import {IWord} from '../../interfaces';
+import { IRootState } from '../../interfaces';
 import Pagination from './Pagination/Pagination';
 import WordCards from './WordCards/WordCards';
-import Lvl from './Lvl/Lvl'
+import Lvl from './Lvl/Lvl';
 import { useDispatch, useSelector } from 'react-redux';
-import {setLvl,setPage,fetchingGeneral} from '../../redux/reducers/vocabulary'
+import { setLvl, setPage, fetchingGeneral } from '../../redux/reducers/vocabulary';
 
 const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/';
 const fetching = async (url: string) => {
@@ -23,8 +19,8 @@ const audio: HTMLAudioElement = new Audio();
 
 function WordList(): JSX.Element {
   const dispatch = useDispatch();
-  const state:any = useSelector(state => state);
-  const {vocabulary:{page, lvl, words} } = state;
+  const vocabulary = useSelector((state: IRootState) => state.vocabulary);
+  const { page, lvl, words } = vocabulary;
   const radioButtonHandler = (): void => {
     dispatch(fetchingGeneral(`${baseUrl}words?page=${page}&group=${lvl}`));
   };
@@ -34,30 +30,30 @@ function WordList(): JSX.Element {
   }, [page, lvl]);
 
   const audioHandler = (src: string[], i: number): void => {
-    if (i == src.length) return
+    if (i == src.length) return;
     audio.src = `${baseUrl}${src[i]}`;
     audio.play();
     audio.addEventListener('ended', () => {
-      audioHandler(src, i + 1)
+      audioHandler(src, i + 1);
     }, { once: true });
   };
 
   const deleter = (word: string) => {
     // setWords(words.filter((el: any) => el.word !== word));
-  }
+  };
 
   return (
     <div className="Vocabulary">
-          <div className="container-fluid">
-          <div className="d-sm-flex p-2 flex-wrap justify-content-center">
-            <Lvl levels={levels} lvl = {lvl} setLvl={(n:number)=>dispatch(setLvl(n))} />
-            <Pagination page={page} setPage={(n:number)=>dispatch(setPage(n))} />
-          </div>
-
-        </div>
       <div className="container-fluid">
         <div className="d-sm-flex p-2 flex-wrap justify-content-center">
-          {words ? <WordCards words={words} deleter={deleter} audioHandler={audioHandler} baseUrl = {baseUrl}/> : ''}
+          <Lvl levels={levels} lvl={lvl} setLvl={(n: number) => dispatch(setLvl(n))} />
+          <Pagination page={page} setPage={(n: number) => dispatch(setPage(n))} />
+        </div>
+
+      </div>
+      <div className="container-fluid">
+        <div className="d-sm-flex p-2 flex-wrap justify-content-center">
+          {words ? <WordCards words={words} deleter={deleter} audioHandler={audioHandler} baseUrl={baseUrl} /> : ''}
         </div>
       </div>
     </div>
