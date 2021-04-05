@@ -18,14 +18,12 @@ const wordTypeProps: IWordType = {
 
 function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, addWordToUser, updateUserWord, isAuth }: any): JSX.Element {
   const buttonHandler = (el: IWord, action: string) => {
-    console.log(wordTypeProps[action])
     el.hasOwnProperty('userWord')
       ?
       updateUserWord(el.id || el._id, { ...wordTypeProps[action] })
       :
       addWordToUser(el.id || el._id, { ...wordTypeProps[action] });
   }
-  console.log(words)
   const mappedWords = words.filter(((el: IWord) => {
     if (el.hasOwnProperty('userWord')) {
       if (el.userWord.hasOwnProperty('optional')) {
@@ -70,7 +68,7 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
             <div style={{ fontSize: '14px' }} dangerouslySetInnerHTML={{ __html: el.textExample }} />
             <div style={{ fontSize: '14px' }} dangerouslySetInnerHTML={{ __html: el.textExampleTranslate }} />
           </div>
-          <div className='Col' style={{ position: 'absolute', bottom: '5px', left: '0', right: '0' }}>
+          <div className='Col d-flex justify-content-around' style={{ position: 'absolute', bottom: '5px', left: '0', right: '0' }}>
             {(isAuth&&!vMode) && (<>
               <Button title="добавить в сложные" disabled={el.hasOwnProperty('userWord')
                 && el.userWord.optional.isHard ? true : false} variant="outline-info"
@@ -85,7 +83,7 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
             }
             {(vMode && (value === 1 || value === 2))
               &&
-              <Button onClick={() => buttonHandler(el, 'learn')}>
+              <Button variant="outline-info" onClick={() => buttonHandler(el, 'learn')}>
                 Восстановить
               </Button>}
             <Button title="проиграть аудио" variant="outline-info"

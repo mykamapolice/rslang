@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { Wrench } from 'react-bootstrap-icons';
 import { clearWords, createWord, fetchingAggregated, fetchingGeneral,updateWord, setLvl, setPage, setValue, vModeToggle } from '../../redux/reducers/vocabulary';
 import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
@@ -95,13 +96,19 @@ function Learning(): JSX.Element {
               <Pagination page={page} setPage={(n: number) => dispatch(setPage(n))} />
             </div>
           </div>
-          <div className="col">
-            {isAuth && (
-              <Button className='buttonMarginer' size = 'lg' title="Cловарь" variant="info" onClick= {()=>dispatch(vModeToggle())}>
-             {vMode ? 'В учебник' : 'В словарь'}
+          {/* <div className='col'>
+          <NavLink to='/settings'></NavLink>
+          </div> */}
+          <div className="d-flex col justify-content-around">
+          {isAuth && (
+              <Button style={{width: '140px'}} className='buttonMarginer' size = 'lg' title="Cловарь" variant="info" onClick= {()=>dispatch(vModeToggle())}>
+              {vMode ? 'В учебник' : 'В словарь'}
                 </Button>
                 )
             }
+              <NavLink style={{display:'block'}} to='/settings'>
+          <Button className='buttonMarginer d-flex justify-content-center align-items-center' size = 'lg'><Wrench color="yellow" size={20}/></Button>    
+          </NavLink>
           </div>
         </div>
       </div>      

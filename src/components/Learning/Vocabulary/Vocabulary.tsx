@@ -49,7 +49,6 @@ function Vocabulary({
   }, []);
 
   const filteredWords = userList ? userList.filter((el: any) => wordMapperCheck(value, el.userWord.optional)) : [];
-console.log('userList: ',filteredWords)
   return (
     <div className="Vocabulary">
       <ToggleButtonGroup
