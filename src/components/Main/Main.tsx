@@ -10,6 +10,7 @@ import Vocabulary from '../Vocabulary/Vocabulary';
 import MiniGame from '../MiniGames/MiniGame'
 import SavannahGame from '../MiniGames/SavannahGame'
 import SwojaIgra from '../MiniGames/SwojaIgra/SwojaIgra';
+import Audiocall from '../MiniGames/Audiocall/Audiocall';
 
 function Main(): JSX.Element {
   return (
@@ -19,6 +20,7 @@ function Main(): JSX.Element {
                     {/*<Route exact path="/mini-games/:id" component={MiniGame} />*/}
                     <Route exact path="/mini-games/savannah" component={SavannahGame} />
                     <Route exact path="/mini-games/mygame" component={SwojaIgra} />
+                    <Route exact path="/mini-games/audiocall" component={Audiocall} />
                     <Route path="/vocabulary" component={Vocabulary} />
                     <Route path="/statistics" component={Statistics} />
                     <Route path="/team" component={Team} />

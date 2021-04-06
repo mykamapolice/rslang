@@ -25,7 +25,6 @@ const SwojaIgra: FC = (): JSX.Element => {
 
   useEffect( () => {
     const page = Math.floor(Math.random() * (30));
-    const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/';
     dispatch(fetchingGeneral({page,lvl}));
   }, [questions])
 
