@@ -33,9 +33,10 @@ export const fetchStatistics = async () => {
   try {
     const response = await axios.get(url, { headers });
 
-    return response.data;
+    return response;
   } catch (error) {
     console.log(error);
+    return error.response;
   }
 };
 

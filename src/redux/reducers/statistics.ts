@@ -60,10 +60,14 @@ const statisticsSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getStatistics.fulfilled, (state, action) => {
-      const { learnedWords, optional } = action.payload;
+      console.log(action.payload);
+      const response = action.payload;
 
-      state.learnedWords = learnedWords;
-      state.optional = optional;
+      if (response.status === 200) {
+        const { learnedWords, optional } = action.payload.data;
+        state.learnedWords = learnedWords;
+        state.optional = optional;
+      }
     });
   },
 });

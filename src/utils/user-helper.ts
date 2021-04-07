@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { baseUrl } from '../utils/constants'
+import { baseUrl } from '../utils/constants';
 import { IUserRegistration, IUserAuthData } from '../interfaces';
-
 
 export const createUser = async (user: IUserRegistration) => {
   try {
@@ -22,16 +21,16 @@ export const loginUser = async (user: IUserAuthData) => {
   } catch (error) {
     return error.response.data;
   }
+};
+
+function setItemsInLocalStorage(value: any) {
+  const token = value.token;
+  const userName = value.name;
+  const userID = value.userId;
+  const photoUrl = value.photoUrl;
+
+  localStorage.setItem('token', JSON.stringify(token));
+  localStorage.setItem('name', JSON.stringify(userName));
+  localStorage.setItem('id', JSON.stringify(userID));
+  localStorage.setItem('photoUrl', JSON.stringify(photoUrl));
 }
-
-  function setItemsInLocalStorage(value: any) {
-    const token = value.token;
-    const userName = value.name;
-    const userID = value.userId;
-    const photoUrl = value.photoUrl;
-
-    localStorage.setItem('token', JSON.stringify(token));
-    localStorage.setItem('name', JSON.stringify(userName));
-    localStorage.setItem('id', JSON.stringify(userID));
-    localStorage.setItem('photoUrl', JSON.stringify(photoUrl));
-  }
