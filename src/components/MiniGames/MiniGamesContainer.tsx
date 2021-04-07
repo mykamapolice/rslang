@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, CardDeck } from 'react-bootstrap';
 import './MiniGamesContainer.css';
 import { Link } from 'react-router-dom';
-import { SprintGame } from './SprintGame';
 
 const games = [
     {
@@ -36,8 +35,7 @@ function MiniGamesContainer(): JSX.Element {
 
     return <div className="MiniGames">
         <CardDeck className="col-sm-12 mt-4">
-            <SprintGame />
-            {/* {games.map((g, i) => (
+            {games.map((g, i) => (
                 <Card className="card-game col-sm-3" data-game={g.id} key={i} onClick={onGameClickHandler}>
                     <Link key={g.id} to={`/mini-games/${g.id}`}>
                         <Card.Img variant="top" src={g.imageUrl} />
@@ -46,7 +44,7 @@ function MiniGamesContainer(): JSX.Element {
                         </Card.Body>
                     </Link>
                 </Card>
-            ))} */}
+            ))}
         </CardDeck>
     </div>;
 }
