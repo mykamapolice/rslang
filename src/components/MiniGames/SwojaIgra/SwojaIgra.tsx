@@ -22,6 +22,7 @@ const SwojaIgra: FC = (): JSX.Element => {
   const [score, setScore] = useState(0)
   const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки'
 
+
   const dispatch = useDispatch();
   const state: any = useSelector(state => state);
 
@@ -30,7 +31,7 @@ const SwojaIgra: FC = (): JSX.Element => {
   const userId = state.user.userId
   const {vocabulary:{ words } } = state;
 
-  const wordsCopy = words
+  const wordsCopy = words;
 
   useEffect( () => {
     dispatch(getAllWords({userId, token, lvl}));
