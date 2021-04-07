@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from '../../interfaces';
+import { IGameResult, IRootState } from '../../interfaces';
 import { getStatistics, updateStatistics } from './../../redux/reducers/statistics';
 
-const gameStatistics = {
-  game: 'Sprint',
+const gameStatistics: IGameResult = {
+  game: 'savannah',
   result: {
-    date: 12315612316456564,
-    bestSeries: 19,
-    attempts: 55,
-    rightAnswers: 49,
-    learnedWords: 120,
+    date: 2,
+    bestSeries: 1,
+    attempts: 10,
+    rightAnswers: 3,
+    learnedWords: 9,
   },
 };
 

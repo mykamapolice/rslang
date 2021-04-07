@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { InferThunkActionCreatorType } from 'react-redux';
 import { IGameResult } from '../interfaces';
-import { changeActionStat } from '../redux/reducers/statistics';
+import { update } from '../redux/reducers/statistics';
 
 const baseUrl = 'https://rs-lang-rs-team-41.herokuapp.com';
 
@@ -44,22 +43,14 @@ export const upsertStatistics = async (result: IGameResult, thunkAPI: any) => {
   const { url, headers } = getAxiosOptions();
   const { dispatch, getState } = thunkAPI;
 
-  dispatch(changeActionStat('goooooo'));
+  await dispatch(update(result));
 
-  console.log('upsertStatistics');
-  // console.log(thunkAPI);
+  try {
+    const { statistics } = await getState();
+    const response = await axios.put(url, statistics, { headers });
 
-  const { statistics } = thunkAPI.getState();
-
-  console.log('state', statistics);
-
-  // thunkAPI
-
-  // try {
-  //   const response = await axios.put(url, result, { headers });
-
-  //   return response.data;
-  // } catch (error) {
-  //   console.log(error);
-  // }
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };

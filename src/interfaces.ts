@@ -64,21 +64,7 @@ export interface IStatistics {
   learnedWords: number;
   optional: {
     games: {
-      savannah?: {
-        days: IResult[];
-      };
-
-      audiocall?: {
-        days: IResult[];
-      };
-
-      sprint?: {
-        days: IResult[];
-      };
-
-      owngame?: {
-        days: IResult[];
-      };
+      [keys: string]: IResult[];
     };
   };
 }

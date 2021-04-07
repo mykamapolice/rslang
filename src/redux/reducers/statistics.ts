@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IStatistics } from '../../interfaces';
+import { IStatistics, IGameResult } from '../../interfaces';
 import {
   fetchStatistics,
   upsertStatistics,
@@ -8,7 +8,15 @@ import {
 const initialState: IStatistics = {
   learnedWords: 0,
   optional: {
-    games: {},
+    games: {
+      savannah: [],
+
+      audiocall: [],
+
+      sprint: [],
+
+      owngame: [],
+    },
   },
 };
 
@@ -26,24 +34,37 @@ const statisticsSlice = createSlice({
   name: 'statistics',
   initialState,
   reducers: {
-    changeActionStat: (state, action) => {
-      console.log('changeActionStat', action.payload);
+    update: (state, action) => {
+      const { game, result }: IGameResult = action.payload;
+      const currentGameStat = state.optional.games[game];
+
+      state.learnedWords += result.learnedWords;
+
+      if (!currentGameStat.length || currentGameStat[0].date < result.date) {
+        state.optional.games[game].push(result);
+      } else {
+        currentGameStat[0].attempts += result.attempts;
+        currentGameStat[0].rightAnswers += result.rightAnswers;
+        currentGameStat[0].learnedWords += result.learnedWords;
+
+        if (currentGameStat[0].bestSeries < result.bestSeries) {
+          currentGameStat[0].bestSeries = result.bestSeries;
+        }
+
+        state.optional.games[game] = currentGameStat;
+      }
     },
   },
+
   extraReducers: (builder) => {
-    builder
-      .addCase(getStatistics.fulfilled, (state, action) => {
-        const { learnedWords, optional } = action.payload;
+    builder.addCase(getStatistics.fulfilled, (state, action) => {
+      const { learnedWords, optional } = action.payload;
 
-        state.learnedWords = learnedWords;
-        state.optional = optional;
-      })
-
-      .addCase(updateStatistics.fulfilled, (state, action) => {
-        console.log('extra update');
-      });
+      state.learnedWords = learnedWords;
+      state.optional = optional;
+    });
   },
 });
 
-export const { changeActionStat } = statisticsSlice.actions;
+export const { update } = statisticsSlice.actions;
 export default statisticsSlice.reducer;
