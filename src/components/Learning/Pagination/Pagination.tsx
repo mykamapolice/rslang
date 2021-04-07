@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 
 function Pagination({ page, setPage }: any): JSX.Element {
   const paginationNumbs = [...Array(30)].map((_, i: number, arr: null[]) => {
@@ -22,13 +23,17 @@ function Pagination({ page, setPage }: any): JSX.Element {
   }
   return (
     <nav aria-label="Page navigation example">
-      <ul className="pagination justify-content-center">
+      <ul className="pagination" style={{marginTop:'0', marginBottom:'0', justifyContent:'center'}}>
         <li className={`page-item ${ page===0 ? 'disabled' : '' }`}>
-          <button onClick = {()=>buttonHandler(false)} className="page-link" aria-disabled={ page===0 ? 'true' : 'false' }>Previous</button>
+          <button onClick = {()=>buttonHandler(false)} className="page-link" aria-disabled={ page===0 ? 'true' : 'false' }>
+          <ChevronLeft/>
+          </button>
         </li>
         {paginationNumbs}
         <li className={`page-item ${ page===29 ? 'disabled' : '' }`}>
-          <button onClick = {()=>buttonHandler(true)} className="page-link" aria-disabled={ page===29 ? 'true' : 'false' }>Next</button>
+          <button onClick = {()=>buttonHandler(true)} className="page-link" aria-disabled={ page===29 ? 'true' : 'false' }>
+          <ChevronRight/>
+          </button>
         </li>
       </ul>
     </nav>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-
+import { baseUrl } from '../../utils/constants'
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-const baseUrl: string = 'https://rs-lang-rs-team-41.herokuapp.com/'
 const fetching = async (url: string) => {
     return await fetch(url).then(res => res.json())
 }

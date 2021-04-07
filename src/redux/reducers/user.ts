@@ -8,18 +8,22 @@ const initialState: IUser = {
   name: 'Guest',
   userId: null,
   message: null,
+  token: null,
+  // refreshToken: null,
   photoUrl: '',
 };
 
 const photoUrl: any = localStorage.getItem('photoUrl');
 const userId = localStorage.getItem('id');
 const name: any = localStorage.getItem('name');
+const token: any = localStorage.getItem('token');
 
 if (userId !== null) {
   initialState.isAuth = true;
-  initialState.name = name;
-  initialState.userId = userId;
-  initialState.photoUrl = photoUrl;
+  initialState.name = JSON.parse(name);
+  initialState.userId = JSON.parse(userId);
+  initialState.photoUrl = JSON.parse(photoUrl);
+  initialState.token = JSON.parse(token);
 }
 
 export const registration = createAsyncThunk('user/registration', createUser);
@@ -44,6 +48,8 @@ const userSlice = createSlice({
         name: 'Guest',
         userId: null,
         message: null,
+        token: null,
+        // refreshToken: null,
         photoUrl: '',
       };
 
@@ -59,12 +65,23 @@ const userSlice = createSlice({
       })
 
       .addCase(login.fulfilled, (state, action) => {
+        console.log(action.payload);
         if (action.payload.message === 'Authenticated') {
-          const { name, userId, message, photoUrl } = action.payload;
+          const {
+            name,
+            userId,
+            message,
+            photoUrl,
+            token,
+            refreshToken,
+          } = action.payload;
+
           state.isAuth = true;
           state.name = name;
           state.userId = userId;
           state.message = message;
+          state.token = token;
+          // state.refreshToken = refreshToken;
           state.photoUrl = photoUrl;
         } else {
           state.message = action.payload;
