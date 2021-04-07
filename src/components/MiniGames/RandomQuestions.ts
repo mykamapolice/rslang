@@ -21,7 +21,6 @@ const getIncorrectWords = (correctWord: string, wordsCopy: any[]) => {
 const addNewQuestionToArray = (wordsCopy: any[]) => {
 
  const randomQuestionNumber: number = Math.floor(Math.random()  * (600));
- console.log(wordsCopy)
  const {image,
   word,
   audio,

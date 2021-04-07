@@ -2,10 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getAllWords,
-  setLvl,
 } from '../../../redux/reducers/vocabulary';
 import QuestionBox from './QuestionBox/QuestionBox';
-import Rules from './RulesOfSwojaIgra/RulesOfSwojaIgra';
+import Rules from '../Rules/Rules';
 import {
   Alert, ToggleButton, ToggleButtonGroup,
 } from 'react-bootstrap';
@@ -20,6 +19,8 @@ const SwojaIgra: FC = (): JSX.Element => {
   const [questions, setQuestions]: any[] = useState([])
   const [questionsNumbers, setQuestionsNumbers] = useState(20)
   const [lvl, setLvl] = useState(0)
+  const [score, setScore] = useState(0)
+  const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки'
 
   const dispatch = useDispatch();
   const state: any = useSelector(state => state);
@@ -38,7 +39,10 @@ const SwojaIgra: FC = (): JSX.Element => {
   const showFinishInfo = () => {
     setFinish(true)
     setStarted(false)
-    setTimeout(() => setFinish(false), 5000)
+    setTimeout(() => {
+      setFinish(false);
+      setScore(0)
+    }, 5000)
   }
 
   const setQuestionNumbers = (val: number) => setQuestionsNumbers(val);
@@ -51,7 +55,7 @@ const SwojaIgra: FC = (): JSX.Element => {
 
   return (
     <div className='Vocabulary'>
-      {finish ? <SwojaIgraStat /> :
+      {finish ? <SwojaIgraStat questionsNumbers={questionsNumbers} score={score}/> :
         !isLogin ?
         <Alert variant="danger">
           <Alert.Heading>Пожалуйста авторизируйтесь</Alert.Heading>
@@ -61,6 +65,8 @@ const SwojaIgra: FC = (): JSX.Element => {
             setStarted={setStarted}
             questions={questions}
             showFinishInfo={showFinishInfo}
+            setScore={setScore}
+            score={score}
           /> :
         <>
           <div className={styles.SwojaIgraContainer}>
@@ -80,7 +86,7 @@ const SwojaIgra: FC = (): JSX.Element => {
               <ToggleButton value={15}>15</ToggleButton>
               <ToggleButton value={20}>20</ToggleButton>
             </ToggleButtonGroup>
-            <Rules />
+            <Rules rules={rules} />
 
             <button onClick={useQuestions} type="button" className="btn btn-outline-success btn-lg">Нажмите чтобы начать игру :)
             </button>

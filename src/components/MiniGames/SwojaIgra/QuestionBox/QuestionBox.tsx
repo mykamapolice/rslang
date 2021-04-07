@@ -4,9 +4,7 @@ import QuestionCard from '../SwojaIgraQuestionCard/SwojaIgraQuestionCard';
 const QuestionBox = (props: any)=>{
 
   const [questionNumber, setQuestionNumber] = useState(0)
-  const [score, setScore] = useState(0)
-
-  const {questions, questionsNumbers, showFinishInfo} = props
+  const {questions, questionsNumbers, showFinishInfo, score, setScore} = props
 
   useEffect(() => {
     if(questionNumber === questionsNumbers) {
