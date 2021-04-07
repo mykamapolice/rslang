@@ -22,3 +22,8 @@
     color: #ccc;
     transition: 0.5s;
 }
+
+.nextBtn{
+    marginTop: 10%;
+    color: gray;
+}

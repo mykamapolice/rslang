@@ -25,7 +25,7 @@ const AudiocallGameBox = () => {
 
     return (
       <div className={styles.gamebox}>
-        <h2>Аудиовызов</h2>
+        <h2>Аудиовызов(твоей мамки)</h2>
         <h3>Номер вопроса x/10</h3>
         <h3>Количество праильных ответов: 3</h3>
         <div className="slide-container">
@@ -42,7 +42,7 @@ const AudiocallGameBox = () => {
               </div>
             </div>
           </Slide>
-          <button onClick={next} type="button" style={{marginTop: "10%"}}>
+          <button disabled={false} onClick={next} type="button" className={styles.nextBtn} style={{marginTop: "10%"}}>
             < ArrowRight size={96}/>
           </button>
         </div>

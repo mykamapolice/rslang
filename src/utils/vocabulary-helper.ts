@@ -61,19 +61,33 @@ export const updateUserWord = async ({ userId, token, wordId, type }:any) => {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
-  const word = { 
-    "optional": { 
+  const word = {
+    "optional": {
  ...type, "isExist" : true
  //пометить сколько раз слово участвоввало в играх
 // пометить сколько раз слово было угадано
-    } 
+    }
   };
-  try { 
+  try {
     const response = await axios.put(`${baseUrl}users/${userId}/words/${wordId}`,JSON.stringify(word),{headers});
     console.log(response);
     return response.data;
-  } 
+  }
   catch (error) {
     console.log(error);
   }
 };
+
+export const fetchAllWords = async ({userId, token, lvl}: any) => {
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/json',
+  }
+  try {
+    const response = await axios.get(`${baseUrl}users/${userId}/aggregatedWords?page=0&group=${lvl}&wordsPerPage=3600`,{headers});
+    console.log('get all', response.data)
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

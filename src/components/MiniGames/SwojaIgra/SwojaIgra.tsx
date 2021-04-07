@@ -1,32 +1,49 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  fetchingGeneral,
+  getAllWords,
   setLvl,
 } from '../../../redux/reducers/vocabulary';
-import Lvl from '../../Learning/Lvl/Lvl';
 import QuestionBox from './QuestionBox/QuestionBox';
 import Rules from './RulesOfSwojaIgra/RulesOfSwojaIgra';
+import {
+  Alert, ToggleButton, ToggleButtonGroup,
+} from 'react-bootstrap';
+import SwojaIgraStat from './EndGameStatistic/SwojaIgraStat';
+import styles from './SwojaIgra.module.css'
 
 const SwojaIgra: FC = (): JSX.Element => {
 
   const [isStarted, setStarted] = useState(false)
-  const [isFinish, setFinish] = useState(true)
+  const [finish, setFinish] = useState(false)
   const [questions, setQuestions]: any[] = useState([])
-  const [questionsNumbers, setQuestionsNumbers] = useState(10)
+  const [questionsNumbers, setQuestionsNumbers] = useState(20)
+  const [lvl, setLvl] = useState(0)
   const usedQuestions: any[] = []
 
   const dispatch = useDispatch();
-  const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   const state: any = useSelector(state => state);
-  const {vocabulary:{ lvl, words} } = state;
+
+  const isLogin = state.user.isAuth
+  const token = state.user.token
+  const userId = state.user.userId
+  const {vocabulary:{ words } } = state;
 
   const wordsCopy = words
 
   useEffect( () => {
-    const page = Math.floor(Math.random() * (30));
-    dispatch(fetchingGeneral({page,lvl}));
-  }, [questions])
+    dispatch(getAllWords({userId, token, lvl}));
+    console.log(questions)
+  }, [isStarted])
+
+  const showFinishInfo = () => {
+    setFinish(true)
+    setStarted(false)
+    setTimeout(() => setFinish(false), 5000)
+  }
+
+  const setQuestionNumbers = (val: number) => setQuestionsNumbers(val);
+  const setLevel = (val: number) => setLvl(val);
 
   const getIncorrectWords = (correctWord: string) => {
     const arrayOfIncorrect: any[] = []
@@ -34,11 +51,11 @@ const SwojaIgra: FC = (): JSX.Element => {
 
 
     while (arrayOfIncorrect.length !== 3) {
-      const randomQuestionNumber: number = Math.floor(Math.random()  * (20));
-      const { word } = wordsCopy[randomQuestionNumber]
+      const randomQuestionNumber: number = Math.floor(Math.random()  * (600));
+      const { word, wordTranslate } = wordsCopy[randomQuestionNumber]
 
       if(word !== correctWord && !wordsToCheck.includes(word)) {
-        arrayOfIncorrect.push({ word, isCorrect: false })
+        arrayOfIncorrect.push({ word, isCorrect: false, wordTranslate})
         wordsToCheck.push(word)
       }
 
@@ -48,20 +65,27 @@ const SwojaIgra: FC = (): JSX.Element => {
 
   const addNewQuestionToArray = () => {
 
-      const randomQuestionNumber: number = Math.floor(Math.random()  * (20));
-      const {image, word} = wordsCopy[randomQuestionNumber]
+      const randomQuestionNumber: number = Math.floor(Math.random()  * (600));
+      console.log(wordsCopy)
+      const {image,
+        word,
+        audio,
+        wordTranslate } = wordsCopy[randomQuestionNumber]
+
+        console.log(audio, wordTranslate)
 
       if(!usedQuestions.includes(randomQuestionNumber)) {
         usedQuestions.push(randomQuestionNumber)
 
         let answers: any[] = getIncorrectWords(word)
-        answers.push({ word , isCorrect: true })
+        answers.push({ word , isCorrect: true, wordTranslate})
         answers = answers.sort(() => Math.random() - 0.5)
 
         const newQuestion = {
           image,
           answers,
-          correct: word
+          correct: word,
+          audio,
         }
         return newQuestion
     }
@@ -75,29 +99,54 @@ const SwojaIgra: FC = (): JSX.Element => {
         questionsCopy.push(question)
       }
     }
-    setQuestions(questionsCopy)
-    setStarted(true)
     return questionsCopy
+  }
+
+  const useQuestions = () => {
+    setQuestions(getQuestions())
+    setStarted(true)
   }
 
   return (
     <div className='Vocabulary'>
-      {isStarted ? <QuestionBox setStarted={setStarted} questions={questions}/> :
+      {finish ? <SwojaIgraStat /> :
+        !isLogin ?
+        <Alert variant="danger">
+          <Alert.Heading>Пожалуйста авторизируйтесь</Alert.Heading>
+        </Alert>
+        : isStarted ? <QuestionBox
+            questionsNumbers={questionsNumbers}
+            setStarted={setStarted}
+            questions={questions}
+            showFinishInfo={showFinishInfo}
+          /> :
         <>
-          <h2 className="fs-3">Выберите сложность слов:</h2>
-          <div className='container-fluid'>
-            <div className='d-sm-flex p-2 flex-wrap justify-content-center'>
-              <Lvl levels={levels} lvl={lvl}
-                   setLvl={(n: number) => dispatch(setLvl(n))} />
-            </div>
+          <div className={styles.SwojaIgraContainer}>
+          <h2 className="fs-3">Выберите уровень слов:</h2>
+            <ToggleButtonGroup type="radio" name="options" value={lvl} onChange={setLevel}>
+              <ToggleButton value={0}>1</ToggleButton>
+              <ToggleButton value={1}>2</ToggleButton>
+              <ToggleButton value={2}>3</ToggleButton>
+              <ToggleButton value={3}>4</ToggleButton>
+              <ToggleButton value={4}>5</ToggleButton>
+              <ToggleButton value={5}>6</ToggleButton>
+            </ToggleButtonGroup>
+          <h2>Выберите количество вопросов:</h2>
+            <ToggleButtonGroup type="radio" name="options" value={questionsNumbers} onChange={setQuestionNumbers}>
+              <ToggleButton value={5}>5</ToggleButton>
+              <ToggleButton value={10}>10</ToggleButton>
+              <ToggleButton value={15}>15</ToggleButton>
+              <ToggleButton value={20}>20</ToggleButton>
+            </ToggleButtonGroup>
+            <Rules />
+
+            <button onClick={useQuestions} type="button" className="btn btn-outline-success btn-lg">Нажмите чтобы начать игру :)
+            </button>
           </div>
-          <Rules />
-          <button onClick={getQuestions} type="button" className="btn btn-outline-success">Нажмите чтобы начать игру :)
-          </button>
         </>
       }
     </div>
-  );
-};
+  )
+}
 
-export default SwojaIgra;
+export default SwojaIgra

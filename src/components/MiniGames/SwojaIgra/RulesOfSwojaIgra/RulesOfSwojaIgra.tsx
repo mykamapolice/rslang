@@ -6,7 +6,7 @@ const Rules = () => {
 
   return (
     <>
-      <Button onClick={() => setLgShow(true)}>Правила игры</Button>
+      <Button size="lg" onClick={() => setLgShow(true)}>Правила игры</Button>
       <Modal
         size="lg"
         show={lgShow}
