@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { loginUser } from '../../utils/user-helper'
-import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../utils/user-helper';
+import { useDispatch } from 'react-redux';
 import { login } from '../../redux/reducers/user';
 
 const LogIn = (props: any): JSX.Element => {
@@ -12,21 +12,21 @@ const LogIn = (props: any): JSX.Element => {
 
   const dispatch = useDispatch();
 
-  const handleEmailChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    const mail = event.target.value
-    setEmail(mail)
-  }
-  const handlePasswordChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    const pass = event.target.value
-    setPassword(pass)
-  }
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const mail = event.target.value;
+    setEmail(mail);
+  };
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const pass = event.target.value;
+    setPassword(pass);
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSubmit =  async (event:React.FormEvent) => {
-    event.preventDefault()
-    event.stopPropagation()
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     const user = {
       email,
       password
@@ -39,8 +39,8 @@ const LogIn = (props: any): JSX.Element => {
       event.preventDefault();
       event.stopPropagation();
     }
-      await dispatch(login(user));
-      handleClose()
+    await dispatch(login(user));
+    handleClose();
   };
 
   return (
@@ -62,19 +62,19 @@ const LogIn = (props: any): JSX.Element => {
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Почта</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} required/>
+              <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} required />
               <Form.Control.Feedback type="invalid">
                 Введите корректную почту
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Пароль</Form.Label>
-              <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} required/>
+              <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} required />
               <Form.Control.Feedback type="invalid">
                 Введите пароль
               </Form.Control.Feedback>
             </Form.Group>
-            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <Button variant="primary" type="submit" >
                 Отправить
               </Button>
@@ -87,6 +87,6 @@ const LogIn = (props: any): JSX.Element => {
       </Modal>
     </>
   );
-}
+};
 
-export default LogIn
+export default LogIn;
