@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { IGeneralVocabulary,IWord } from '../../interfaces';
-import { fetchingGeneralVocabulary, fetchingAggregatedWords, createUserWord, getUserWords, updateUserWord } from '../../utils/vocabulary-helper';
+import { fetchingGeneralVocabulary, fetchingAggregatedWords, createUserWord, getUserWords, updateUserWord, fetchAllWords } from '../../utils/vocabulary-helper';
 import user from './user';
 
 const initialState: IGeneralVocabulary = {
@@ -17,6 +17,7 @@ export const fetchingAggregated = createAsyncThunk('vocabulary/fetchingAggregate
 export const createWord = createAsyncThunk('vocabulary/createUser', createUserWord);
 export const getWords = createAsyncThunk('vocabulary/getUserWords', getUserWords);
 export const updateWord = createAsyncThunk('vocabulary/updateWord', updateUserWord);
+export const getAllWords = createAsyncThunk('vocabulary/getAllWords', fetchAllWords);
 
 const vocabularySlice = createSlice({
   name: 'vocabulary',
@@ -29,7 +30,7 @@ const vocabularySlice = createSlice({
     setLvl:(state, action) => {
       state.lvl = action.payload;
     },
-    setPage:(state, action) => {     
+    setPage:(state, action) => {
       state.page = action.payload;
     },
     clearWords: (state) => {
@@ -50,6 +51,9 @@ const vocabularySlice = createSlice({
       .addCase(fetchingAggregated.fulfilled, (state, action) => {
         state.words = [...action.payload[0].paginatedResults];
       })
+      .addCase(getAllWords.fulfilled, (state, action) => {
+        state.words = [...action.payload[0].paginatedResults];
+      })
       .addCase(createWord.fulfilled, (state, action) => {
         console.log(action.payload);
         const stateCopy = current(state);
@@ -66,7 +70,7 @@ const vocabularySlice = createSlice({
           state.words = [...mappedState]
         } catch (error) {
             console.log(error);
-            
+
         }
         }
       }
@@ -82,7 +86,7 @@ const vocabularySlice = createSlice({
               }
               else
               return el;
-          
+
       })
          state.userList = [...userListCopy]
           } catch (e) {
@@ -97,7 +101,7 @@ const vocabularySlice = createSlice({
           }
           else
           return el;
-      
+
   })
      state.words = [...wordsCopy]
       } catch (e) {
