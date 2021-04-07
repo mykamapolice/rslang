@@ -40,8 +40,10 @@ const statisticsSlice = createSlice({
 
       state.learnedWords += result.learnedWords;
 
-      if (!currentGameStat.length || currentGameStat[0].date < result.date) {
+      if (!currentGameStat.length) {
         state.optional.games[game].push(result);
+      } else if (currentGameStat[0].date < result.date) {
+        state.optional.games[game] = [result, ...currentGameStat];
       } else {
         currentGameStat[0].attempts += result.attempts;
         currentGameStat[0].rightAnswers += result.rightAnswers;
