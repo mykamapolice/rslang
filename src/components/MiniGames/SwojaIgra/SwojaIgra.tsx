@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import SwojaIgraStat from './EndGameStatistic/SwojaIgraStat';
 import styles from './SwojaIgra.module.css'
+import getQuestions from '../RandomQuestions';
 
 const SwojaIgra: FC = (): JSX.Element => {
 
@@ -19,7 +20,6 @@ const SwojaIgra: FC = (): JSX.Element => {
   const [questions, setQuestions]: any[] = useState([])
   const [questionsNumbers, setQuestionsNumbers] = useState(20)
   const [lvl, setLvl] = useState(0)
-  const usedQuestions: any[] = []
 
   const dispatch = useDispatch();
   const state: any = useSelector(state => state);
@@ -33,7 +33,6 @@ const SwojaIgra: FC = (): JSX.Element => {
 
   useEffect( () => {
     dispatch(getAllWords({userId, token, lvl}));
-    console.log(questions)
   }, [isStarted])
 
   const showFinishInfo = () => {
@@ -45,65 +44,8 @@ const SwojaIgra: FC = (): JSX.Element => {
   const setQuestionNumbers = (val: number) => setQuestionsNumbers(val);
   const setLevel = (val: number) => setLvl(val);
 
-  const getIncorrectWords = (correctWord: string) => {
-    const arrayOfIncorrect: any[] = []
-    const wordsToCheck: any[] = []
-
-
-    while (arrayOfIncorrect.length !== 3) {
-      const randomQuestionNumber: number = Math.floor(Math.random()  * (600));
-      const { word, wordTranslate } = wordsCopy[randomQuestionNumber]
-
-      if(word !== correctWord && !wordsToCheck.includes(word)) {
-        arrayOfIncorrect.push({ word, isCorrect: false, wordTranslate})
-        wordsToCheck.push(word)
-      }
-
-    }
-    return arrayOfIncorrect
-  }
-
-  const addNewQuestionToArray = () => {
-
-      const randomQuestionNumber: number = Math.floor(Math.random()  * (600));
-      console.log(wordsCopy)
-      const {image,
-        word,
-        audio,
-        wordTranslate } = wordsCopy[randomQuestionNumber]
-
-        console.log(audio, wordTranslate)
-
-      if(!usedQuestions.includes(randomQuestionNumber)) {
-        usedQuestions.push(randomQuestionNumber)
-
-        let answers: any[] = getIncorrectWords(word)
-        answers.push({ word , isCorrect: true, wordTranslate})
-        answers = answers.sort(() => Math.random() - 0.5)
-
-        const newQuestion = {
-          image,
-          answers,
-          correct: word,
-          audio,
-        }
-        return newQuestion
-    }
-  }
-
-  const getQuestions = () => {
-    const questionsCopy = []
-    while(questionsCopy.length !== questionsNumbers) {
-      const question = addNewQuestionToArray()
-      if(question !== undefined) {
-        questionsCopy.push(question)
-      }
-    }
-    return questionsCopy
-  }
-
   const useQuestions = () => {
-    setQuestions(getQuestions())
+    setQuestions(getQuestions(wordsCopy, questionsNumbers))
     setStarted(true)
   }
 
