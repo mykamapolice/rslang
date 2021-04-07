@@ -1,0 +1,10 @@
+.statContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.statContainer img {
+    width: 40rem;
+}

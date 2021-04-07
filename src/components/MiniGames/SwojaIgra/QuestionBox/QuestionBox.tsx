@@ -4,13 +4,11 @@ import QuestionCard from '../SwojaIgraQuestionCard/SwojaIgraQuestionCard';
 const QuestionBox = (props: any)=>{
 
   const [questionNumber, setQuestionNumber] = useState(0)
-  const [score, setScore] = useState(0)
-
-  const {questions} = props
+  const {questions, questionsNumbers, showFinishInfo, score, setScore} = props
 
   useEffect(() => {
-    if(questionNumber === 10) {
-      props.setStarted(false)
+    if(questionNumber === questionsNumbers) {
+      showFinishInfo()
     }
 
   }, [questionNumber])
@@ -28,7 +26,7 @@ const QuestionBox = (props: any)=>{
 
   return (
     <div>
-      <h1>Номер вопроса: {questionNumber + 1} / 10</h1>
+      <h1>Номер вопроса: {questionNumber + 1} / {questionsNumbers}</h1>
       <h2>Количество правильных ответов: {score}</h2>
       {cards[questionNumber]}
     </div>
