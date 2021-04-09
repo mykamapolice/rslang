@@ -7,27 +7,24 @@ const initialState: IUser = {
   isAuth: false,
   name: 'Guest',
   userId: null,
-  message: null, 
-  token : null,
+  message: null,
+  token: null,
   // refreshToken: null,
-  photoUrl: ''
+  photoUrl: '',
 };
 
-const photoUrl: any = localStorage.getItem('photoUrl')
-const userId = localStorage.getItem('id')
-const name: any = localStorage.getItem('name')
-const token:any = localStorage.getItem('token');
-console.log('token: ', token)
+const photoUrl: any = localStorage.getItem('photoUrl');
+const userId = localStorage.getItem('id');
+const name: any = localStorage.getItem('name');
+const token: any = localStorage.getItem('token');
 
-if(userId !== null) {
-  initialState.isAuth = true
-  initialState.name = JSON.parse(name)
-  initialState.userId = JSON.parse(userId)
-  initialState.photoUrl = JSON.parse(photoUrl)
-  initialState.token = JSON.parse(token)
+if (userId !== null) {
+  initialState.isAuth = true;
+  initialState.name = JSON.parse(name);
+  initialState.userId = JSON.parse(userId);
+  initialState.photoUrl = JSON.parse(photoUrl);
+  initialState.token = JSON.parse(token);
 }
-
-console.log(initialState)
 
 export const registration = createAsyncThunk('user/registration', createUser);
 export const login = createAsyncThunk('user/login', loginUser);
@@ -45,19 +42,18 @@ const userSlice = createSlice({
     },
 
     logout: (state) => {
-
       const newState = {
         isLoginForm: true,
         isAuth: false,
         name: 'Guest',
         userId: null,
         message: null,
-        token:null,
+        token: null,
         // refreshToken: null,
-        photoUrl: ''
+        photoUrl: '',
       };
 
-      return state = { ...newState };
+      return (state = { ...newState });
     },
   },
 
@@ -70,14 +66,14 @@ const userSlice = createSlice({
 
       .addCase(login.fulfilled, (state, action) => {
         console.log(action.payload);
-        if (action.payload.message === 'Authenticated') {       
+        if (action.payload.message === 'Authenticated') {
           const {
             name,
             userId,
             message,
             photoUrl,
             token,
-            refreshToken
+            refreshToken,
           } = action.payload;
 
           state.isAuth = true;
@@ -94,8 +90,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {
-  changeLoginForm,
-  logout,
-} = userSlice.actions;
+export const { changeLoginForm, logout } = userSlice.actions;
 export default userSlice.reducer;

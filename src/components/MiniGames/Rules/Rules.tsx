@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-const Rules = () => {
+const Rules = (props: any) => {
   const [lgShow, setLgShow] = useState(false);
+
+  const {rules} = props
 
   return (
     <>
-      <Button onClick={() => setLgShow(true)}>Правила игры</Button>
+      <Button size="lg" onClick={() => setLgShow(true)}>Правила игры</Button>
       <Modal
         size="lg"
         show={lgShow}
@@ -18,7 +20,7 @@ const Rules = () => {
             Правила игры:
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки</Modal.Body>
+        <Modal.Body>{rules}</Modal.Body>
       </Modal>
     </>
   );

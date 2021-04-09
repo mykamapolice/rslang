@@ -1,79 +1,78 @@
 import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registration } from '../../redux/reducers/user';
-import Axios from 'axios'
+import Axios from 'axios';
 
 const Registration: FC = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [photo, setPhoto]: any  = useState('');
+  const [photo, setPhoto]: any = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
-  const dispatch = useDispatch()
-  const state:any = useSelector(state => state);
+  const dispatch = useDispatch();
 
-  const handleEmailChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-  const handleNameChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value)
-  }
-  const handlePasswordChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
 
   const handleChangeImage = (e: any) => {
-    const photo = e.target.files[0]
+    const photo = e.target.files[0];
 
-    if(photo.type === "image/png" || photo.type === "image/jpeg") {
-      setPhoto(photo)
+    if (photo.type === "image/png" || photo.type === "image/jpeg") {
+      setPhoto(photo);
     }
-  }
+  };
 
   const uploadImage = async () => {
-    const formData = new FormData()
-    formData.append("file", photo)
-    formData.append("upload_preset", "ealjihlj")
+    const formData = new FormData();
+    formData.append("file", photo);
+    formData.append("upload_preset", "ealjihlj");
     try {
-      const response = await Axios.post("https://api.cloudinary.com/v1_1/dhp3eaod5/image/upload", formData)
-      return (response.data.url)
+      const response = await Axios.post("https://api.cloudinary.com/v1_1/dhp3eaod5/image/upload", formData);
+      return (response.data.url);
     } catch (e) {
-      return ''
+      return '';
     }
-  }
+  };
 
   const handleClose = () => {
-    setPhoto('')
+    setPhoto('');
     setShow(false);
-  }
-  const handleShow = () => setShow(true)
+  };
+  const handleShow = () => setShow(true);
 
-  const handleSubmit = async (event:React.FormEvent) => {
-    event.preventDefault()
-    event.stopPropagation()
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-    setValidated(true)
+    setValidated(true);
     const form: any = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-      return
+      event.preventDefault();
+      event.stopPropagation();
+      return;
     }
 
-    const photoUrl = await uploadImage()
+    const photoUrl = await uploadImage();
 
     const user = {
       password,
       email,
       name,
       photoUrl
-    }
-    dispatch(registration(user))
+    };
+    dispatch(registration(user));
 
-    handleClose()
+    handleClose();
   };
 
   return (
@@ -93,10 +92,10 @@ const Registration: FC = (): JSX.Element => {
           <Modal.Title>Регистрация</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate validated={validated} onSubmit={(e:React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
+          <Form noValidate validated={validated} onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Почта</Form.Label>
-              <Form.Control  type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} required/>
+              <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} required />
               <Form.Control.Feedback type="invalid">
                 Введите корректную почту
               </Form.Control.Feedback>
@@ -106,7 +105,7 @@ const Registration: FC = (): JSX.Element => {
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Пароль</Form.Label>
-              <Form.Control  type="password" placeholder="Password" value={password} onChange={handlePasswordChange} minLength={8} required/>
+              <Form.Control type="password" placeholder="Password" value={password} onChange={handlePasswordChange} minLength={8} required />
               <Form.Control.Feedback type="invalid">
                 Пароль должен быть больше 8 символов
               </Form.Control.Feedback>
@@ -129,7 +128,7 @@ const Registration: FC = (): JSX.Element => {
                 Введите имя
               </Form.Control.Feedback>
             </Form.Group>
-            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <Button variant="primary" type="submit" >
                 Отправить
               </Button>
@@ -142,6 +141,6 @@ const Registration: FC = (): JSX.Element => {
       </Modal>
     </>
   );
-}
+};
 
-export default Registration
+export default Registration;

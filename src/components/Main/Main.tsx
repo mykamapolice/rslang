@@ -7,9 +7,14 @@ import Settings from '../Settings/Settings';
 import Statistics from '../Statistics/Statistics';
 import Team from '../Team/Team';
 import Vocabulary from '../Vocabulary/Vocabulary';
-import MiniGame from '../MiniGames/MiniGame'
-import SavannahGame from '../MiniGames/SavannahGame'
-import SwojaIgra from '../MiniGames/SwojaIgra/SwojaIgra';
+import MiniGamesStartMenu from '../MiniGames/MiniGameStartMenu/MiniGamesStartMenu';
+
+export enum miniGames {
+  SwojaIgra='SwojaIgra',
+  Savannah='Savannah',
+  Audiocall='Audiocall',
+  Sprint='Sprint'
+}
 
 function Main(): JSX.Element {
   return (
@@ -17,15 +22,17 @@ function Main(): JSX.Element {
                     <Route path="/learning" component={Learning} />
                     <Route exact path="/mini-games" component={MiniGamesContainer} />
                     {/*<Route exact path="/mini-games/:id" component={MiniGame} />*/}
-                    <Route exact path="/mini-games/savannah" component={SavannahGame} />
-                    <Route exact path="/mini-games/mygame" component={SwojaIgra} />
+                    <Route exact path="/mini-games/savannah" component={() => <MiniGamesStartMenu game={miniGames.Savannah} />}/>
+                    <Route exact path="/mini-games/mygame" component={() => <MiniGamesStartMenu game={miniGames.SwojaIgra} />} />
+                    <Route exact path="/mini-games/audiocall" component={() => <MiniGamesStartMenu game={miniGames.Audiocall} />}/>
+                    <Route exact path="/mini-games/sprint" component={() => <MiniGamesStartMenu game={miniGames.Sprint} />}/>
                     <Route path="/vocabulary" component={Vocabulary} />
                     <Route path="/statistics" component={Statistics} />
                     <Route path="/team" component={Team} />
                     <Route path="/settings" component={Settings} />
                     <Route exact path="/" component={Home} />
         </div>
-  );
+  )
 }
 
 export default Main;
