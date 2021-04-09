@@ -31,7 +31,7 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
           if (!el.userWord.optional.isDeleted) {
             return el;
           }
-          else if(vMode&&value===2){
+          else if (vMode && value === 2) {
             return el;
           }
         }
@@ -41,14 +41,14 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
     }
     else return el;
   })).map((el: IWord, i: number, arr: never[]): JSX.Element => {
-    return <div key={arr.length - i} className="card mx-3 mb-3 pb-3 animated" style={{ backgroundColor: 'transparent', border: 'none' }}>
+    return <div key={arr.length - i} className="card mx-3 mb-3 pb-3 animated" style={{backgroundColor: 'transparent', border: 'none' }}>
       <div className='cart3d'>
         <div className='front' style={{
           backgroundColor: (el.hasOwnProperty('userWord')
-            && ((el.userWord.optional.isLearn &&'rgba(253, 255, 182,0.9)')
-            ||(el.userWord.optional.isHard &&'rgba(255, 214, 165, 0.9)')
-            ||(el.userWord.optional.isDeleted && 'rgba(255, 173, 173,0.9)')))
-            ||'rgba(253, 255, 182,0.9)'
+            && ((el.userWord.optional.isLearn && 'rgba(253, 255, 182,0.9)')
+              || (el.userWord.optional.isHard && 'rgba(255, 214, 165, 0.9)')
+              || (el.userWord.optional.isDeleted && 'rgba(255, 173, 173,0.9)')))
+            || 'rgba(253, 255, 182,0.9)'
         }}>
           <img className="card-img-top img-fluid" style={{ height: '200px', objectFit: 'cover' }} src={`${baseUrl}${el.image}`} alt="х" />
           <div className="card-title" style={{ color: '#355070', fontSize: '20px', marginBottom: '0' }}>{el.word}</div>
@@ -57,10 +57,10 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
         </div>
         <div className='back' style={{
           backgroundColor: (el.hasOwnProperty('userWord')
-            && ((el.userWord.optional.isLearn &&'rgba(253, 255, 182,0.9)')
-            ||(el.userWord.optional.isHard &&'rgba(255, 214, 165, 0.9)')
-            ||(el.userWord.optional.isDeleted && 'rgba(255, 173, 173,0.9)')))
-            ||'rgba(253, 255, 182,0.9)'
+            && ((el.userWord.optional.isLearn && 'rgba(253, 255, 182,0.9)')
+              || (el.userWord.optional.isHard && 'rgba(255, 214, 165, 0.9)')
+              || (el.userWord.optional.isDeleted && 'rgba(255, 173, 173,0.9)')))
+            || 'rgba(253, 255, 182,0.9)'
         }}>
           <div className="card-body fs-4">
             <div className="card-title" style={{ color: '#355070', fontSize: '20px', marginBottom: '0' }}>{el.wordTranslate}</div>
@@ -69,7 +69,7 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
             <div style={{ fontSize: '14px' }} dangerouslySetInnerHTML={{ __html: el.textExampleTranslate }} />
           </div>
           <div className='Col d-flex justify-content-around' style={{ position: 'absolute', bottom: '5px', left: '0', right: '0' }}>
-            {(isAuth&&!vMode) && (<>
+            {(isAuth && !vMode) && (<>
               <Button title="добавить в сложные" disabled={el.hasOwnProperty('userWord')
                 && el.userWord.optional.isHard ? true : false} variant="outline-info"
                 onClick={() => { buttonHandler(el, 'hard') }}>

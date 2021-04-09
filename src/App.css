@@ -32,6 +32,7 @@ button{
     display:flex; /*Это сделано чтобы карточка была розмещена по центру*/
     justify-content:center; /*Это сделано чтобы карточка была розмещена по центру*/
     align-items:center; /*Это сделано чтобы карточка была розмещена по центру*/
+
   }
    
   /*Оформляем саму карточку*/
@@ -48,6 +49,8 @@ button{
     height:100%;
     transition:1s;
     backface-visibility: hidden; /*Отключаем тыльную сторону у .front и .back*/
+    border-radius: 5px;
+    overflow: hidden;
   }
    
   .back{
