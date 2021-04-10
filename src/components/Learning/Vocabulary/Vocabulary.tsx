@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useMemo} from 'react';
 import { baseUrl } from '../../../utils/constants'
 import {
   Button, ToggleButtonGroup, ToggleButton,
@@ -38,17 +38,17 @@ function Vocabulary({
   const state: any = useSelector((state) => state);
   const dispatch = useDispatch()
   const { userList } = state.vocabulary
-  React.useEffect(() => {
-    if (isAuth) {
-      const obj = {
-        userId,
-        token
-      }
-      dispatch(getWords({ userId, token }));
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (isAuth) {
+  //     const obj = {
+  //       userId,
+  //       token
+  //     }
+  //     dispatch(getWords({ userId, token }));
+  //   }
+  // }, []);
 
-  const filteredWords = userList ? userList.filter((el: any) => wordMapperCheck(value, el.userWord.optional)) : [];
+  const filteredWords = useMemo(() => userList ? userList.filter((el: any) => wordMapperCheck(value, el.userWord.optional)) : [],[userList,value]);
   return (
     <div className="Vocabulary">
       <ToggleButtonGroup
@@ -69,7 +69,14 @@ function Vocabulary({
       </ToggleButtonGroup>
       <div className="container-fluid">
         <div className="d-sm-flex p-2 flex-wrap justify-content-center">
-         <WordCards vMode={vMode} value={value} isAuth={isAuth} words={filteredWords} updateUserWord={updateUserWord} audioHandler={audioHandler} baseUrl={baseUrl} />
+         <WordCards 
+          vMode={vMode} 
+          value={value}
+          isAuth={isAuth} 
+          words={filteredWords} 
+          updateUserWord={updateUserWord} 
+          audioHandler={audioHandler} 
+          baseUrl={baseUrl} />
         </div>
       </div>
     </div>

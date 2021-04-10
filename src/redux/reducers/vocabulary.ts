@@ -9,7 +9,8 @@ const initialState: IGeneralVocabulary = {
   lvl:0,
   words:null,
   userList:null,
-  value:0
+  value:0,
+  notActivePages:[]
 };
 
 export const fetchingGeneral = createAsyncThunk('vocabulary/fetching', fetchingGeneralVocabulary);
@@ -41,6 +42,9 @@ const vocabularySlice = createSlice({
     },
     setValue: (state,action) => {
       state.value = action.payload;
+    },
+    setNotActivePages: (state,action) => {
+      state.notActivePages = [...state.notActivePages,...[action.payload]];
     }
   },
   extraReducers: (builder) => {
@@ -54,11 +58,14 @@ const vocabularySlice = createSlice({
       .addCase(getAllWords.fulfilled, (state, action) => {
         state.words = [...action.payload[0].paginatedResults];
       })
+
       .addCase(createWord.fulfilled, (state, action) => {
-        const stateCopy = current(state);
-        if(state.words){
+        const {words, userList} = state;
+      console.log(action.payload);
+  
+        if(words){
           try {
-          const mappedState = state.words.map((el:IWord)=>{
+          const mappedState = words.map((el:IWord)=>{
             if(el._id===action.payload.wordId){
               el.userWord = {
                 optional: {...action.payload.optional}
@@ -72,6 +79,24 @@ const vocabularySlice = createSlice({
 
         }
         }
+      
+        if(userList){
+          try {
+          const mappedState = userList.map((el:IWord)=>{
+            if(el._id===action.payload.wordId){
+              el.userWord = {
+                optional: {...action.payload.optional}
+              }
+            }
+            return el
+          });
+          state.userList = [...mappedState]
+        } catch (error) {
+            console.log(error);
+
+        }
+        }
+
       }
       )
       .addCase(updateWord.fulfilled,(state, action)=>{
@@ -110,10 +135,9 @@ const vocabularySlice = createSlice({
 }
       })
       .addCase(getWords.fulfilled, (state,action) => {
-        console.log(action.payload[0].paginatedResults);
         state.userList = [...action.payload[0].paginatedResults];
       })
 }});
 
-export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle } = vocabularySlice.actions;
+export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle, setNotActivePages } = vocabularySlice.actions;
 export default vocabularySlice.reducer;

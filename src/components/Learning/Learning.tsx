@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useCallback} from 'react';
 import { IRootState } from '../../interfaces';
 import {
   Button
@@ -6,7 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Wrench } from 'react-bootstrap-icons';
-import { clearWords, createWord, fetchingAggregated, fetchingGeneral, updateWord, setLvl, setPage, setValue, vModeToggle } from '../../redux/reducers/vocabulary';
+import { clearWords, createWord, fetchingAggregated, fetchingGeneral, getWords, updateWord, setLvl, setPage, setValue, vModeToggle,setNotActivePages } from '../../redux/reducers/vocabulary';
 import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
 import Pagination from './Pagination/Pagination';
@@ -29,16 +29,18 @@ function Learning(): JSX.Element {
   const dispatch = useDispatch();
   const vocabulary = useSelector((state: IRootState) => state.vocabulary);
   const user = useSelector((state: IRootState) => state.user);
-  const { vMode, page, lvl, words, value } = vocabulary;
+  const { vMode, page, lvl, words, userList, value, notActivePages } = vocabulary;
   const { userId, token, isAuth } = user;
 
-  const radioButtonHandler = (): void => {
+  const radioButtonHandler = async() => {
     dispatch(clearWords());
-    isAuth ? dispatch(fetchingAggregated({ lvl, page, userId, token })) : dispatch(fetchingGeneral({ lvl, page }));
+    isAuth && await dispatch(getWords({ userId, token }));
+    isAuth ? await dispatch(fetchingAggregated({ lvl, page, userId, token })) : await dispatch(fetchingGeneral({ lvl, page }));
   };
 
   React.useEffect(() => {
     radioButtonHandler();
+
   }, [page, lvl, isAuth]);
 
 
@@ -49,8 +51,8 @@ function Learning(): JSX.Element {
       token,
       word: { "optional": { ...type, "isExist": true } }
     };
+    
     await dispatch(createWord(obj));
-    // radioButtonHandler()
   };
 
   const updateUserWord = async (wordId: string, type: any) => {
@@ -61,18 +63,27 @@ function Learning(): JSX.Element {
       type
     };
     await dispatch(updateWord(obj));
-    // radioButtonHandler()
   };
 
-  const audioHandler = (src: string[], i: number): void => {
+  const audioHandler = useCallback((src: string[], i: number): void => {
     if (i == src.length) return;
     audio.src = `${baseUrl}${src[i]}`;
     audio.play();
     audio.addEventListener('ended', () => {
       audioHandler(src, i + 1);
     }, { once: true });
-  };
+  },[audio]);
 
+  const setActivePage = (page:number, isPlus:boolean) =>{
+    if(page<0) page=29;
+    if(page>29) page=0;
+    const findEqualPage = notActivePages.find((el:number)=>el===page);
+    if(findEqualPage) {
+      const newPage = isPlus ? page+1 : page-1;
+      setActivePage(newPage,isPlus);
+    }
+    else dispatch(setPage(page))
+  }
 
   return (
     <div className="Vocabulary" style={
@@ -92,12 +103,20 @@ function Learning(): JSX.Element {
           <div className="col-6">
             <div className="d-sm-flex flex-wrap justify-content-center">
               <Lvl levels={levels} lvl={lvl} setLvl={(n: number) => dispatch(setLvl(n))} />
-              <Pagination page={page} setPage={(n: number) => dispatch(setPage(n))} />
+              <Pagination 
+              setNotActivePages={(i:number) => dispatch(setNotActivePages(i)) }
+              notActivePages = {notActivePages}
+              setActivePage = {setActivePage}
+              lvl ={lvl} 
+              page={page} 
+              userList={userList}
+              setPage={(n: number) => dispatch(setPage(n))} />
             </div>
           </div>
           <div className="d-flex col justify-content-around">
             {isAuth && (
-              <Button style={{ width: '140px' }} className='buttonMarginer' size='lg' title="Cловарь" variant="info" onClick={() => dispatch(vModeToggle())}>
+              <Button style={{ width: '140px' }} className='buttonMarginer' size='lg' title="Cловарь" variant="info" 
+              onClick={() => dispatch(vModeToggle())}>
                 {vMode ? 'В учебник' : 'В словарь'}
               </Button>
             )

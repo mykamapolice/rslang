@@ -19,13 +19,12 @@ export const createUserWord = async ({ userId, wordId, word, token }:any) => {
   }
   try {
     const response = await axios.post(`${baseUrl}users/${userId}/words/${wordId}`,JSON.stringify(word),{headers});
-    console.log(response)
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
-//https://rs-lang-rs-team-41.herokuapp.com/users/60650a3b94d2280015da29c2
+
 export const fetchingAggregatedWords = async ({lvl,page,userId, token}:any) =>{
   const headers = {
     'Authorization': `Bearer ${token}`,
@@ -33,7 +32,6 @@ export const fetchingAggregatedWords = async ({lvl,page,userId, token}:any) =>{
   }
   try {
     const response = await axios.get(`${baseUrl}users/${userId}/aggregatedWords?group=${lvl}&page=${page}&wordsPerPage=20`,{headers});
-    console.log(response)
     return response.data;
   } catch (error) {
     console.log(error);
@@ -47,7 +45,6 @@ export const getUserWords = async ({ userId, token }:any) => {
   }
   try {
     const response = await axios.get(`${baseUrl}users/${userId}/aggregatedWords?page=0&wordsPerPage=3600&filter=%7B%22userWord.optional.isExist%22%3A%20%7B%20%22%24eq%22%3Atrue%7D%7D`,{headers});
-    console.log(response)
     return response.data;
   } catch (error) {
     console.log(error);
@@ -70,7 +67,6 @@ export const updateUserWord = async ({ userId, token, wordId, type }:any) => {
   };
   try {
     const response = await axios.put(`${baseUrl}users/${userId}/words/${wordId}`,JSON.stringify(word),{headers});
-    console.log(response);
     return response.data;
   }
   catch (error) {
