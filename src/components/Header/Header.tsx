@@ -15,20 +15,20 @@ function Header(): JSX.Element {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link eventKey="1" to="/learning" as={NavLink}>
-                        Learning
+                    <Nav.Link eventKey="1" to="/book" as={NavLink}>
+                        Электронный учебник
                     </Nav.Link>
                     <Nav.Link eventKey="2" to="/mini-games" as={NavLink}>
-                        MiniGames
+                        Мини-игры
                     </Nav.Link>
                     <Nav.Link eventKey="3" to="/statistics" as={NavLink}>
-                        Statistics
+                        Статистика
                     </Nav.Link>
                     <Nav.Link eventKey="4" to="/team" as={NavLink}>
-                        Team
+                        Команда
                     </Nav.Link>
                     <Nav.Link eventKey="5" to="/settings" as={NavLink}>
-                        Settings
+                        Настройки
                     </Nav.Link>
                 </Nav>
                 <Authentication />

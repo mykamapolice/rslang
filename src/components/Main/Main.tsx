@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from '../Home/Home';
-import Learning from '../Learning/Learning';
+import Book from '../Book/Book';
 import MiniGamesContainer from '../MiniGames/MiniGamesContainer';
 import Settings from '../Settings/Settings';
 import Statistics from '../Statistics/Statistics';
@@ -19,7 +19,7 @@ export enum miniGames {
 function Main(): JSX.Element {
   return (
         <div className="Main">
-                    <Route path="/learning" component={Learning} />
+                    <Route path="/book" component={Book} />
                     <Route exact path="/mini-games" component={MiniGamesContainer} />
                     {/*<Route exact path="/mini-games/:id" component={MiniGame} />*/}
                     <Route exact path="/mini-games/savannah" component={() => <MiniGamesStartMenu game={miniGames.Savannah} />}/>

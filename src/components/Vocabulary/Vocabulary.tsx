@@ -5,8 +5,8 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWords, updateWord,clearUserList } from '../../redux/reducers/vocabulary'
-import Lvl from '../Learning/Lvl/Lvl'
-import Pagination from '../Learning/Pagination/Pagination';
+import Lvl from '../Book/Lvl/Lvl'
+import Pagination from '../Book/Pagination/Pagination';
 
 const audio = new Audio();
 const wordType = ['learn','hard','deleted'];

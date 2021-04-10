@@ -16,7 +16,6 @@ export interface IGeneralVocabulary {
   words: IWord[] | null;
   userList: IWord[] | null;
   value: 0 | 1 | 2;
-  notActivePages: number[]|[]
 }
 
 export interface IWord {

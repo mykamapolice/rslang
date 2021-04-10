@@ -9,8 +9,7 @@ const initialState: IGeneralVocabulary = {
   lvl:0,
   words:null,
   userList:null,
-  value:0,
-  notActivePages:[]
+  value:0
 };
 
 export const fetchingGeneral = createAsyncThunk('vocabulary/fetching', fetchingGeneralVocabulary);
@@ -43,9 +42,7 @@ const vocabularySlice = createSlice({
     setValue: (state,action) => {
       state.value = action.payload;
     },
-    setNotActivePages: (state,action) => {
-      state.notActivePages = [...state.notActivePages,...[action.payload]];
-    }
+
   },
   extraReducers: (builder) => {
     builder
@@ -139,5 +136,5 @@ const vocabularySlice = createSlice({
       })
 }});
 
-export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle, setNotActivePages } = vocabularySlice.actions;
+export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle } = vocabularySlice.actions;
 export default vocabularySlice.reducer;

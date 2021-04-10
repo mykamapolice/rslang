@@ -1,5 +1,6 @@
-import React,{useMemo, useCallback} from 'react';
+import React,{useMemo, useCallback, useEffect} from 'react';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
+import { useList } from 'react-use';
 import { IWord } from '../../../interfaces';
 
 function Pagination({ userList, lvl, page, setPage }: any): JSX.Element {
@@ -19,8 +20,7 @@ console.log('useMemo')
 return notActive;
 },[userList]);
 
-
-
+console.log(notActiveList)
 const setActivePage = useCallback((page:number, isPlus?:boolean) =>{
   if(page<0) page=29;
   if(page>29) page=0;
@@ -31,6 +31,12 @@ const setActivePage = useCallback((page:number, isPlus?:boolean) =>{
   }
   else setPage(page)
 },[notActiveList])
+
+
+useEffect(()=>{
+  const pageCheck = notActiveList.findIndex((el:number|null)=>el===page);
+  if(pageCheck!==-1) setActivePage(page+1, true);
+},[userList])
 
 const buttonHandler = useCallback((expression:boolean):void => {
   switch (expression) {
@@ -44,19 +50,20 @@ const buttonHandler = useCallback((expression:boolean):void => {
 },[page])
 
 const paginationNumbs = useMemo(()=>[...Array(30)].map((_, i: number, arr: null[]) => {
-    const emptyPageCheck = notActiveList.find((el:number|null) => i===el);
+    const emptyPageCheck = notActiveList.findIndex((el:number|null) => i===el);
     const diggCheck = i === page - 1 || i === page || i === page + 1 || (page === 0 && i === page + 2) || (page === arr.length - 1 && i === page - 2);
+    
     return (
       <li key={arr.length - i} style={{ display: `${diggCheck ? 'inline' : 'none'}` }} 
       className=
       {`page-item  
       ${page === i ? 'active' : ''}
-      ${emptyPageCheck ?'disabled':''}`
+      ${emptyPageCheck!==-1 ?'disabled':''}`
       }>
         <button className="page-link" id={`${i}`} onClick={(e: any) => setActivePage(+e.target.id)}>{i + 1}</button>
       </li>
     )
-  }),[userList,lvl,page]);
+  }),[userList,lvl,page,notActiveList]);
 
   return (
     <nav aria-label="Page navigation example">

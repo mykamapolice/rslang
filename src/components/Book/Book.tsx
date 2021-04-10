@@ -6,7 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Wrench } from 'react-bootstrap-icons';
-import { clearWords, createWord, fetchingAggregated, fetchingGeneral, getWords, updateWord, setLvl, setPage, setValue, vModeToggle,setNotActivePages } from '../../redux/reducers/vocabulary';
+import { clearWords, createWord, fetchingAggregated, fetchingGeneral, getWords, updateWord, setLvl, setPage, setValue, vModeToggle } from '../../redux/reducers/vocabulary';
 import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
 import Pagination from './Pagination/Pagination';
@@ -25,17 +25,17 @@ const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 const audio: HTMLAudioElement = new Audio();
 
-function Learning(): JSX.Element {
+function Book(): JSX.Element {
   const dispatch = useDispatch();
   const vocabulary = useSelector((state: IRootState) => state.vocabulary);
   const user = useSelector((state: IRootState) => state.user);
-  const { vMode, page, lvl, words, userList, value, notActivePages } = vocabulary;
+  const { vMode, page, lvl, words, userList, value } = vocabulary;
   const { userId, token, isAuth } = user;
 
   const radioButtonHandler = async() => {
     dispatch(clearWords());
     isAuth && await dispatch(getWords({ userId, token }));
-    isAuth ? await dispatch(fetchingAggregated({ lvl, page, userId, token })) : await dispatch(fetchingGeneral({ lvl, page }));
+    isAuth&&!userList ? await dispatch(fetchingAggregated({ lvl, page, userId, token })) : await dispatch(fetchingGeneral({ lvl, page }));
   };
 
   React.useEffect(() => {
@@ -74,17 +74,6 @@ function Learning(): JSX.Element {
     }, { once: true });
   },[audio]);
 
-  const setActivePage = (page:number, isPlus:boolean) =>{
-    if(page<0) page=29;
-    if(page>29) page=0;
-    const findEqualPage = notActivePages.find((el:number)=>el===page);
-    if(findEqualPage) {
-      const newPage = isPlus ? page+1 : page-1;
-      setActivePage(newPage,isPlus);
-    }
-    else dispatch(setPage(page))
-  }
-
   return (
     <div className="Vocabulary" style={
       {
@@ -103,14 +92,11 @@ function Learning(): JSX.Element {
           <div className="col-6">
             <div className="d-sm-flex flex-wrap justify-content-center">
               <Lvl levels={levels} lvl={lvl} setLvl={(n: number) => dispatch(setLvl(n))} />
-              <Pagination 
-              setNotActivePages={(i:number) => dispatch(setNotActivePages(i)) }
-              notActivePages = {notActivePages}
-              setActivePage = {setActivePage}
+             {userList&&<Pagination 
               lvl ={lvl} 
               page={page} 
               userList={userList}
-              setPage={(n: number) => dispatch(setPage(n))} />
+              setPage={(n: number) => dispatch(setPage(n))} />}
             </div>
           </div>
           <div className="d-flex col justify-content-around">
@@ -146,4 +132,4 @@ function Learning(): JSX.Element {
   );
 }
 
-export default Learning;
+export default Book;
