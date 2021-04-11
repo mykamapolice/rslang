@@ -58,7 +58,6 @@ function Vocabulary(): JSX.Element {
     audio.src = src;
     audio.play();
   };
-  console.log()
   return (
         <div className="Vocabulary">
         <div className="container-fluid">

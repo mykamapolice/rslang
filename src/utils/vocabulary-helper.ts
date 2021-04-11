@@ -31,7 +31,7 @@ export const fetchingAggregatedWords = async ({lvl,page,userId, token}:any) =>{
     'Accept': 'application/json',
   }
   try {
-    const response = await axios.get(`${baseUrl}users/${userId}/aggregatedWords?group=${lvl}&page=${page}&wordsPerPage=20`,{headers});
+    const response = await axios.get(`${baseUrl}users/${userId}/aggregatedWords?group=${lvl}&page=0&wordsPerPage=20&filter=%7B%20%22page%22%3A%20%7B%20%22%24eq%22%3A%20${page}%20%7D%20%7D`,{headers});
     return response.data;
   } catch (error) {
     console.log(error);

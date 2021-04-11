@@ -4,7 +4,7 @@ import { useList } from 'react-use';
 import { IWord } from '../../../interfaces';
 
 function Pagination({ userList, lvl, page, setPage }: any): JSX.Element {
-
+console.log('pagination')
   const emptyPage = (group:number,page:number) => {
     if(userList){
     const filteredWords = userList.filter((el:IWord)=>group===el.group&&page===el.page&&el.userWord.optional.isDeleted);
@@ -20,7 +20,6 @@ console.log('useMemo')
 return notActive;
 },[userList]);
 
-console.log(notActiveList)
 const setActivePage = useCallback((page:number, isPlus?:boolean) =>{
   if(page<0) page=29;
   if(page>29) page=0;

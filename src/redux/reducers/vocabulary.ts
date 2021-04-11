@@ -58,41 +58,36 @@ const vocabularySlice = createSlice({
 
       .addCase(createWord.fulfilled, (state, action) => {
         const {words, userList} = state;
-      console.log(action.payload);
-  
         if(words){
           try {
-          const mappedState = words.map((el:IWord)=>{
-            if(el._id===action.payload.wordId){
-              el.userWord = {
-                optional: {...action.payload.optional}
-              }
+          const obj = words.findIndex((el:IWord)=>el._id===action.payload.wordId);
+            words[obj].userWord = {
+              optional: {...action.payload.optional}
             }
-            return el
-          });
-          state.words = [...mappedState]
+            
+          state.words = [...words];
+          if(userList) state.userList = [...userList,words[obj]]
         } catch (error) {
             console.log(error);
-
         }
         }
       
-        if(userList){
-          try {
-          const mappedState = userList.map((el:IWord)=>{
-            if(el._id===action.payload.wordId){
-              el.userWord = {
-                optional: {...action.payload.optional}
-              }
-            }
-            return el
-          });
-          state.userList = [...mappedState]
-        } catch (error) {
-            console.log(error);
+        // if(userList){
+        //   try {
+        //   const mappedState = userList.map((el:IWord)=>{
+        //     if(el._id===action.payload.wordId){
+        //       el.userWord = {
+        //         optional: {...action.payload.optional}
+        //       }
+        //     }
+        //     return el
+        //   });
+        //   state.userList = [...mappedState]
+        // } catch (error) {
+        //     console.log(error);
 
-        }
-        }
+        // }
+        // }
 
       }
       )

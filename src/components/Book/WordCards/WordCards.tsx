@@ -41,7 +41,7 @@ function WordCard({ vMode, value, userId, token, words, audioHandler, baseUrl, a
     }
     else return el;
   })).map((el: IWord, i: number, arr: never[]): JSX.Element => {
-    return <div key={arr.length - i} className="card mx-3 mb-3 pb-3 animated" style={{backgroundColor: 'transparent', border: 'none' }}>
+    return <div key={el.id || el._id} className="card mx-3 mb-3 pb-3 animated" style={{backgroundColor: 'transparent', border: 'none' }}>
       <div className='cart3d'>
         <div className='front' style={{
           backgroundColor: (el.hasOwnProperty('userWord')

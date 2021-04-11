@@ -13,7 +13,9 @@ b{
 
 .animated{
 animation: pulsing 1s ;
+transition: all 1s;
 }
+
 
 .App {
     text-align: center;

@@ -33,9 +33,9 @@ function Book(): JSX.Element {
   const { userId, token, isAuth } = user;
 
   const radioButtonHandler = async() => {
-    dispatch(clearWords());
+   // dispatch(clearWords());
     isAuth && await dispatch(getWords({ userId, token }));
-    isAuth&&!userList ? await dispatch(fetchingAggregated({ lvl, page, userId, token })) : await dispatch(fetchingGeneral({ lvl, page }));
+    isAuth ? await dispatch(fetchingAggregated({ lvl, page, userId, token })) : await dispatch(fetchingGeneral({ lvl, page }));
   };
 
   React.useEffect(() => {
