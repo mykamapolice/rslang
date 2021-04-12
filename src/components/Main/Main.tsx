@@ -6,7 +6,6 @@ import MiniGamesContainer from '../MiniGames/MiniGamesContainer';
 import Settings from '../Settings/Settings';
 import Statistics from '../Statistics/Statistics';
 import Team from '../Team/Team';
-import Vocabulary from '../Vocabulary/Vocabulary';
 import MiniGamesStartMenu from '../MiniGames/MiniGameStartMenu/MiniGamesStartMenu';
 
 export enum miniGames {
@@ -26,7 +25,6 @@ function Main(): JSX.Element {
                     <Route exact path="/mini-games/mygame" component={() => <MiniGamesStartMenu game={miniGames.SwojaIgra} />} />
                     <Route exact path="/mini-games/audiocall" component={() => <MiniGamesStartMenu game={miniGames.Audiocall} />}/>
                     <Route exact path="/mini-games/sprint" component={() => <MiniGamesStartMenu game={miniGames.Sprint} />}/>
-                    <Route path="/vocabulary" component={Vocabulary} />
                     <Route path="/statistics" component={Statistics} />
                     <Route path="/team" component={Team} />
                     <Route path="/settings" component={Settings} />

@@ -27,6 +27,10 @@ const vocabularySlice = createSlice({
       const { vMode } = state;
       state.vMode = !vMode;
     },
+    vModeSetOff:(state) => {
+      state.vMode = false;
+      state.userList=null;
+    },
     setLvl:(state, action) => {
       state.lvl = action.payload;
     },
@@ -131,5 +135,5 @@ const vocabularySlice = createSlice({
       })
 }});
 
-export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle } = vocabularySlice.actions;
+export const { setLvl, setPage, setValue, clearWords, clearUserList, vModeToggle, vModeSetOff } = vocabularySlice.actions;
 export default vocabularySlice.reducer;
