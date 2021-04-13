@@ -1,9 +1,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
-import PaginationHOC from './PaginationHOC';
 
-const Pagination = ({ paginationNumbs, page, buttonHandler }: any) => {
-	console.log('pagination');
+const Pagination = ({ paginationNumbs, page, buttonHandler, paginationLength}: any) => {
 
 	return (
 		<nav aria-label='Page navigation example'>
@@ -21,11 +19,11 @@ const Pagination = ({ paginationNumbs, page, buttonHandler }: any) => {
 					</button>
 				</li>
 				{paginationNumbs}
-				<li className={`page-item ${page === 29 ? 'disabled' : ''}`}>
+				<li className={`page-item ${page === paginationLength-1 ? 'disabled' : ''}`}>
 					<button
 						onClick={() => buttonHandler(true)}
 						className='page-link'
-						aria-disabled={page === 29 ? 'true' : 'false'}
+						aria-disabled={page === paginationLength-1 ? 'true' : 'false'}
 					>
 						<ChevronRight />
 					</button>
@@ -35,4 +33,4 @@ const Pagination = ({ paginationNumbs, page, buttonHandler }: any) => {
 	);
 };
 
-export default PaginationHOC(Pagination);
+export default Pagination;

@@ -15,11 +15,12 @@ import {
 	setPage,
 	setValue,
 	vModeToggle,
-  vModeSetOff
+	vModeSetOff,
 } from '../../redux/reducers/vocabulary';
 import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
-import Pagination from './Pagination/Pagination';
+import WordListPages from './Pagination/WordListPages';
+import VocabularyPages from './Pagination/VocabularyPages';
 import WordList from './WordList/WordList';
 import Vocabulary from './Vocabulary/Vocabulary';
 
@@ -52,7 +53,9 @@ function Book(): JSX.Element {
 
 	React.useEffect(() => {
 		radioButtonHandler();
-    if(!isAuth){dispatch(vModeSetOff())};
+		if (!isAuth) {
+			dispatch(vModeSetOff());
+		}
 	}, [page, lvl, isAuth]);
 
 	const addWordToUser = async (wordId: string, type: any) => {
@@ -124,13 +127,25 @@ function Book(): JSX.Element {
 								lvl={lvl}
 								setLvl={(n: number) => dispatch(setLvl(n))}
 							/>
-							<Pagination
+							{vMode ? (
+								<VocabularyPages
+									value={value}
+									vMode={vMode}
 									lvl={lvl}
 									page={page}
 									userList={userList}
 									setPage={(n: number) => dispatch(setPage(n))}
 								/>
-					
+							) : (
+								<WordListPages
+									value={value}
+									vMode={vMode}
+									lvl={lvl}
+									page={page}
+									userList={userList}
+									setPage={(n: number) => dispatch(setPage(n))}
+								/>
+							)}
 						</div>
 					</div>
 					<div className='d-flex col justify-content-around'>
