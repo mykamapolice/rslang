@@ -1,8 +1,12 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 
-const Pagination = ({ paginationNumbs, page, buttonHandler, paginationLength}: any) => {
-
+const Pagination = ({
+	paginationNumbs,
+	page,
+	buttonHandler,
+	paginationLength,
+}: any) => {
 	return (
 		<nav aria-label='Page navigation example'>
 			<ul
@@ -19,11 +23,15 @@ const Pagination = ({ paginationNumbs, page, buttonHandler, paginationLength}: a
 					</button>
 				</li>
 				{paginationNumbs}
-				<li className={`page-item ${page === paginationLength-1 ? 'disabled' : ''}`}>
+				<li
+					className={`page-item ${
+						page === paginationLength - 1 ? 'disabled' : ''
+					}`}
+				>
 					<button
 						onClick={() => buttonHandler(true)}
 						className='page-link'
-						aria-disabled={page === paginationLength-1 ? 'true' : 'false'}
+						aria-disabled={page === paginationLength - 1 ? 'true' : 'false'}
 					>
 						<ChevronRight />
 					</button>

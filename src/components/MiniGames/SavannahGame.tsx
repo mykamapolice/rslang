@@ -1,45 +1,98 @@
-import React, { useState } from 'react'
-import { baseUrl } from '../../utils/constants'
-const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-const fetching = async (url: string) => {
-    return await fetch(url).then(res => res.json())
+import React, { useState, useEffect, useRef } from 'react';
+import { NutFill } from 'react-bootstrap-icons';
+import { baseUrl } from '../../utils/constants';
+const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+interface IAnswers {
+	isCorrect: boolean;
+	word: string;
+	wordTranslate: string;
 }
 
-export default function SavannahGame() {
+const hotKeys: string[] = ['a', 'b', 'c', 'd'];
 
-    const [lvl, setLvl] = useState(0)
-    const [words, setWords] = useState([])
+const Card = ({
+	questions,
+	questionNumber,
+	nextWordHandler,
+	score,
+	setScore,
+}: any) => {
+	const imgBlock: any | null = useRef(null);
+	useEffect(() => {
+		if (imgBlock !== null) {
+			imgBlock.current.style.display = 'none';
+		}
+	}, [questionNumber]);
 
-    const radioButtonHandler = (): void => {
-        fetching(`${baseUrl}words?page=${0}&group=${lvl}`).then((data: []) => {
-            console.log(data)
-            setWords(data)
-        })
-    }
+	const answerHandler = (e: any) => {
+		if (JSON.parse(e.target.dataset.iscorrect)) {
+			setScore(score + 1);
+		}
+		if (imgBlock !== null) {
+			imgBlock.current.style.display = 'block';
+		}
+	};
 
-    React.useEffect(() => {
-        radioButtonHandler()
-    }, [lvl])
+	return (
+		<div>
+			{questions[questionNumber].correct}
 
+			<div>выберите правильный ответ:</div>
+			{questions[questionNumber].answers.map((el: IAnswers, i: number) => (
+				<button key={i} data-iscorrect={el.isCorrect} onClick={answerHandler}>
+					{`${hotKeys[i].toUpperCase()}. ${el.wordTranslate}`}
+				</button>
+			))}
+			<div ref={imgBlock} style={{ display: 'none' }}>
+				<img src={baseUrl + questions[questionNumber].image} />
+				<button onClick={nextWordHandler}>Следующее слово</button>
+			</div>
+		</div>
+	);
+};
 
-    const cardBuilder = levels.map((lvl: string, i: number, arr: string[]) => (
-        <>
-            <input type="radio" className="btn-check" name="btnradio" id={`${i}`}
-                   onClick={(e: any) => setLvl(e.target.id)} autoComplete="off"/>
-            <label key={arr.length - i} className="btn btn-outline-primary" htmlFor={`${i}`}>
-                {lvl}
-            </label>
-        </>
-    ))
+const SavannahGame = (props: any) => {
+	const {
+		questionsNumbers,
+		setStarted,
+		questions,
+		showFinishInfo,
+		setScore,
+		score,
+	} = props;
 
-    const randomTranslations = words.map(({ wordTranslate }) => wordTranslate);
+	const [questionNumber, setQuestionNumber] = useState(0);
+	const [answer, setAnswer] = useState(false);
 
-    return (<>
-        <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
-            {cardBuilder}
-        </div>
-        <div className="savanna-game col-lg-12">
-            {randomTranslations.map((rt,i)=><div>{i+1}. {rt}</div>)}
-        </div>
-    </>)
-}
+	useEffect(() => {
+		if (questionNumber >= questionsNumbers) showFinishInfo();
+	}, [questionNumber]);
+
+	console.log(questions);
+
+	const nextWordHandler = (e: any) => {
+		setQuestionNumber(questionNumber + 1);
+	};
+
+	return (
+		<div>
+			{questionNumber < questionsNumbers ? (
+				<>
+					<h1>
+						Номер вопроса: {questionNumber + 1} / {questionsNumbers}
+					</h1>
+					<h2>Количество правильных ответов: {score}</h2>
+
+					<Card
+						{...{ questions, questionNumber, nextWordHandler, score, setScore }}
+					/>
+				</>
+			) : (
+				''
+			)}
+		</div>
+	);
+};
+
+export default SavannahGame;

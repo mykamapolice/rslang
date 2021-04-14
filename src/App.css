@@ -3,6 +3,10 @@ html {
     overflow-y: scroll;
   }
 
+  a,button {
+    cursor: pointer !important;
+  }
+
 i {
     color: #A0C4FF;
 }

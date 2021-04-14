@@ -1,47 +1,12 @@
 import React, { useMemo, useCallback, useEffect } from 'react';
-import { IWord } from '../../../interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { IWord, IRootState } from '../../../interfaces';
 import Pagination from './Pagination';
 
-interface PaginationProps {
-	vMode: boolean;
-	lvl: number;
-	page: number;
-	value: 0 | 1 | 2;
-	userList: IWord[] | null;
-	setPage: (n: number) => void;
-	paginationNumbs?: any[];
-	buttonHandler?: (expression: boolean) => void;
-}
-
-const wordType = ['learn', 'hard', 'deleted'];
-const wordTypeProps = {
-	learn: { isLearn: true, isHard: false, isDeleted: false },
-	hard: { isLearn: false, isHard: true, isDeleted: false },
-	delete: { isLearn: true, isHard: false, isDeleted: false },
-};
-
-const wordMapperCheck = (
-	value: number,
-	{ isLearn, isHard, isDeleted }: any
-) => {
-	switch (value) {
-		case 0:
-			if (isLearn || isHard) return true;
-			break;
-		case 1:
-			if (isHard) return true;
-			break;
-		case 2:
-			if (isDeleted) return true;
-			break;
-		default:
-			break;
-	}
-};
-
-const WordListPages = ({ vMode, value, userList, lvl, page, setPage }: any) => {
+const WordListPages = ({ setPage }: any) => {
 	const paginationLength = 30;
-
+	const vocabulary = useSelector((state: IRootState) => state.vocabulary);
+	const { vMode, value, userList, lvl, page, words } = vocabulary;
 	const emptyPage = (group: number, page: number) => {
 		if (userList) {
 			const filteredWords = userList.filter(
@@ -63,7 +28,7 @@ const WordListPages = ({ vMode, value, userList, lvl, page, setPage }: any) => {
 			.map((_, i: number) => (emptyPage(lvl, i) ? i : null))
 			.filter((el: number | null) => typeof el === 'number');
 		return notActive;
-	}, [userList]);
+	}, [userList, words]);
 
 	const setActivePage = useCallback(
 		(page: number, isPlus?: boolean) => {
@@ -101,7 +66,6 @@ const WordListPages = ({ vMode, value, userList, lvl, page, setPage }: any) => {
 		},
 		[page]
 	);
-
 	const paginationNumbs = useMemo(
 		() =>
 			[...Array(paginationLength)].map((_, i: number, arr: null[]) => {

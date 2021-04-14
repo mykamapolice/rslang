@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import {IWord} from '../../../interfaces'
+import { IWord } from '../../../interfaces';
 import WordCards from '../WordCards/WordCards';
 
 const audio = new Audio();
@@ -32,16 +32,16 @@ const wordMapperCheck = (
 };
 
 interface IVocabulary {
-	userId:string|null;
-	vMode:boolean;
-	value:0|1|2;
-	isAuth:boolean;
-	token?:string|null;
-	setValue:any;
-	addWordToUser:any;
-	updateUserWord:any;
-	audioHandler:any;
-	baseUrl:string;
+	userId: string | null;
+	vMode: boolean;
+	value: 0 | 1 | 2;
+	isAuth: boolean;
+	token?: string | null;
+	setValue: any;
+	addWordToUser: any;
+	updateUserWord: any;
+	audioHandler: any;
+	baseUrl: string;
 }
 
 function Vocabulary({
@@ -56,25 +56,28 @@ function Vocabulary({
 }: IVocabulary): JSX.Element {
 	const state: any = useSelector(state => state);
 	const dispatch = useDispatch();
-	const { userList,page,lvl } = state.vocabulary;
+	const { userList, page, lvl } = state.vocabulary;
 
 	const filteredWords = useMemo(
 		() =>
 			userList
-				? userList.filter((el: IWord) =>{
-					console.log(value)
-						if(wordMapperCheck(value, el.userWord.optional)&&el.group===lvl)return el
-					}
-				  ).filter((el:IWord, i:number, arr:IWord[])=>{
-						console.log(arr)
-						const startIndex = Math.ceil(arr.length/(arr.length/20)*page);						
-					if(i>=startIndex && i<startIndex+20) return el
-					})
+				? userList
+						.filter((el: IWord) => {
+							if (
+								wordMapperCheck(value, el.userWord.optional) &&
+								el.group === lvl
+							)
+								return el;
+						})
+						.filter((el: IWord, i: number, arr: IWord[]) => {
+							const startIndex = Math.ceil(
+								(arr.length / (arr.length / 20)) * page
+							);
+							if (i >= startIndex && i < startIndex + 20) return el;
+						})
 				: [],
 		[userList, value, page, lvl, isAuth]
 	);
-  console.log(filteredWords);
-
 	return (
 		<div className='Vocabulary'>
 			<ToggleButtonGroup

@@ -7,6 +7,7 @@ import {
 	getUserWords,
 	updateUserWord,
 	fetchAllWords,
+	bookStartFetching,
 } from '../../utils/vocabulary-helper';
 
 const initialState: IGeneralVocabulary = {
@@ -18,6 +19,10 @@ const initialState: IGeneralVocabulary = {
 	value: 0,
 };
 
+export const fetchingOnBookStart = createAsyncThunk(
+	'vocabulary/fetchingOnBookStart',
+	bookStartFetching
+);
 export const fetchingGeneral = createAsyncThunk(
 	'vocabulary/fetching',
 	fetchingGeneralVocabulary
@@ -60,8 +65,8 @@ const vocabularySlice = createSlice({
 			state.value = 0;
 		},
 		setLvl: (state, action) => {
-			state.lvl = action.payload;
-			state.page = 0;
+			state.lvl = action.payload.lvl;
+			state.page = action.payload.page;
 		},
 		setPage: (state, action) => {
 			state.page = action.payload;
@@ -79,6 +84,10 @@ const vocabularySlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
+			.addCase(fetchingOnBookStart.fulfilled, (state, action) => {
+				state.words = [...action.payload.words];
+				state.userList = [...action.payload.userList];
+			})
 			.addCase(fetchingGeneral.fulfilled, (state, action) => {
 				state.words = [...action.payload];
 			})
@@ -88,7 +97,6 @@ const vocabularySlice = createSlice({
 			.addCase(getAllWords.fulfilled, (state, action) => {
 				state.words = [...action.payload[0].paginatedResults];
 			})
-
 			.addCase(createWord.fulfilled, (state, action) => {
 				const { words, userList } = state;
 				if (words) {

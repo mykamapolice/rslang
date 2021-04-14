@@ -61,7 +61,6 @@ const VocabularyPages = ({
 		() => Math.ceil(vocabularyWordList.length / 20),
 		[vocabularyWordList]
 	);
-	console.log(vocabularyWordList);
 
 	const paginationNumbs = useMemo(
 		() =>
@@ -120,6 +119,7 @@ const VocabularyPages = ({
 						lvl,
 						userList,
 						setPage,
+						paginationLength
 					}}
 				/>
 			)}

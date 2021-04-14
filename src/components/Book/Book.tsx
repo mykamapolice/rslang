@@ -16,6 +16,7 @@ import {
 	setValue,
 	vModeToggle,
 	vModeSetOff,
+	fetchingOnBookStart,
 } from '../../redux/reducers/vocabulary';
 import { baseUrl } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
@@ -23,6 +24,12 @@ import WordListPages from './Pagination/WordListPages';
 import VocabularyPages from './Pagination/VocabularyPages';
 import WordList from './WordList/WordList';
 import Vocabulary from './Vocabulary/Vocabulary';
+import Games from './Games/Games'
+import WordListFilter from './HOC/WordListFilter';
+import UserListFilter from './HOC/UserListFilter'
+
+const WordListGames = WordListFilter(Games);
+const UserListGames = UserListFilter(Games);
 
 const images: string[] = [
 	`${process.env.PUBLIC_URL}/images/1.jpg`,
@@ -44,11 +51,15 @@ function Book(): JSX.Element {
 	const { userId, token, isAuth } = user;
 
 	const radioButtonHandler = async () => {
-		dispatch(clearWords());
-		isAuth && (await dispatch(getWords({ userId, token })));
-		isAuth
-			? await dispatch(fetchingAggregated({ lvl, page, userId, token }))
-			: await dispatch(fetchingGeneral({ lvl, page }));
+	//	await dispatch(clearWords());
+		if (isAuth && !userList)
+			await dispatch(fetchingOnBookStart({ lvl, page, userId, token }));
+		else {
+			//isAuth && (await dispatch(getWords({ userId, token })));
+			isAuth
+				? await dispatch(fetchingAggregated({ lvl, page, userId, token }))
+				: await dispatch(fetchingGeneral({ lvl, page }));
+		}
 	};
 
 	React.useEffect(() => {
@@ -106,20 +117,8 @@ function Book(): JSX.Element {
 		>
 			<div className='container-fluid'>
 				<div className='row mt-2 '>
-					<div className='col'>
-						<Button title='саванна' variant='primary'>
-							Саванна
-						</Button>
-						<Button title='аудиовызов' variant='secondary'>
-							Аудиовызов
-						</Button>
-						<Button title='Спринт' variant='success'>
-							Спринт
-						</Button>
-						<Button title='Своя Игра' variant='danger'>
-							Своя Игра
-						</Button>
-					</div>
+					{vMode ? <UserListGames /> : <WordListGames />}
+
 					<div className='col-6'>
 						<div className='d-sm-flex flex-wrap justify-content-center'>
 							<Lvl
