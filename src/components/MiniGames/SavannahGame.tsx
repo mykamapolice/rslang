@@ -1,3 +1,4 @@
+import { relative } from 'node:path';
 import React, { useState, useEffect, useRef } from 'react';
 import { NutFill } from 'react-bootstrap-icons';
 import { baseUrl } from '../../utils/constants';
@@ -18,33 +19,58 @@ const Card = ({
 	score,
 	setScore,
 }: any) => {
-	const imgBlock: any | null = useRef(null);
+	let cancel: number;
+
+	const titleRef: any | null = useRef(null);
+	const containerRef: any | null = useRef(null);
+
 	useEffect(() => {
-		if (imgBlock !== null) {
-			imgBlock.current.style.display = 'none';
-		}
+		engine();
+		return () => cancelAnimationFrame(cancel);
 	}, [questionNumber]);
 
-	const answerHandler = (e: any) => {
-		if (JSON.parse(e.target.dataset.iscorrect)) {
-			setScore(score + 1);
+	
+	const engine = () => {
+		console.log('tick');
+		if (containerRef?.current&&titleRef?.current) {
+				const currentHeight = parseInt(getComputedStyle(titleRef.current).top);
+				if (currentHeight >= containerRef.current.clientHeight - 200)
+					nextWordHandler();
+				else {
+					titleRef.current.style.top = `${currentHeight + 5}px`;
+					cancel = requestAnimationFrame(engine);
+				}
 		}
-		if (imgBlock !== null) {
-			imgBlock.current.style.display = 'block';
-		}
-	};
+	}
 
 	return (
-		<div>
-			{questions[questionNumber].correct}
-
+		<div
+			ref={containerRef}
+			key={questions[questionNumber].id}
+			className='container'
+			style={{ position: 'relative', zIndex: 1, height: '70vh' }}
+		>
+			<h1
+				ref={titleRef}
+				className='display-3'
+				style={{
+					position: 'absolute',
+					left: 0,
+					right: 0,
+					margin: 'auto',
+					top: 0,
+					zIndex: 0,
+				}}
+			>
+				{questions[questionNumber].correct}
+			</h1>
 			<div>выберите правильный ответ:</div>
 			{questions[questionNumber].answers.map((el: IAnswers, i: number) => (
-				<button key={i} data-iscorrect={el.isCorrect} onClick={answerHandler}>
+				<button key={i} data-iscorrect={el.isCorrect} onClick={nextWordHandler}>
 					{`${hotKeys[i].toUpperCase()}. ${el.wordTranslate}`}
 				</button>
 			))}
-			<div ref={imgBlock} style={{ display: 'none' }}>
+			<div style={{ display: 'none' }}>
 				<img src={baseUrl + questions[questionNumber].image} />
 				<button onClick={nextWordHandler}>Следующее слово</button>
 			</div>
@@ -71,7 +97,8 @@ const SavannahGame = (props: any) => {
 
 	console.log(questions);
 
-	const nextWordHandler = (e: any) => {
+	const nextWordHandler = (e?: any) => {
+		if (e && e.target.dataset.isCorrect) setScore(score + 1);
 		setQuestionNumber(questionNumber + 1);
 	};
 
