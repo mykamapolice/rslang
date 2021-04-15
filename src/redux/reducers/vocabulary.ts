@@ -7,8 +7,8 @@ import {
   getUserWords,
   updateUserWord,
   fetchAllWords,
+  bookStartFetching,
 } from '../../utils/vocabulary-helper';
-import user from './user';
 
 const initialState: IGeneralVocabulary = {
   vMode: false,
@@ -19,39 +19,77 @@ const initialState: IGeneralVocabulary = {
   value: 0,
 };
 
-export const fetchingGeneral = createAsyncThunk('vocabulary/fetching', fetchingGeneralVocabulary);
-export const fetchingAggregated = createAsyncThunk('vocabulary/fetchingAggregated', fetchingAggregatedWords);
-export const createWord = createAsyncThunk('vocabulary/createUser', createUserWord);
-export const getWords = createAsyncThunk('vocabulary/getUserWords', getUserWords);
-export const updateWord = createAsyncThunk('vocabulary/updateWord', updateUserWord);
-export const getAllWords = createAsyncThunk('vocabulary/getAllWords', fetchAllWords);
+export const fetchingOnBookStart = createAsyncThunk(
+  'vocabulary/fetchingOnBookStart',
+  bookStartFetching,
+);
+export const fetchingGeneral = createAsyncThunk(
+  'vocabulary/fetching',
+  fetchingGeneralVocabulary,
+);
+export const fetchingAggregated = createAsyncThunk(
+  'vocabulary/fetchingAggregated',
+  fetchingAggregatedWords,
+);
+export const createWord = createAsyncThunk(
+  'vocabulary/createUser',
+  createUserWord,
+);
+export const getWords = createAsyncThunk(
+  'vocabulary/getUserWords',
+  getUserWords,
+);
+export const updateWord = createAsyncThunk(
+  'vocabulary/updateWord',
+  updateUserWord,
+);
+export const getAllWords = createAsyncThunk(
+  'vocabulary/getAllWords',
+  fetchAllWords,
+);
 
 const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
   reducers: {
-    vModeToggle: (state) => {
+    vModeToggle: state => {
       const { vMode } = state;
       state.vMode = !vMode;
+      state.page = 0;
+    },
+    vModeSetOff: state => {
+      state.vMode = false;
+      state.userList = null;
+      state.lvl = 0;
+      state.page = 0;
+      state.value = 0;
     },
     setLvl: (state, action) => {
-      state.lvl = action.payload;
+      state.lvl = action.payload.lvl;
+      state.page = action.payload.page;
+      state.words = null;
     },
     setPage: (state, action) => {
       state.page = action.payload;
-    },
-    clearWords: (state) => {
       state.words = null;
-    },
-    clearUserList: (state) => {
-      state.userList = null;
     },
     setValue: (state, action) => {
       state.value = action.payload;
+      state.page = 0;
+    },
+    clearWords: state => {
+      state.words = null;
+    },
+    clearUserList: state => {
+      state.userList = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
+      .addCase(fetchingOnBookStart.fulfilled, (state, action) => {
+        state.words = [...action.payload.words];
+        state.userList = [...action.payload.userList];
+      })
       .addCase(fetchingGeneral.fulfilled, (state, action) => {
         state.words = [...action.payload];
       })
@@ -62,25 +100,27 @@ const vocabularySlice = createSlice({
         state.words = [...action.payload[0].paginatedResults];
       })
       .addCase(createWord.fulfilled, (state, action) => {
-          const stateCopy = current(state);
-          if (state.words) {
-            try {
-              const mappedState = state.words.map((el: IWord) => {
-                if (el._id === action.payload.wordId) {
-                  el.userWord = {
-                    optional: { ...action.payload.optional },
-                  };
-                }
-                return el;
-              });
-              state.words = [...mappedState];
-            } catch (error) {
-              console.log(error);
+        console.log(action.payload);
+        const {
+          words,
+          userList,
+        } = state;
+        if (words) {
+          try {
+            const obj = words.findIndex(
+              (el: IWord) => el._id === action.payload.wordId,
+            );
+            words[obj].userWord = {
+              optional: { ...action.payload.optional },
+            };
 
-            }
+            state.words = [...words];
+            if (userList) state.userList = [...userList, words[obj]];
+          } catch (error) {
+            console.log(error);
           }
-        },
-      )
+        }
+      })
       .addCase(updateWord.fulfilled, (state, action) => {
         const stateCopy = current(state);
         console.log(action.payload);
@@ -98,7 +138,6 @@ const vocabularySlice = createSlice({
               } else {
                 return el;
               }
-
             });
             state.userList = [...userListCopy];
           } catch (e) {
@@ -119,17 +158,14 @@ const vocabularySlice = createSlice({
               } else {
                 return el;
               }
-
             });
             state.words = [...wordsCopy];
           } catch (e) {
             console.log(e);
           }
-
         }
       })
       .addCase(getWords.fulfilled, (state, action) => {
-        console.log(action.payload[0].paginatedResults);
         state.userList = [...action.payload[0].paginatedResults];
       });
   },
@@ -142,5 +178,7 @@ export const {
   clearWords,
   clearUserList,
   vModeToggle,
+  vModeSetOff,
 } = vocabularySlice.actions;
+
 export default vocabularySlice.reducer;
