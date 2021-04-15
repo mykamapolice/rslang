@@ -9,6 +9,10 @@ html {
   flex-direction: column;
 }
 
+.authentication{
+    padding: 10px;
+}
+
 .Vocabulary{
   flex-grow: 1;
   display: flex;
@@ -33,15 +37,24 @@ html {
                  0 0 4px 4px hsla(30, 100%, 55%, 0.5),
                  -1px 1px 2px 7px hsl(45, 60%, 95%),
                  -3px 3px 1px 4px hsl(35, 70%, 30%),
-                 -3px 3px 4px 8px hsla(30, 90%, 55%, 0.5); 
+                 -3px 3px 4px 8px hsla(30, 90%, 55%, 0.5);
     box-shadow:  -5px 5px 1px 0px hsl(35, 70%, 30%),
                  -5px 5px 4px 1px hsla(30, 100%, 40%, 0.05);
 
 }
 
-.footer{
-  flex-shrink: 0;
-  background: black;
+.footer {
+    flex-shrink: 0;
+    background: black;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+}
+.footer .members{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
 }
 
 .Vocabulary{
@@ -57,7 +70,7 @@ i {
 }
 
 b{
-    color: #240046; 
+    color: #240046;
 }
 
 .animated{
@@ -85,7 +98,7 @@ button{
     align-items:center; /*Это сделано чтобы карточка была розмещена по центру*/
 
   }
-   
+
   /*Оформляем саму карточку*/
   .cart3d {
     height: 350px;
@@ -103,7 +116,7 @@ button{
     border-radius: 5px;
     overflow: hidden;
   }
-   
+
   .back{
     transform:rotateY(180deg); /*Разворачиваем на 180 градусов по горизонтальной оси*/
   }
