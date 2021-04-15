@@ -39,8 +39,11 @@ const addNewQuestionToArray = (words: IWord[], wordsCopy: IWord[]) => {
 			answers,
 			correct: word,
 			audio,
-			id: id || _id,
+			id: _id||id,
 			userWord: userWord || null,
+			objectCopy: {...words[
+				randomQuestionNumber
+			]}
 		};
 		return newQuestion;
 	}

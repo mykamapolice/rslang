@@ -130,7 +130,7 @@ const SavannahGame = (props: any) => {
 
 	const sendWordStats = useCallback((isTrue: boolean): void => {
 		const current = questions[questionNumber];
-		console.log(questions)
+		console.log(current.correct)
 		if (questions[questionNumber].userWord) {
 			const obj = { ...current.userWord.optional };
 			if (isTrue) obj.wins = obj.wins ? obj.wins + 1 : 1;
@@ -145,7 +145,7 @@ const SavannahGame = (props: any) => {
 			else obj.loses = obj.loses+1;
 			addWordToUser(current.id, obj);
 		}
-	},[isLogin]);
+	},[isLogin,questionNumber]);
 
 	const nextWordHandler = (e?: any) => {
 		if (e && JSON.parse(e.target.dataset.iscorrect)) {
@@ -157,7 +157,7 @@ const SavannahGame = (props: any) => {
 		} else {
 			audio.src = `${process.env.PUBLIC_URL}/vizg.mp3`;
 			audio.play();
-			if (isLogin) sendWordStats(true);
+			if (isLogin) sendWordStats(false);
 			pigSize ? (pigSize -= 1) : (pigSize = 0);
 		}
 		setQuestionNumber(questionNumber + 1);
@@ -171,7 +171,6 @@ const SavannahGame = (props: any) => {
 				flexGrow: 1,
 				position: 'relative',
 				zIndex: 1,
-				//height: '70vh',
 				backgroundImage: `url('${process.env.PUBLIC_URL}/images/savannah.jpg')`,
 				backgroundPosition: `25% ${75 * pigSize}%`,
 				transition: 'all 1s',

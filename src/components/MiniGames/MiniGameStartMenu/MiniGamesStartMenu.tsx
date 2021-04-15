@@ -40,7 +40,7 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	useEffect(() => {
 		if(bookWords)
 		useQuestions()
-		dispatch(getAllWords({ userId, token, lvl }));
+		if(!words)dispatch(getAllWords({ userId, token, lvl }));
 	}, [isStarted]);
 
 	const addWordToUser = useCallback(

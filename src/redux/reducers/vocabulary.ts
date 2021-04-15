@@ -100,6 +100,7 @@ const vocabularySlice = createSlice({
 				state.words = [...action.payload[0].paginatedResults];
 			})
 			.addCase(createWord.fulfilled, (state, action) => {
+				console.log(action.payload);
 				const { words, userList } = state;
 				if (words) {
 					try {
