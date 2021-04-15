@@ -1,0 +1,27 @@
+.questionsContainer {
+    padding-top: 5%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.gameboxContent {
+    paddingTop: 10%;
+}
+
+.gamebox button {
+    background: transparent;
+    border: none !important;
+    width: 5rem;
+}
+
+.gameboxContent button p{
+    font-size: 3rem;
+}
+
+.gamebox button:hover {
+    transform: scale(1.2);
+    color: #ccc;
+    transition: 0.5s;
+}
+
+

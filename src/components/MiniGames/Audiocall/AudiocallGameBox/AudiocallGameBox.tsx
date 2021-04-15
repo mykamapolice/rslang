@@ -1,53 +1,119 @@
-import React, { Component } from "react";
-import 'react-slideshow-image/dist/styles.css'
+import React, { useEffect, useState } from 'react';
+import 'react-slideshow-image/dist/styles.css';
 // @ts-ignore
-import { Slide } from "react-slideshow-image";
+import { Slide } from 'react-slideshow-image';
 import { ArrowRight, VolumeUp } from 'react-bootstrap-icons';
-import styles from './AudioncallGameBox.module.css'
+import styles from './AudioncallGameBox.module.css';
+import AudioCallGameCard from '../AudioCallGameCard/AudioCallGameCard';
+import { baseUrl } from '../../../../utils/constants';
+import AudioCallEndInfo from '../AudioCallEndInfo/AudioCallEndInfo';
 
-const AudiocallGameBox = () => {
+const AudiocallGameBox = (props: any) => {
 
-    const slideRef: any = React.createRef();
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [imageUrl, setImageUrl] = useState('');
+  const [correct, setCorrect] = useState('');
+  const [isShowAnswer, setIsShowAnswer] = useState(false)
+  const [nextBtnDis, setNextBtnDis] = useState(true)
+  const [IsShowEndInfo, setIsShowEndInfo] = useState(false);
+
+  const {
+    questionsNumbers,
+    setStarted,
+    questions,
+    showFinishInfo,
+    setScore,
+    score,
+  } = props;
+
+  useEffect(() => {
+    if (questionNumber !== questionsNumbers) {
+      audioHandler()
+
+    } else {
+      showFinishInfo();
+      setIsShowEndInfo(true)
+    }
+
+    if (questions[questionNumber] !== undefined) {
+      setImageUrl(questions[questionNumber].image)
+      setCorrect(questions[questionNumber].correct)
+    }
+
+  }, [questionNumber]);
+
+  const slideRef: any = React.createRef();
+  const audio: HTMLAudioElement = new Audio();
 
   function next() {
-    slideRef.current.goNext();
+    setQuestionNumber(questionNumber + 1)
+    setIsShowAnswer(false)
+    setNextBtnDis(true)
+    slideRef.current.goNext()
   }
 
-    const properties = {
-      duration: 5000,
-      autoplay: false,
-      transitionDuration: 500,
-      arrows: false,
-      infinite: true,
-      easing: "ease",
-      // indicators: (i: any) => <div className="indicator">{i + 1}</div>
-    };
+  const audioHandler = (): void => {
+    if(audio !== undefined) {
+      audio.src = `${baseUrl}${questions[questionNumber].audio}`;
+      audio.play();
+    }
+  };
 
-    return (
-      <div className={styles.gamebox}>
-        <h2>Аудиовызов(твоей мамки)</h2>
-        <h3>Номер вопроса x/10</h3>
-        <h3>Количество праильных ответов: 3</h3>
-        <div className="slide-container">
-          <Slide ref={slideRef} {...properties}>
-            <div className="each-fade">
-              <div className={styles.gameboxContent}>
-                <button><VolumeUp size={96} /></button>
-                <div style={{paddingTop: "5%", display: "flex", justifyContent: "space-evenly"}}>
-                  <button><p>вариант 1</p></button>
-                  <button><p>вариант 2</p></button>
-                  <button><p>вариант 3</p></button>
-                  <button><p>вариант 4</p></button>
-                </div>
-              </div>
-            </div>
-          </Slide>
-          <button disabled={false} onClick={next} type="button" className={styles.nextBtn} style={{marginTop: "10%"}}>
-            < ArrowRight size={96}/>
-          </button>
+  const handleClose = () => setIsShowEndInfo(false);
+
+  const properties = {
+    duration: 5000,
+    autoplay: false,
+    transitionDuration: 500,
+    arrows: false,
+    infinite: false,
+    easing: 'ease',
+    canSwipe: false
+    // indicators: (i: any) => <div className="indicator">{i + 1}</div>
+  };
+
+  const cards = questions.map((item: any) => {
+    return <AudioCallGameCard
+      audioHandler={audioHandler}
+      questionNumber={questionNumber}
+      setQuestionNumber={setQuestionNumber}
+      answers={item.answers}
+      setIsShowAnswer={setIsShowAnswer}
+      setScore={setScore}
+      score={score}
+      setNextBtnDis={setNextBtnDis}
+      setIsShowEndInfo={setIsShowEndInfo}
+    />;
+  });
+
+  return (
+    <div className={styles.gamebox}>
+      <h2>Аудиовызов</h2>
+      <h3>Номер вопроса {questionNumber + 1}/{questionsNumbers}</h3>
+      <h3>Количество праильных ответов: {score}</h3>
+      < AudioCallEndInfo
+        IsShowEndInfo={IsShowEndInfo}
+        handleClose={handleClose}
+      />
+      <div className='slide-container'>
+        {isShowAnswer ? <div className={styles.answerContainer}>
+          <img src={`${baseUrl}${imageUrl}`} alt='' />
+          <h4>{correct}</h4>
         </div>
+          : <div className={styles.answerContainer}>
+            <img src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAXFIofSlA8JRrMexPVZLNawi8nfIFcLPs8A&usqp=CAU`} alt='' />
+            <h4>????</h4>
+          </div>}
+        <Slide ref={slideRef} {...properties}>
+            {cards}
+        </Slide>
+        <button disabled={nextBtnDis} onClick={next} type='button'
+                className={styles.nextBtn}>
+          < ArrowRight size={96} />
+        </button>
       </div>
-    )
-}
+    </div>
+  );
+};
 
-export default AudiocallGameBox
+export default AudiocallGameBox;

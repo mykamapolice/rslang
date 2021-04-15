@@ -75,7 +75,14 @@ const MiniGamesStartMenu = (props: { game: string }): JSX.Element => {
       case 'Savannah':
         return <SavannahGame />
       case 'Audiocall':
-        return <AudiocallGameBox />
+        return <AudiocallGameBox
+          questionsNumbers={questionsNumbers}
+          setStarted={setStarted}
+          questions={questions}
+          showFinishInfo={showFinishInfo}
+          setScore={setScore}
+          score={score}
+        />
     }}
 
     return (
