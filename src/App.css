@@ -3,6 +3,51 @@ html {
     overflow-y: scroll;
   }
 
+.Main{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.Vocabulary{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pig {
+  animation: shake 1.5s linear infinite;
+
+}
+
+.wordSavannah {
+
+    font-family: "Segoe Script";
+    font-size: 96px;
+    padding:0 20px;
+    color: hsl(35, 100%, 30%);
+    background: hsla(35, 60%, 80%, 0.8);
+    border-radius:16px;
+    text-align:center;
+    text-shadow: 0 0 2px 1px hsl(35, 70%, 30%),
+                 0 0 4px 4px hsla(30, 100%, 55%, 0.5),
+                 -1px 1px 2px 7px hsl(45, 60%, 95%),
+                 -3px 3px 1px 4px hsl(35, 70%, 30%),
+                 -3px 3px 4px 8px hsla(30, 90%, 55%, 0.5); 
+    box-shadow:  -5px 5px 1px 0px hsl(35, 70%, 30%),
+                 -5px 5px 4px 1px hsla(30, 100%, 40%, 0.05);
+
+}
+
+.footer{
+  flex-shrink: 0;
+  background: black;
+}
+
+.Vocabulary{
+
+  min-height: 100%;
+}
   a,button {
     cursor: pointer !important;
   }
@@ -87,4 +132,25 @@ button{
     }
   }
 
+
+  @keyframes shake {
+    0% {
+      transform: translate(1px, 1px) rotate(0deg);
+    }
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    30% {
+      transform: translate(3px, 2px) rotate(0deg);
+    }
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    70% {
+      transform: translate(3px, 1px) rotate(-1deg);
+    }
+    90% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+  }
 

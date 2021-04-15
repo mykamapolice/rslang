@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllWords } from '../../../redux/reducers/vocabulary';
+import { getAllWords, createWord, updateWord } from '../../../redux/reducers/vocabulary';
 import QuestionBox from '../SwojaIgra/QuestionBox/QuestionBox';
 import Rules from '../Rules/Rules';
 import { Alert, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
@@ -18,7 +18,7 @@ interface IGameProps {
 }
 
 const MiniGamesStartMenu = (props:any): JSX.Element => {
-	const { game, bookWords } = props.location.state;
+	const { game, bookWords }:IGameProps = props.location.state;
 
 	const [isStarted, setStarted] = useState(false);
 	const [finish, setFinish] = useState(false);
@@ -26,8 +26,7 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	const [questionsNumbers, setQuestionsNumbers] = useState(bookWords?bookWords.length:20);
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
-	const rules =
-		'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
+	const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
 
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
@@ -44,7 +43,35 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		dispatch(getAllWords({ userId, token, lvl }));
 	}, [isStarted]);
 
+	const addWordToUser = useCallback(
+		async (wordId: string, type: any) => {
+			const obj = {
+				userId,
+				wordId,
+				token,
+				word: { optional: { ...type, isExist: true } },
+			};
 
+			await dispatch(createWord(obj));
+		},
+		[isLogin]
+	);
+
+
+	const updateUserWord = useCallback(
+		async (wordId: string, type: any) => {
+			const obj = {
+				userId,
+				wordId,
+				token,
+				type,
+			};
+			await dispatch(updateWord(obj));
+		},
+		[isLogin]
+	);
+
+	
 
 
 	const showFinishInfo = () => {
@@ -60,7 +87,7 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	const setLevel = (val: number) => setLvl(val);
 
 	const useQuestions = () => {
-		setQuestions(getQuestions(words, questionsNumbers));
+		setQuestions(getQuestions(wordsCopy, words, questionsNumbers));
 		setStarted(true);
 	};
 
@@ -69,6 +96,8 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 			case 'SwojaIgra':
 				return (
 					<QuestionBox
+						addWordToUser = {addWordToUser}
+						updateUserWord = {updateUserWord}
 						questionsNumbers={questionsNumbers}
 						setStarted={setStarted}
 						questions={questions}
@@ -82,6 +111,9 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 			case 'Savannah':
 				return (
 					<SavannahGame
+						isLogin = {isLogin}
+					 	addWordToUser = {addWordToUser}
+						updateUserWord = {updateUserWord}
 						questionsNumbers={questionsNumbers}
 						setStarted={setStarted}
 						questions={questions}

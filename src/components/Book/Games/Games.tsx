@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 function Games({filteredWords}:any): JSX.Element {
 
-	
-console.log(filteredWords)
 	return (
 		<div className='col'>
 			<NavLink

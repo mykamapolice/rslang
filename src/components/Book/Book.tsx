@@ -24,9 +24,9 @@ import WordListPages from './Pagination/WordListPages';
 import VocabularyPages from './Pagination/VocabularyPages';
 import WordList from './WordList/WordList';
 import Vocabulary from './Vocabulary/Vocabulary';
-import Games from './Games/Games'
+import Games from './Games/Games';
 import WordListFilter from './HOC/WordListFilter';
-import UserListFilter from './HOC/UserListFilter'
+import UserListFilter from './HOC/UserListFilter';
 
 const WordListGames = WordListFilter(Games);
 const UserListGames = UserListFilter(Games);
@@ -51,7 +51,7 @@ function Book(): JSX.Element {
 	const { userId, token, isAuth } = user;
 
 	const radioButtonHandler = async () => {
-	//	await dispatch(clearWords());
+		//	await dispatch(clearWords());
 		if (isAuth && !userList)
 			await dispatch(fetchingOnBookStart({ lvl, page, userId, token }));
 		else {
@@ -74,7 +74,7 @@ function Book(): JSX.Element {
 			userId,
 			wordId,
 			token,
-			word: { optional: { ...type, isExist: true } },
+			word: { optional: { ...type, isExist: true, wins: 0, loses: 0 } },
 		};
 
 		await dispatch(createWord(obj));
@@ -110,7 +110,7 @@ function Book(): JSX.Element {
 		<div
 			className='Vocabulary'
 			style={{
-				minHeight: 'calc(100vh - 50px)',
+				// minHeight: 'calc(100vh - 50px)',
 				backgroundImage: `url(${images[lvl]})`,
 				backgroundSize: 'auto',
 			}}

@@ -47,6 +47,8 @@ export const bookStartFetching = async ({ lvl, page, userId, token }: any) => {
 	}
 	return payload;
 };
+
+
 export const createUserWord = async ({ userId, wordId, word, token }: any) => {
 	const headers = {
 		Authorization: `Bearer ${token}`,
@@ -102,7 +104,7 @@ export const getUserWords = async ({ userId, token }: any) => {
 	}
 };
 
-export const updateUserWord = async ({ userId, token, wordId, type }: any) => {
+export const updateUserWord = async ({ userId, token, wordId, type, wins, loses }: any) => {
 	const headers = {
 		Authorization: `Bearer ${token}`,
 		Accept: 'application/json',
@@ -112,6 +114,8 @@ export const updateUserWord = async ({ userId, token, wordId, type }: any) => {
 		optional: {
 			...type,
 			isExist: true,
+			wins:wins||0,
+			loses:loses||0
 			//пометить сколько раз слово участвоввало в играх
 			// пометить сколько раз слово было угадано
 		},
@@ -138,7 +142,7 @@ export const fetchAllWords = async ({ userId, token, lvl }: any) => {
 			`${baseUrl}users/${userId}/aggregatedWords?page=0&group=${lvl}&wordsPerPage=3600`,
 			{ headers }
 		);
-		console.log('get all', response.data);
+		// console.log('get all', response.data);
 		return response.data;
 	} catch (error) {
 		console.log(error);

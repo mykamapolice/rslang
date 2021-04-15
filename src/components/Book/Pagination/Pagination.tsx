@@ -22,7 +22,7 @@ const Pagination = ({
 						<ChevronLeft />
 					</button>
 				</li>
-				{paginationNumbs}
+				{paginationNumbs||''}
 				<li
 					className={`page-item ${
 						page === paginationLength - 1 ? 'disabled' : ''

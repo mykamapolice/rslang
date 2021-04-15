@@ -67,9 +67,11 @@ const vocabularySlice = createSlice({
 		setLvl: (state, action) => {
 			state.lvl = action.payload.lvl;
 			state.page = action.payload.page;
+			state.words = null;
 		},
 		setPage: (state, action) => {
 			state.page = action.payload;
+			state.words = null;
 		},
 		setValue: (state, action) => {
 			state.value = action.payload;

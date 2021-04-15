@@ -65,7 +65,6 @@ const userSlice = createSlice({
 			})
 
 			.addCase(login.fulfilled, (state, action) => {
-				//console.log(action.payload);
 				if (action.payload.message === 'Authenticated') {
 					const {
 						name,

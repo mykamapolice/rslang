@@ -80,6 +80,7 @@ function Vocabulary({
 	);
 	return (
 		<div className='Vocabulary'>
+			<div className="container-fluid" style={{maxWidth:'800px'}}>
 			<ToggleButtonGroup
 				size='lg'
 				type='radio'
@@ -108,6 +109,7 @@ function Vocabulary({
 					Удалённые слова
 				</ToggleButton>
 			</ToggleButtonGroup>
+			</div>
 			<div className='container-fluid'>
 				<div className='d-sm-flex p-2 flex-wrap justify-content-center'>
 					<WordCards

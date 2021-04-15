@@ -31,7 +31,7 @@ const games = [
 
 function MiniGamesContainer(): JSX.Element {
 	const onGameClickHandler = (e: React.MouseEvent<HTMLElement>) => {
-		console.log('savannah click', e.currentTarget.dataset.game);
+
 	};
 
 	return (

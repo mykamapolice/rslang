@@ -20,11 +20,11 @@ const getIncorrectWords = (correctWord: string, wordsCopy: IWord[]) => {
 	return arrayOfIncorrect;
 };
 
-const addNewQuestionToArray = (wordsCopy: IWord[]) => {
+const addNewQuestionToArray = (words: IWord[], wordsCopy: IWord[]) => {
 	const randomQuestionNumber: number = Math.floor(
-		Math.random() * wordsCopy.length
+		Math.random() * words.length
 	);
-	const { image, word, audio, wordTranslate, id, _id, userWord } = wordsCopy[
+	const { image, word, audio, wordTranslate, id, _id, userWord } = words[
 		randomQuestionNumber
 	];
 
@@ -34,7 +34,6 @@ const addNewQuestionToArray = (wordsCopy: IWord[]) => {
 		let answers: any[] = getIncorrectWords(word, wordsCopy);
 		answers.push({ word, isCorrect: true, wordTranslate });
 		answers = answers.sort(() => Math.random() - 0.5);
-
 		const newQuestion = {
 			image,
 			answers,
@@ -47,10 +46,10 @@ const addNewQuestionToArray = (wordsCopy: IWord[]) => {
 	}
 };
 
-const getQuestions = (wordsCopy: IWord[], questionsNumbers: number) => {
+const getQuestions = (words: IWord[], wordsCopy: IWord[], questionsNumbers: number) => {
 	const questionsCopy = [];
 	while (questionsCopy.length !== questionsNumbers) {
-		const question = addNewQuestionToArray(wordsCopy);
+		const question = addNewQuestionToArray(words, wordsCopy);
 		if (question !== undefined) {
 			questionsCopy.push(question);
 		}
