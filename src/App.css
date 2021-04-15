@@ -128,11 +128,6 @@ button{
   }
 
 
-@media (max-width:680px) {
-    .buttonMarginer{
-        margin: 0 auto !important;
-    }
-}
 
 @keyframes pulsing {
     0% {

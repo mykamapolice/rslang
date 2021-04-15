@@ -4,7 +4,7 @@ import WordCardHOC from './WordCardsHOC';
 function WordCard({ mappedWords }: any): JSX.Element {
 	return (
 		<div className='container-fluid'>
-			<div className='d-sm-flex p-2 flex-wrap justify-content-center'>
+			<div className='d-flex p-2 flex-wrap justify-content-center'>
 				{mappedWords}
 			</div>
 		</div>

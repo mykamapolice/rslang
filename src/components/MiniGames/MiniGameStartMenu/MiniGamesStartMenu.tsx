@@ -83,8 +83,10 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	const setLevel = (val: number) => setLvl(val);
 
 	const useQuestions = () => {
+		if(words){
 		setQuestions(getQuestions(wordsCopy, words, questionsNumbers));
 		setStarted(true);
+	}
 	};
 
 	const currentMiniGame = () => {

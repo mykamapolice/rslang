@@ -7,7 +7,7 @@ function VideoContainer() {
             <div className='wrapper'>
                 <ReactPlayer
                     className='player'
-                    playing
+                    controls
                     url={'https://www.youtube.com/watch?v=oZzW1Evz_tQ'}
                     width='100%'
                     height='100%'

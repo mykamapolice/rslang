@@ -32,8 +32,7 @@ function Main(): JSX.Element {
             <Route path="/team" component={Team}/>
             <Route path="/settings" component={Settings}/>
             <Route exact path="/" component={Home}/>
-            <AdvantagesContainer/>
-            <VideoContainer/>
+           
         </div>
     )
 }

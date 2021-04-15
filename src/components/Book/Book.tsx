@@ -119,8 +119,8 @@ function Book(): JSX.Element {
 				<div className='row mt-2 '>
 					{vMode ? <UserListGames /> : <WordListGames />}
 
-					<div className='col-6'>
-						<div className='d-sm-flex flex-wrap justify-content-center'>
+					<div className='col-lg-6 py-3'>
+						<div className='d-flex flex-wrap justify-content-center'>
 							<Lvl
 								levels={levels}
 								lvl={lvl}
@@ -147,7 +147,7 @@ function Book(): JSX.Element {
 							)}
 						</div>
 					</div>
-					<div className='d-flex col justify-content-around'>
+					<div className='d-flex py-3 col justify-content-around'>
 						{isAuth && (
 							<Button
 								style={{ width: '140px' }}
@@ -162,7 +162,7 @@ function Book(): JSX.Element {
 						)}
 						<NavLink style={{ display: 'block' }} to='/settings'>
 							<Button
-								className='buttonMarginer d-flex justify-content-center align-items-center'
+								className='py-3 buttonMarginer d-flex justify-content-center align-items-center'
 								size='lg'
 							>
 								<Wrench color='yellow' size={20} />
@@ -172,7 +172,7 @@ function Book(): JSX.Element {
 				</div>
 			</div>
 			<div className='container-fluid'>
-				<div className='d-sm-flex p-2 flex-wrap justify-content-center'>
+				<div className='d-flex p-2 flex-wrap justify-content-center'>
 					{vMode ? (
 						<Vocabulary
 							isAuth={isAuth}

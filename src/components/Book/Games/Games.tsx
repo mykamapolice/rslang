@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 function Games({filteredWords}:any): JSX.Element {
 
 	return (
-		<div className='col'>
+		<div className='col py-3'>
 			<NavLink
 				to={{
 					pathname: '/mini-games/savannah',

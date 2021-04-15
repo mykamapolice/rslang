@@ -36,10 +36,10 @@ function MiniGamesContainer(): JSX.Element {
 
 	return (
 		<div className='MiniGames'>
-			<CardDeck className='col-sm-12 mt-4'>
+			<div className='d-flex flex-wrap justify-content-center align-items-center'>
 				{games.map((g, i) => (
 					<Card
-						className='card-game col-sm-3'
+						className='card-game m-3'
 						data-game={g.id}
 						key={i}
 						onClick={onGameClickHandler}
@@ -58,7 +58,7 @@ function MiniGamesContainer(): JSX.Element {
 						</NavLink>
 					</Card>
 				))}
-			</CardDeck>
+			</div>
 		</div>
 	);
 }
