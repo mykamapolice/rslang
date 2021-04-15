@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
 
 function Games({filteredWords}:any): JSX.Element {
 
@@ -17,9 +16,17 @@ function Games({filteredWords}:any): JSX.Element {
 					Саванна
 				</Button>
 			</NavLink>
-			<Button title='аудиовызов' variant='secondary'>
-				Аудиовызов
-			</Button>
+			<NavLink
+				to={{
+					pathname: '/mini-games/audiocall',
+					state: { game: 'Audiocall', bookWords: filteredWords },
+				}}
+			>
+				<Button title='аудиовызов' variant='secondary'>
+					Аудиовызов
+				</Button>
+			</NavLink>
+
 			<Button title='Спринт' variant='success'>
 				Спринт
 			</Button>

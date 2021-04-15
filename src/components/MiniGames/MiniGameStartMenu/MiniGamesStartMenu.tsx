@@ -13,7 +13,7 @@ import { SprintGame } from '../SprintGame';
 import {IWord} from '../../../interfaces'
 
 interface IGameProps {
-	game: string, 
+	game: string,
 	bookWords?:IWord[]
 }
 
@@ -57,7 +57,6 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		[isLogin]
 	);
 
-
 	const updateUserWord = useCallback(
 		async (wordId: string, type: any) => {
 			const obj = {
@@ -70,9 +69,6 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		},
 		[isLogin]
 	);
-
-	
-
 
 	const showFinishInfo = () => {
 		setFinish(true);
@@ -123,7 +119,16 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 					/>
 				);
 			case 'Audiocall':
-				return <AudiocallGameBox />;
+				return <AudiocallGameBox
+					addWordToUser = {addWordToUser}
+					updateUserWord = {updateUserWord}
+					questionsNumbers={questionsNumbers}
+					setStarted={setStarted}
+					questions={questions}
+					showFinishInfo={showFinishInfo}
+					setScore={setScore}
+					score={score}
+				/>;
 		}
 	};
 

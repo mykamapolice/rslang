@@ -11,7 +11,7 @@ const games = [
 	},
 	{
 		id: 'audiocall',
-		title: 'Audio Call',
+		title: 'Audiocall',
 		imageUrl:
 			'https://static01.nyt.com/images/2013/08/30/technology/personaltech/GW-Plantronics-RIG/GW-Plantronics-RIG-superJumbo.jpg',
 	},

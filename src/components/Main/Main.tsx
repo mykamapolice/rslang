@@ -23,7 +23,7 @@ function Main(): JSX.Element {
                     {/*<Route exact path="/mini-games/:id" component={MiniGame} />*/}
                     <Route exact path="/mini-games/savannah"  component={MiniGamesStartMenu}/>
                     <Route exact path="/mini-games/swojaIgra" component={MiniGamesStartMenu}/>
-                    <Route exact path="/mini-games/audiocall" component={() => <MiniGamesStartMenu game={miniGames.Audiocall} />}/>
+                    <Route exact path="/mini-games/audiocall"  component={MiniGamesStartMenu}/>
                     <Route exact path="/mini-games/sprint"  component={MiniGamesStartMenu}/>
                     <Route path="/statistics" component={Statistics} />
                     <Route path="/team" component={Team} />
