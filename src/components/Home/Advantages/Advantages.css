@@ -1,0 +1,9 @@
+.advantage{
+    padding: 10px;
+    margin: 10px;
+    color: white;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: multiply;
+    background-color: #adb5bd;
+}
