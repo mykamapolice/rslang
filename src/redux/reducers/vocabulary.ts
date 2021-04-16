@@ -57,9 +57,11 @@ const vocabularySlice = createSlice({
       state.vMode = !vMode;
       state.page = 0;
     },
-    vModeSetOff: state => {
-      state.vMode = false;
+    vModeSetOff: (state,action) => {
+      const isAuth = action.payload;
+      if(!isAuth) state.vMode = false;
       state.userList = null;
+      state.words = null;
       state.lvl = 0;
       state.page = 0;
       state.value = 0;

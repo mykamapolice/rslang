@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { IRootState } from '../../interfaces';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,16 +58,17 @@ function Book(): JSX.Element {
 			//isAuth && (await dispatch(getWords({ userId, token })));
 			isAuth
 				? await dispatch(fetchingAggregated({ lvl, page, userId, token }))
-				: await dispatch(fetchingGeneral({ lvl, page }));
+				: await dispatch(fetchingGeneral({ lvl, page, isAuth }));
 		}
 	};
 
-	React.useEffect(() => {
-		radioButtonHandler();
-		if (!isAuth) {
-			dispatch(vModeSetOff());
-		}
-	}, [page, lvl, isAuth]);
+	useEffect(() => {
+			dispatch(vModeSetOff(isAuth));
+	}, [isAuth]);
+
+useEffect(()=>{
+	radioButtonHandler();
+},[lvl,page,vMode])
 
 	const addWordToUser = async (wordId: string, type: any) => {
 		const obj = {

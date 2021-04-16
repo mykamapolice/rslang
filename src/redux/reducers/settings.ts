@@ -30,9 +30,11 @@ const settingsSlice = createSlice({
 		},
 		setMusicVolume: (state, action) => {
 			state.musicVolume = action.payload;
+			state.isMusicON = action.payload>0 ? true : false;
 		},
 		setSoundVolume: (state, action) => {
 			state.soundVolume = action.payload;
+			state.isSoundON = action.payload>0 ? true : false;
 		},
 		setMusicToggle: state => {
 			const { isMusicON } = state;
@@ -40,7 +42,6 @@ const settingsSlice = createSlice({
 			state.isMusicON = !isMusicON;
 		},
 		setSoundToggle: state => {
-      debugger
 			const { isSoundON } = state;
 			state.soundVolume = isSoundON ? 0 : 50;
 			state.isSoundON = !isSoundON;
