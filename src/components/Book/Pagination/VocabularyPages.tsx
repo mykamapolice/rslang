@@ -108,7 +108,7 @@ const VocabularyPages = ({
 
 	return (
 		<>
-			{paginationLength && (
+			{paginationLength ? (
 				<Pagination
 					{...{
 						vMode,
@@ -122,7 +122,7 @@ const VocabularyPages = ({
 						paginationLength
 					}}
 				/>
-			)}
+			):''}
 		</>
 	);
 };

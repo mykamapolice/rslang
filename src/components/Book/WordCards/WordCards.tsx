@@ -1,5 +1,5 @@
 import React from 'react';
-import WordCardHOC from './WordCardsHOC';
+import WordCardHOC from '../HOC/WordCardsHOC';
 
 function WordCard({ mappedWords }: any): JSX.Element {
 	return (

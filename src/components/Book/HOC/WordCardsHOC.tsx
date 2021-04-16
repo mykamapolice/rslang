@@ -1,6 +1,6 @@
 import React from 'react';
 import { IWord } from '../../../interfaces';
-import BaseInfo from './BaseInfo/BaseInfo';
+import BaseInfo from '../WordCards/BaseInfo/BaseInfo';
 
 interface IWordTypeKeys {
 	[key: string]: boolean;
@@ -41,8 +41,8 @@ const WordCardHOC = (Component: React.ComponentType<IWordCardsProps>) => {
 
 		const buttonHandler = (el: IWord, action: string) => {
 			el.hasOwnProperty('userWord')
-				? updateUserWord(el.id || el._id, { ...wordTypeProps[action] })
-				: addWordToUser(el.id || el._id, { ...wordTypeProps[action] });
+				? updateUserWord(el.id || el._id, { ...wordTypeProps[action],wins:el.userWord.optional.wins,loses:el.userWord.optional.loses })
+				: addWordToUser(el.id || el._id, { ...wordTypeProps[action],wins:0,loses:0 });
 		};
 
 		const setCardBgColor = (el: IWord) => {

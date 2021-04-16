@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { X, VolumeUp, LightningFill } from 'react-bootstrap-icons';
+import { useSelector } from 'react-redux';
 
 function Buttons({
 	el,
@@ -10,6 +11,11 @@ function Buttons({
 	value,
 	audioHandler,
 }: any): JSX.Element {
+
+	const {isViewButtons } = useSelector(
+		(state: any) => state.settings
+	);
+
 	return (
 		<div
 			className='Col d-flex justify-content-around'
@@ -20,7 +26,7 @@ function Buttons({
 				right: '0',
 			}}
 		>
-			{isAuth && !vMode && (
+			{isAuth && !vMode && isViewButtons && (
 				<>
 					<Button
 						title='добавить в сложные'
