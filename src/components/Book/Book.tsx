@@ -32,12 +32,12 @@ const WordListGames = WordListFilter(Games);
 const UserListGames = UserListFilter(Games);
 
 const images: string[] = [
-	`${process.env.PUBLIC_URL}/images/1.jpg`,
+	`${process.env.PUBLIC_URL}/images/1.png`,
 	`${process.env.PUBLIC_URL}/images/2.jpg`,
-	`${process.env.PUBLIC_URL}/images/3.jpg`,
-	`${process.env.PUBLIC_URL}/images/4.jpg`,
-	`${process.env.PUBLIC_URL}/images/5.jpg`,
-	`${process.env.PUBLIC_URL}/images/6.jpg`,
+	`${process.env.PUBLIC_URL}/images/3.png`,
+	`${process.env.PUBLIC_URL}/images/4.png`,
+	`${process.env.PUBLIC_URL}/images/5.gif`,
+	`${process.env.PUBLIC_URL}/images/6.png`,
 ];
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -113,6 +113,8 @@ function Book(): JSX.Element {
 				// minHeight: 'calc(100vh - 50px)',
 				backgroundImage: `url(${images[lvl]})`,
 				backgroundSize: 'auto',
+				backgroundPosition: `bottom 10px right ${300*page}px`,
+				transition:'background 1s ease-out'
 			}}
 		>
 			<div className='container-fluid'>

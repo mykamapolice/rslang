@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-
+import { useSelector } from 'react-redux';
 import { baseUrl } from '../../utils/constants';
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -14,6 +14,8 @@ const audio: HTMLAudioElement = new Audio();
 const hotKeys: string[] = ['a', 'b', 'c', 'd'];
 
 let pigSize = 0;
+
+
 
 const Card = ({
 	questions,
@@ -80,7 +82,6 @@ const Card = ({
 			</div>
 
 			<img
-				key='pig'
 				className='pig'
 				style={{
 					position: 'absolute',
@@ -111,10 +112,12 @@ const SavannahGame = (props: any) => {
 		setScore,
 		score,
 	} = props;
-
+	const {soundVolume} = useSelector((state:any)=> state.settings)
 	const [questionNumber, setQuestionNumber] = useState(0);
 	const [answer, setAnswer] = useState(false);
 	const containerRef: any | null = useRef(null);
+	audio.volume = soundVolume*0.01;
+
 	useEffect(() => {
 		if (questionNumber >= questionsNumbers) {
 			pigSize = 0;
@@ -126,7 +129,7 @@ const SavannahGame = (props: any) => {
 		if (pigSize) {
 			pigSize = 0;
 		}
-	}, []);
+	}, [questions]);
 
 	const sendWordStats = useCallback((isTrue: boolean): void => {
 		const current = questions[questionNumber];
@@ -172,7 +175,7 @@ const SavannahGame = (props: any) => {
 				position: 'relative',
 				zIndex: 1,
 				backgroundImage: `url('${process.env.PUBLIC_URL}/images/savannah.jpg')`,
-				backgroundPosition: `25% ${75 * pigSize}%`,
+				backgroundPosition: `top ${100*pigSize}px right 10px`,
 				transition: 'all 1s',
 			}}
 		>
