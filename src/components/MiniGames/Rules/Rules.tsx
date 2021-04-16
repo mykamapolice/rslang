@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 const Rules = (props: any) => {
   const [lgShow, setLgShow] = useState(false);
 
-  const {rules} = props
+  const { rules } = props;
 
   return (
     <>
@@ -24,6 +24,6 @@ const Rules = (props: any) => {
       </Modal>
     </>
   );
-}
+};
 
-export default Rules
+export default Rules;
