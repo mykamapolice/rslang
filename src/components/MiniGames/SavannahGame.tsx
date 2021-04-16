@@ -11,10 +11,7 @@ interface IAnswers {
 
 const audio: HTMLAudioElement = new Audio();
 
-const hotKeys: string[] = ['a', 'b', 'c', 'd'];
-
-let pigSize = 0;
-
+const hotKeys: string[] = ['1', '2', '3', '4'];
 
 
 const Card = ({
@@ -22,14 +19,18 @@ const Card = ({
 	questionNumber,
 	nextWordHandler,
 	containerRef,
-	score,
+	pigSize,
 }: any) => {
 	const titleRef: any | null = useRef(null);
+	const buttonsRef : any|null = useRef(null);
 	let cancel: number;
 
 	useEffect(() => {
+		document.addEventListener('keydown', buttonHandler);
 		engine();
-		return () => cancelAnimationFrame(cancel);
+		return () => {
+		document.removeEventListener('keydown', buttonHandler)
+			cancelAnimationFrame(cancel)};
 	}, [questionNumber]);
 
 	const engine = () => {
@@ -43,6 +44,25 @@ const Card = ({
 			}
 		}
 	};
+
+	const buttonHandler = (e: any) => {
+		if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4') {
+			buttonsRef.current.children[+e.key - 1].click();	
+		}
+	};
+
+const questionAnswers = questions[questionNumber].answers.map((el: IAnswers, i: number) => (
+	<button
+		className='btn btn-outline-info'
+		style={{ display: 'inline-block' }}
+		key={i}
+		data-iscorrect={el.isCorrect}
+		onClick={nextWordHandler}
+	>
+		{`${hotKeys[i].toUpperCase()}. ${el.wordTranslate}`}
+	</button>
+));
+
 
 	return (
 		<div key={questions[questionNumber].id} className='container'>
@@ -62,19 +82,8 @@ const Card = ({
 				{questions[questionNumber].correct}
 			</h1>
 			<div>выберите правильный ответ:</div>
-			<div className='d-flex justify-content-around'>
-				{questions[questionNumber].answers.map((el: IAnswers, i: number) => (
-					<button
-						type='button'
-						className='btn btn-outline-info'
-						style={{ display: 'inline-block' }}
-						key={i}
-						data-iscorrect={el.isCorrect}
-						onClick={nextWordHandler}
-					>
-						{`${hotKeys[i].toUpperCase()}. ${el.wordTranslate}`}
-					</button>
-				))}
+			<div ref={buttonsRef} className='d-flex justify-content-around'>
+				{questionAnswers}
 			</div>
 			<div style={{ display: 'none' }}>
 				<img src={baseUrl + questions[questionNumber].image} />
@@ -112,22 +121,23 @@ const SavannahGame = (props: any) => {
 		setScore,
 		score,
 	} = props;
+
 	const {soundVolume} = useSelector((state:any)=> state.settings)
 	const [questionNumber, setQuestionNumber] = useState(0);
+	const [pigSize, setPigSize] = useState(0);
 	const [answer, setAnswer] = useState(false);
 	const containerRef: any | null = useRef(null);
 	audio.volume = soundVolume*0.01;
 
 	useEffect(() => {
 		if (questionNumber >= questionsNumbers) {
-			pigSize = 0;
 			showFinishInfo();
 		}
 	}, [questionNumber]);
 
 	useEffect(() => {
 		if (pigSize) {
-			pigSize = 0;
+			setPigSize(0);
 		}
 	}, [questions]);
 
@@ -156,12 +166,12 @@ const SavannahGame = (props: any) => {
 			audio.play();
 			if (isLogin) sendWordStats(true);
 			setScore(score + 1);
-			pigSize += 1;
+			setPigSize(pigSize+1);
 		} else {
 			audio.src = `${process.env.PUBLIC_URL}/vizg.mp3`;
 			audio.play();
 			if (isLogin) sendWordStats(false);
-			pigSize ? (pigSize -= 1) : (pigSize = 0);
+			pigSize ? (setPigSize(pigSize-1)) : (setPigSize(0));
 		}
 		setQuestionNumber(questionNumber + 1);
 	};
@@ -194,6 +204,7 @@ const SavannahGame = (props: any) => {
 							score,
 							setScore,
 							containerRef,
+							pigSize
 						}}
 					/>
 				</>

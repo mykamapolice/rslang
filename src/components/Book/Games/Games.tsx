@@ -1,11 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Games({filteredWords}:any): JSX.Element {
 
+	const { value } = useSelector((state:any) => state.vocabulary)
+
 	return (
-		<div className='col py-3'>
+		<div className='col py-3' style={{visibility : value!==2 ? 'visible':'hidden' }}>
 			<NavLink
 				to={{
 					pathname: '/mini-games/savannah',

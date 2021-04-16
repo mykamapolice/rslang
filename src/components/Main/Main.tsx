@@ -7,8 +7,7 @@ import Settings from '../Settings/Settings'
 import Statistics from '../Statistics/Statistics'
 import Team from '../Team/Team'
 import MiniGamesStartMenu from '../MiniGames/MiniGameStartMenu/MiniGamesStartMenu'
-import AdvantagesContainer from '../Home/Advantages/Advantages'
-import VideoContainer from '../Home/VideoContainer/VideoContainer'
+import './Main.css';
 
 export enum miniGames {
     SwojaIgra = 'SwojaIgra',

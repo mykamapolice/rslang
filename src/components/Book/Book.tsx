@@ -5,11 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Wrench } from 'react-bootstrap-icons';
 import {
-	clearWords,
 	createWord,
 	fetchingAggregated,
 	fetchingGeneral,
-	getWords,
 	updateWord,
 	setLvl,
 	setPage,
@@ -113,7 +111,7 @@ useEffect(()=>{
 			style={{
 				// minHeight: 'calc(100vh - 50px)',
 				backgroundImage: `url(${images[lvl]})`,
-				backgroundSize: 'auto',
+				backgroundSize:'auto auto',
 				backgroundPosition: `bottom 10px right ${300*page}px`,
 				transition:'background 1s ease-out'
 			}}
