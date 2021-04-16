@@ -9,21 +9,21 @@ import styles from './MiniGamesStartMenu.module.css';
 import getQuestions from '../RandomiseQuestions';
 import AudiocallGameBox from '../Audiocall/AudiocallGameBox/AudiocallGameBox';
 import SavannahGame from '../SavannahGame';
-import { SprintGame } from '../SprintGame';
-import {IWord} from '../../../interfaces'
+import { SprintGame } from '../Sprint/SprintGame';
+import { IWord } from '../../../interfaces';
 
 interface IGameProps {
 	game: string,
-	bookWords?:IWord[]
+	bookWords?: IWord[];
 }
 
-const MiniGamesStartMenu = (props:any): JSX.Element => {
-	const { game, bookWords }:IGameProps = props.location.state;
+const MiniGamesStartMenu = (props: any): JSX.Element => {
+	const { game, bookWords }: IGameProps = props.location.state;
 
 	const [isStarted, setStarted] = useState(false);
 	const [finish, setFinish] = useState(false);
 	const [questions, setQuestions]: any[] = useState([]);
-	const [questionsNumbers, setQuestionsNumbers] = useState(bookWords?bookWords.length:20);
+	const [questionsNumbers, setQuestionsNumbers] = useState(bookWords ? bookWords.length : 20);
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
 	const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
@@ -35,12 +35,12 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	const userId = state.user.userId;
 	const {
 		vocabulary: { words },
-	} = state; //todo
+	} = state;
 	const wordsCopy = bookWords || words;
 	useEffect(() => {
-		if(bookWords)
-		useQuestions()
-		if(!words)dispatch(getAllWords({ userId, token, lvl }));
+		if (bookWords)
+			useQuestions();
+		if (!words) dispatch(getAllWords({ userId, token, lvl }));
 	}, [isStarted]);
 
 	const addWordToUser = useCallback(
@@ -83,10 +83,10 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	const setLevel = (val: number) => setLvl(val);
 
 	const useQuestions = () => {
-		if(words){
-		setQuestions(getQuestions(wordsCopy, words, questionsNumbers));
-		setStarted(true);
-	}
+		if (words) {
+			setQuestions(getQuestions(wordsCopy, words, questionsNumbers));
+			setStarted(true);
+		}
 	};
 
 	const currentMiniGame = () => {
@@ -94,8 +94,8 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 			case 'SwojaIgra':
 				return (
 					<QuestionBox
-						addWordToUser = {addWordToUser}
-						updateUserWord = {updateUserWord}
+						addWordToUser={addWordToUser}
+						updateUserWord={updateUserWord}
 						questionsNumbers={questionsNumbers}
 						setStarted={setStarted}
 						questions={questions}
@@ -105,13 +105,22 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 					/>
 				);
 			case 'Sprint':
-				return <SprintGame />;
+				return <SprintGame
+					isLogin={isLogin}
+					addWordToUser={addWordToUser}
+					updateUserWord={updateUserWord}
+					questionsNumbers={questionsNumbers}
+					setStarted={setStarted}
+					questions={questions}
+					showFinishInfo={showFinishInfo}
+					setScore={setScore}
+					score={score} />;
 			case 'Savannah':
 				return (
 					<SavannahGame
-						isLogin = {isLogin}
-					 	addWordToUser = {addWordToUser}
-						updateUserWord = {updateUserWord}
+						isLogin={isLogin}
+						addWordToUser={addWordToUser}
+						updateUserWord={updateUserWord}
 						questionsNumbers={questionsNumbers}
 						setStarted={setStarted}
 						questions={questions}
@@ -122,8 +131,8 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 				);
 			case 'Audiocall':
 				return <AudiocallGameBox
-					addWordToUser = {addWordToUser}
-					updateUserWord = {updateUserWord}
+					addWordToUser={addWordToUser}
+					updateUserWord={updateUserWord}
 					questionsNumbers={questionsNumbers}
 					setStarted={setStarted}
 					questions={questions}
