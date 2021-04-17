@@ -103,7 +103,6 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 				learnedWords: questionsNumbers,
 			},
 		};
-		console.log(gameStatistics)
 		dispatch(updateStatistics(gameStatistics));
 	}
 

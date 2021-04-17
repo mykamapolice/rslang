@@ -4,8 +4,9 @@ import {
 } from 'react-bootstrap';
 import StatItem from './StatItem/StatItem';
 import GeneralStatistic from './GeneralStatistic/GeneralStatistics';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../interfaces';
+import { getStatistics } from '../../../redux/reducers/statistics';
 
 const ShortTermStatistics = () => {
 
@@ -34,9 +35,16 @@ const ShortTermStatistics = () => {
   const [percentOfCorrect, setPercentOfCorrect] = useState(0);
   const [correct, setCorrect] = useState(0);
 
+  const dispatch = useDispatch();
   const statistics = useSelector((state: IRootState) => state.statistics);
 
+  useEffect( () => {
+    dispatch(getStatistics());
+  }, [])
+
+
   useEffect(() => {
+    console.log(statistics)
     if (statistics) {
       setCorrect(0)
       const gamesObj = statistics.optional.games

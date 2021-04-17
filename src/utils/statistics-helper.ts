@@ -32,7 +32,6 @@ export const fetchStatistics = async () => {
 
   try {
     const response = await axios.get(url, { headers });
-
     return response;
   } catch (error) {
     console.log(error);
@@ -48,6 +47,7 @@ export const upsertStatistics = async (result: IGameResult, thunkAPI: any) => {
 
   try {
     const { statistics } = await getState();
+    console.log(statistics)
     const response = await axios.put(url, statistics, { headers });
 
     return response.data;

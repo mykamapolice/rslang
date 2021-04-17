@@ -2,29 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import LongTermStatistics from './LongTermStatistics/LongTerm';
 import ShortTermStatistics from './ShortTermStatistics/ShortTerm';
-import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from '../../interfaces';
-import { getStatistics } from '../../redux/reducers/statistics';
-
 function Statistics(props: any): JSX.Element {
 
   const [longTermStat, setLongTermStat] = useState(false);
-  const [allStatistics, setAllStatistics]: any = useState()
 
   function onClickHandler(par: boolean) {
     setLongTermStat(par);
   }
-
-  const dispatch = useDispatch();
-  const statistics = useSelector((state: IRootState) => state.statistics);
-
-  useEffect(() => {
-    dispatch(getStatistics());
-  }, []);
-
-  useEffect(() => {
-    setAllStatistics(statistics)
-  }, [statistics]);
 
   return (
     <div>
@@ -49,7 +33,7 @@ function Statistics(props: any): JSX.Element {
       </div>
       <div>
         {longTermStat ? (
-          <LongTermStatistics allStatistics={allStatistics} />
+          <LongTermStatistics/>
         ) : (
           <ShortTermStatistics />
         )}

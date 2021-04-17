@@ -61,7 +61,7 @@ const statisticsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getStatistics.fulfilled, (state, action) => {
       const response = action.payload;
-
+      console.log(action.payload)
       if (response.status === 200) {
         const { learnedWords, optional } = action.payload.data;
         state.learnedWords = learnedWords;
