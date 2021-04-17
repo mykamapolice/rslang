@@ -77,10 +77,6 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 	const showFinishInfo = () => {
 		setFinish(true);
 		setStarted(false);
-		// setTimeout(() => {
-		// 	setFinish(false);
-		// 	setScore(0);
-		// }, 5000);
 	};
 	
 	const startNewGame = () => {

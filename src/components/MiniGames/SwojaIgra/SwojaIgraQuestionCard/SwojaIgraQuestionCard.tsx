@@ -43,7 +43,7 @@ const QuestionCard = (props: any) => {
     if( ans.isCorrect ) {
       props.setScore(props.score + 1)
     }
-
+    props.sendWordStats(props.questions[props.questionNumber],ans.isCorrect)
     setBtnDisabled(true)
   }
 

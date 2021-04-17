@@ -24,6 +24,7 @@ const AudiocallGameBox = (props: any) => {
     showFinishInfo,
     setScore,
     score,
+    sendWordStats
   } = props;
 
   useEffect(() => {
@@ -74,7 +75,9 @@ const AudiocallGameBox = (props: any) => {
 
   const cards = questions.map((item: any) => {
     return <AudioCallGameCard
+      sendWordStats = {sendWordStats}
       audioHandler={audioHandler}
+      questions = {questions}
       questionNumber={questionNumber}
       setQuestionNumber={setQuestionNumber}
       answers={item.answers}
@@ -83,6 +86,7 @@ const AudiocallGameBox = (props: any) => {
       score={score}
       setNextBtnDis={setNextBtnDis}
       setIsShowEndInfo={setIsShowEndInfo}
+      
     />;
   });
 

@@ -7,7 +7,7 @@ export const teamMembers: ITeamMember[] = [
     name: 'Vlad',
     photoUrl:
             'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGljdHVyZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
-    description: 'Какой-то вклад',
+    description: 'Структура приложения, дизайн приложения, вёрстка, адаптив',
     links: [
       {
         name: 'github',
@@ -23,7 +23,7 @@ export const teamMembers: ITeamMember[] = [
     name: 'Ilya',
     photoUrl:
             'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGljdHVyZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
-    description: 'Какой-то вклад',
+    description: 'Авторизация пользователя, логика игрового блока, блок статистики, игра Аудиовызов, игра "Swoja Igra"',
     links: [
       {
         name: 'github',
@@ -35,7 +35,7 @@ export const teamMembers: ITeamMember[] = [
     name: 'Vasya',
     photoUrl:
             'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGljdHVyZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
-    description: 'Какой-то вклад',
+    description: 'Бэкенд, логика блока статистики, авторизация, игра "Спринт" ',
     links: [
       {
         name: 'github',
@@ -47,7 +47,7 @@ export const teamMembers: ITeamMember[] = [
     name: 'Danik',
     photoUrl:
             'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGljdHVyZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
-    description: 'Какой-то вклад',
+    description: 'Электронный учебник, словарь, настройки, игра "Саванна", логика игрового блока',
     links: [
       {
         name: 'github',
@@ -59,7 +59,7 @@ export const teamMembers: ITeamMember[] = [
 
 function Team() {
   return (
-        <CardDeck>
+        <CardDeck className='container mx-auto flex-wrap'>
             {teamMembers.map((t) => (
                 <TeamMember key={t.name} personData={t} />
             ))}

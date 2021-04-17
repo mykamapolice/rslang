@@ -113,7 +113,7 @@ function Book(): JSX.Element {
 			style={{
 				backgroundImage: `url(${images[lvl]})`,
 				backgroundSize: 'auto auto',
-				backgroundPosition: `bottom 10px right ${300 * page}px`,
+				backgroundPosition: `bottom 0px right ${300 * page}px`,
 				transition: 'background 1s ease-out',
 			}}
 		>

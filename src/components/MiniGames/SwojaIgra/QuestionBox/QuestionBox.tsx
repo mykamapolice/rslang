@@ -9,6 +9,7 @@ const QuestionBox = (props: any) => {
 		showFinishInfo,
 		score,
 		setScore,
+		sendWordStats
 	} = props;
 
 	useEffect(() => {
@@ -24,8 +25,10 @@ const QuestionBox = (props: any) => {
 				setQuestionNumber={setQuestionNumber}
 				image={item.image}
 				answers={item.answers}
+				questions={questions}
 				score={score}
 				setScore={setScore}
+				sendWordStats={sendWordStats}
 			/>
 		);
 	});
