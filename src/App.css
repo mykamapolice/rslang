@@ -53,9 +53,11 @@ html {
     padding: 10px;
 }
 
-.Vocabulary{
-
+.Book{
+  flex-grow: 1;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
   a,button {
     cursor: pointer !important;

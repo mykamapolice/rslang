@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { baseUrl } from '../../utils/constants';
+import { baseUrl } from '../../../utils/constants';
+import './SavannahGame.css'
+
+
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 interface IAnswers {
@@ -12,7 +15,6 @@ interface IAnswers {
 const audio: HTMLAudioElement = new Audio();
 
 const hotKeys: string[] = ['1', '2', '3', '4'];
-
 
 const Card = ({
 	questions,
@@ -35,11 +37,11 @@ const Card = ({
 
 	const engine = () => {
 		if (containerRef?.current && titleRef?.current) {
-			const currentHeight = parseInt(getComputedStyle(titleRef.current).top);
-			if (currentHeight >= containerRef.current.clientHeight - 200)
+			const currentHeight = ((parseFloat(getComputedStyle(titleRef.current).top)/(containerRef.current.clientHeight/100)));
+			if (currentHeight >= 70)
 				nextWordHandler();
 			else {
-				titleRef.current.style.top = `${currentHeight + 2}px`;
+				titleRef.current.style.top = `${currentHeight + 0.4}%`;
 				cancel = requestAnimationFrame(engine);
 			}
 		}
@@ -52,10 +54,10 @@ const Card = ({
 	};
 
 const questionAnswers = questions[questionNumber].answers.map((el: IAnswers, i: number) => (
+
 	<button
-		className='btn btn-outline-info'
-		style={{ display: 'inline-block' }}
 		key={i}
+		className='btn btn-outline-dark savannah_button'
 		data-iscorrect={el.isCorrect}
 		onClick={nextWordHandler}
 	>
@@ -65,46 +67,25 @@ const questionAnswers = questions[questionNumber].answers.map((el: IAnswers, i: 
 
 
 	return (
-		<div key={questions[questionNumber].id} className='container'>
+		<div key={questions[questionNumber].id} className='container '>
 			<h1
 				ref={titleRef}
 				className='wordSavannah'
-				style={{
-					position: 'absolute',
-					left: 0,
-					right: 0,
-					margin: 'auto',
-					top: 0,
-					zIndex: 0,
-					width: 'max-content',
-				}}
 			>
 				{questions[questionNumber].correct}
 			</h1>
-			<div>выберите правильный ответ:</div>
-			<div ref={buttonsRef} className='d-flex justify-content-around'>
-				{questionAnswers}
-			</div>
-			<div style={{ display: 'none' }}>
-				<img src={baseUrl + questions[questionNumber].image} />
-				<button onClick={nextWordHandler}>Следующее слово</button>
-			</div>
-
 			<img
 				className='pig'
 				style={{
-					position: 'absolute',
-					bottom: 0,
-					left: 0,
-					right: 0,
-					margin: 'auto',
 					height: `${pigSize <= 0 ? 200 : pigSize * 20 + 200}px`,
-					width: `${pigSize <= 0 ? 200 : pigSize * 20 + 200}px`,
-					transition: '1s',
-					zIndex: -999,
+					width: `${pigSize <= 0 ? 200 : pigSize * 20 + 200}px`
+
 				}}
 				src={`${process.env.PUBLIC_URL}/pig.svg`}
 			></img>
+						<div ref={buttonsRef} className='d-flex justify-content-between'>
+				{questionAnswers}
+			</div>
 		</div>
 	);
 };
@@ -115,7 +96,6 @@ const SavannahGame = (props: any) => {
 		addWordToUser,
 		updateUserWord,
 		questionsNumbers,
-		setStarted,
 		questions,
 		showFinishInfo,
 		setScore,
@@ -191,11 +171,15 @@ const SavannahGame = (props: any) => {
 		>
 			{questionNumber < questionsNumbers ? (
 				<>
-					<h1>
+				<div className="savannah_title_wrapper">
+					<div className="savannah-title">
+					<h1 className="text-info">
 						Номер вопроса: {questionNumber + 1} / {questionsNumbers}
 					</h1>
-					<h2>Количество правильных ответов: {score}</h2>
-
+					<h2 className="text-info">Количество правильных ответов: {score}</h2>
+					<h5 className="text-info">выберите правильный ответ:</h5>
+					</div>
+					</div>
 					<Card
 						{...{
 							questions,

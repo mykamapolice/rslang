@@ -9,9 +9,7 @@
 }
 
 .advantage button {
-    bottom: 25px;
-    position: absolute;
-    margin: auto;
-    right: 0;
-    left: 0;
+
+    margin: 0 auto 25px;
+
 }

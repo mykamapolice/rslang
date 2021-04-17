@@ -72,6 +72,7 @@ function BaseInfo({
 							/>
 						)}
 					</div>
+					{isAuth&&
 					<div className='d-flex justify-content-center'>
 						<div title='Угадано'>
 							<PatchCheckFill color='#06d6a0' size={30} />
@@ -86,7 +87,7 @@ function BaseInfo({
 							}`}</span>
 						</div>
 					</div>
-
+				}
 					<Buttons {...buttonProps} />
 				</div>
 			</div>

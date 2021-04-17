@@ -8,7 +8,7 @@ import SwojaIgraStat from '../EndGameStatistic/SwojaIgraStat';
 import styles from './MiniGamesStartMenu.module.css';
 import getQuestions from '../RandomiseQuestions';
 import AudiocallGameBox from '../Audiocall/AudiocallGameBox/AudiocallGameBox';
-import SavannahGame from '../SavannahGame';
+import SavannahGame from '../Savannah/SavannahGame';
 import { SprintGame } from '../Sprint/SprintGame';
 import { IWord } from '../../../interfaces';
 

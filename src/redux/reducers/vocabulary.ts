@@ -92,14 +92,23 @@ const vocabularySlice = createSlice({
         state.words = [...action.payload.words];
         state.userList = [...action.payload.userList];
       })
+     .addCase(fetchingOnBookStart.rejected, (state) => {
+        console.log('что-то не так...');
+      })
       .addCase(fetchingGeneral.fulfilled, (state, action) => {
         state.words = [...action.payload];
+      })
+      .addCase(fetchingGeneral.rejected, (state, action) => {
+        console.log('что-то не так...');
       })
       .addCase(fetchingAggregated.fulfilled, (state, action) => {
         state.words = [...action.payload[0].paginatedResults];
       })
       .addCase(getAllWords.fulfilled, (state, action) => {
         state.words = [...action.payload[0].paginatedResults];
+      })
+      .addCase(getAllWords.rejected, (state) => {
+        console.log('что-то не так...');
       })
       .addCase(createWord.fulfilled, (state, action) => {
         console.log(action.payload);

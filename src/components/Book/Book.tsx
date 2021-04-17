@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { IRootState } from '../../interfaces';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,13 +47,13 @@ function Book(): JSX.Element {
 	const user = useSelector((state: IRootState) => state.user);
 	const { vMode, page, lvl, words, userList, value } = vocabulary;
 	const { userId, token, isAuth } = user;
+	const { soundVolume } = useSelector((state: any) => state.settings);
+	const didMount = useRef(false);
 
 	const radioButtonHandler = async () => {
-		//	await dispatch(clearWords());
 		if (isAuth && !userList)
 			await dispatch(fetchingOnBookStart({ lvl, page, userId, token }));
 		else {
-			//isAuth && (await dispatch(getWords({ userId, token })));
 			isAuth
 				? await dispatch(fetchingAggregated({ lvl, page, userId, token }))
 				: await dispatch(fetchingGeneral({ lvl, page, isAuth }));
@@ -61,12 +61,13 @@ function Book(): JSX.Element {
 	};
 
 	useEffect(() => {
-			dispatch(vModeSetOff(isAuth));
+		if (didMount.current) dispatch(vModeSetOff(isAuth));
+		else didMount.current = true;
 	}, [isAuth]);
 
-useEffect(()=>{
-	radioButtonHandler();
-},[lvl,page,vMode])
+	useEffect(() => {
+		radioButtonHandler();
+	}, [lvl, page, vMode]);
 
 	const addWordToUser = async (wordId: string, type: any) => {
 		const obj = {
@@ -93,6 +94,7 @@ useEffect(()=>{
 		(src: string[], i: number): void => {
 			if (i == src.length) return;
 			audio.src = `${baseUrl}${src[i]}`;
+			audio.volume = soundVolume;
 			audio.play();
 			audio.addEventListener(
 				'ended',
@@ -102,18 +104,17 @@ useEffect(()=>{
 				{ once: true }
 			);
 		},
-		[audio]
+		[soundVolume]
 	);
 
 	return (
 		<div
-			className='Vocabulary'
+			className='Book'
 			style={{
-				// minHeight: 'calc(100vh - 50px)',
 				backgroundImage: `url(${images[lvl]})`,
-				backgroundSize:'auto auto',
-				backgroundPosition: `bottom 10px right ${300*page}px`,
-				transition:'background 1s ease-out'
+				backgroundSize: 'auto auto',
+				backgroundPosition: `bottom 10px right ${300 * page}px`,
+				transition: 'background 1s ease-out',
 			}}
 		>
 			<div className='container-fluid'>
@@ -176,28 +177,10 @@ useEffect(()=>{
 				<div className='d-flex p-2 flex-wrap justify-content-center'>
 					{vMode ? (
 						<Vocabulary
-							isAuth={isAuth}
-							value={value}
-							vMode={vMode}
-							token={token}
-							userId={userId}
-							updateUserWord={updateUserWord}
-							audioHandler={audioHandler}
-							baseUrl={baseUrl}
-							addWordToUser={addWordToUser}
-							setValue={setValue}
+							{...{ updateUserWord, audioHandler, addWordToUser, setValue }}
 						/>
 					) : (
-						<WordList
-							isAuth={isAuth}
-							vMode={vMode}
-							token={token}
-							words={words}
-							updateUserWord={updateUserWord}
-							audioHandler={audioHandler}
-							baseUrl={baseUrl}
-							addWordToUser={addWordToUser}
-						/>
+						<WordList {...{ updateUserWord, audioHandler, addWordToUser }} />
 					)}
 				</div>
 			</div>
