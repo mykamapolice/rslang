@@ -49,7 +49,6 @@ function Book(): JSX.Element {
 	const { userId, token, isAuth } = user;
 	const { soundVolume } = useSelector((state: any) => state.settings);
 	const didMount = useRef(false);
-
 	const radioButtonHandler = async () => {
 		if (isAuth && !userList)
 			await dispatch(fetchingOnBookStart({ lvl, page, userId, token }));

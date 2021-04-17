@@ -19,10 +19,6 @@ const WordListPages = ({ setPage }: any) => {
 		}
 	};
 
-	//   const vocabularyWordList = userList ? userList.filter((el: IWord) =>
-	//   wordMapperCheck(value, el.userWord.optional)
-	// ).filter((el:IWord)=>el.page===page&&el.group===lvl) : [];
-
 	const notActiveList = useMemo(() => {
 		const notActive = [...Array(paginationLength)]
 			.map((_, i: number) => (emptyPage(lvl, i) ? i : null))
@@ -32,6 +28,7 @@ const WordListPages = ({ setPage }: any) => {
 
 	const setActivePage = useCallback(
 		(page: number, isPlus?: boolean) => {
+			console.log(notActiveList)
 			if (page < 0) page = paginationLength - 1;
 			if (page > paginationLength - 1) page = 0;
 			const findEqualPage = notActiveList.findIndex(
@@ -50,7 +47,7 @@ const WordListPages = ({ setPage }: any) => {
 			(el: number | null) => el === page
 		);
 		if (pageCheck !== -1) setActivePage(page + 1, true);
-	}, [userList]);
+	}, [userList,notActiveList]);
 
 	const buttonHandler = useCallback(
 		(expression: boolean): void => {
@@ -64,7 +61,7 @@ const WordListPages = ({ setPage }: any) => {
 					break;
 			}
 		},
-		[page]
+		[page,notActiveList]
 	);
 	const paginationNumbs = useMemo(
 		() =>
