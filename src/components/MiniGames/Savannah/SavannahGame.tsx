@@ -27,7 +27,7 @@ const Card = ({
 	const buttonsRef : any|null = useRef(null);
 	let cancel: number;
 
-	
+
 	useEffect(() => {
 		document.addEventListener('keydown', buttonHandler);
 		engine();
@@ -50,7 +50,7 @@ const Card = ({
 
 	const buttonHandler = (e: any) => {
 		if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4') {
-			buttonsRef.current?.children[+e.key - 1].click();	
+			buttonsRef.current?.children[+e.key - 1].click();
 		}
 	};
 
@@ -92,6 +92,8 @@ const questionAnswers = questions[questionNumber].answers.map((el: IAnswers, i: 
 };
 
 const SavannahGame = (props: any) => {
+	const [ser, setSer] = useState(0)
+
 	const {
 		isLogin,
 		questionsNumbers,
@@ -100,7 +102,8 @@ const SavannahGame = (props: any) => {
 		setScore,
 		score,
 		sendWordStats,
-
+		longestSeries,
+		setLongestSeries
 	} = props;
 
 	const {soundVolume} = useSelector((state:any)=> state.settings)
@@ -125,12 +128,18 @@ const SavannahGame = (props: any) => {
 		if (e && JSON.parse(e.target.dataset.iscorrect)) {
 			audio.src = `${process.env.PUBLIC_URL}/hruk.mp3`;
 			audio.play();
+			setSer((prev: number) => prev + 1)
+			if(longestSeries < ser) {
+				setLongestSeries(ser)
+
+			}
 			if (isLogin) sendWordStats(questions[questionNumber],true);
 			setScore(score + 1);
 			setPigSize(pigSize+1);
 		} else {
 			audio.src = `${process.env.PUBLIC_URL}/vizg.mp3`;
 			audio.play();
+			setSer(0)
 			if (isLogin) sendWordStats(questions[questionNumber],false);
 			pigSize ? (setPigSize(pigSize-1)) : (setPigSize(0));
 		}

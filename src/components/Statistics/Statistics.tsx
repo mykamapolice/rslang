@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import LongTermStatistics from './LongTermStatistics/LongTerm';
 import ShortTermStatistics from './ShortTermStatistics/ShortTerm';
+function Statistics(props: any): JSX.Element {
 
-function Statistics(): JSX.Element {
   const [longTermStat, setLongTermStat] = useState(false);
 
   function onClickHandler(par: boolean) {
@@ -15,25 +15,25 @@ function Statistics(): JSX.Element {
       <div style={{ margin: '1rem' }}>
         <Button
           onClick={() => onClickHandler(true)}
-          variant="primary"
-          size="lg"
+          variant='primary'
+          size='lg'
           active
         >
           Долгосрочная статистика
-                </Button>
+        </Button>
         {'   '}
         <Button
           onClick={() => onClickHandler(false)}
-          variant="primary"
-          size="lg"
+          variant='primary'
+          size='lg'
           active
         >
           Краткосрочная статистика
-                </Button>
+        </Button>
       </div>
       <div>
         {longTermStat ? (
-          <LongTermStatistics />
+          <LongTermStatistics/>
         ) : (
           <ShortTermStatistics />
         )}

@@ -10,7 +10,6 @@ const audio = new Audio();
 
 const SwojaIgraStat = (props: any) => {
 	const { score, questionsNumbers, gameResults,startNewGame } = props;
-	console.log(gameResults);
 
 	const audioHandler = (link: string) => {
 		audio.src = `${baseUrl}${link}`;

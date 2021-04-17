@@ -3,12 +3,16 @@ import QuestionCard from '../SwojaIgraQuestionCard/SwojaIgraQuestionCard';
 
 const QuestionBox = (props: any) => {
 	const [questionNumber, setQuestionNumber] = useState(0);
+	const [ser, setSer] = useState(0)
+
 	const {
 		questions,
 		questionsNumbers,
 		showFinishInfo,
 		score,
 		setScore,
+		longestSeries,
+		setLongestSeries,
 		sendWordStats
 	} = props;
 
@@ -28,6 +32,10 @@ const QuestionBox = (props: any) => {
 				questions={questions}
 				score={score}
 				setScore={setScore}
+				ser={ser}
+				setSer={setSer}
+				longestSeries={longestSeries}
+				setLongestSeries={setLongestSeries}
 				sendWordStats={sendWordStats}
 			/>
 		);

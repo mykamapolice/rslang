@@ -8,32 +8,58 @@ import SwojaIgraStat from '../EndGameStatistic/SwojaIgraStat';
 import styles from './MiniGamesStartMenu.module.css';
 import getQuestions from '../RandomiseQuestions';
 import AudiocallGameBox from '../Audiocall/AudiocallGameBox/AudiocallGameBox';
-import SavannahGame from '../Savannah/SavannahGame';
+import { IGameResult, IWord } from '../../../interfaces';
+import {
+	getStatistics,
+	updateStatistics,
+} from '../../../redux/reducers/statistics';
+import { getTodaysDate } from '../../../utils/statistics-helper';
 import { SprintGame } from '../Sprint/SprintGame';
-import { IWord } from '../../../interfaces';
+import SavannahGame from '../Savannah/SavannahGame';
 
 interface IGameProps {
 	game: string,
 	bookWords?: IWord[];
 }
 
-const MiniGamesStartMenu = (props: any): JSX.Element => {
-	const { game, bookWords }: IGameProps = props.location.state;
+enum gamesStatisticsNames {
+	SwojaIgra = "owngame",
+	Audiocall = "audiocall",
+	Sprint = "sprint",
+	Savannah = "savannah"
+}
+
+enum gamesRules {
+	SwojaIgra = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки',
+	Audiocall = "audiocall",
+	Sprint = "sprint",
+	Savannah = "savannah"
+}
+
+const MiniGamesStartMenu = (props:any): JSX.Element => {
+	const { game, bookWords }:IGameProps = props.location.state;
+
 	const [isStarted, setStarted] = useState(false);
 	const [finish, setFinish] = useState(false);
 	const [questions, setQuestions]: any[] = useState([]);
 	const [questionsNumbers, setQuestionsNumbers] = useState(bookWords ? bookWords.length : 20);
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
-	const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
+	const [longestSeries, setLongestSeries] = useState(0);
+
 	const gameResults:{[key: string]:any[]} = useRef({
 		answered:[],
 		notAnswered:[]
 	}).current;
 
-
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
+	dispatch(getStatistics());
+
+	const getKeyValue = (game: string) => (gamesStatisticsNames: Record<string, any>) => gamesStatisticsNames[game];
+	const gameName = getKeyValue(game)(gamesStatisticsNames)
+	const rules = getKeyValue(game)(gamesRules)
+
 	const isLogin = state.user.isAuth;
 	const token = state.user.token;
 	const userId = state.user.userId;
@@ -61,6 +87,26 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 		[isLogin]
 	);
 
+	const sendStatistics = () => {
+		let bestSeries = 0
+
+		if(score !== 0) {
+			bestSeries = longestSeries !== 0 ? longestSeries + 1 : 1
+		}
+
+		const gameStatistics: IGameResult = {
+			game: gameName,
+			result: {
+				date: getTodaysDate(),
+				bestSeries: bestSeries,
+				attempts: questionsNumbers,
+				rightAnswers: score,
+				learnedWords: questionsNumbers,
+			},
+		};
+		dispatch(updateStatistics(gameStatistics));
+	}
+
 	const updateUserWord = useCallback(
 		async (wordId: string, type: any) => {
 			const obj = {
@@ -75,12 +121,13 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 	);
 
 	const showFinishInfo = () => {
+		sendStatistics()
 		setFinish(true);
 		setStarted(false);
 	};
-	
+
 	const startNewGame = () => {
-					setFinish(false);
+			setFinish(false);
 			setScore(0);
 	}
 
@@ -96,7 +143,6 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 
 	const addGameResults = useCallback((word:any,isWin:boolean)=>{
 		isWin? gameResults.answered.push(word):gameResults.notAnswered.push(word);
-		console.log(gameResults)
 	},[gameResults]);
 
 	const sendWordStats = useCallback((current:any,isTrue: boolean): void => {
@@ -127,8 +173,9 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 		showFinishInfo,
 		setScore,
 		score,
-		sendWordStats
-		
+		sendWordStats,
+		longestSeries,
+		setLongestSeries
 	};
 
 	const currentMiniGame = () => {

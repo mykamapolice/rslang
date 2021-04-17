@@ -1,7 +1,10 @@
 import React from 'react';
 import { BookHalf, Percent } from 'react-bootstrap-icons';
 
-const GeneralStatistic = (): JSX.Element => {
+const GeneralStatistic = (props: any): JSX.Element => {
+
+  const { percentOfCorrect, general } = props
+
   return (
     <div>
       <div>
@@ -13,7 +16,7 @@ const GeneralStatistic = (): JSX.Element => {
         <p style={{
           color: 'orange',
           fontSize: '2rem',
-        }}>24</p>
+        }}>{general}</p>
       </div>
       <div>
         <h4>
@@ -23,7 +26,7 @@ const GeneralStatistic = (): JSX.Element => {
           <p style={{
             color: 'green',
             fontSize: '2rem',
-          }}>34</p>
+          }}>{percentOfCorrect}</p>
         </h4>
       </div>
     </div>

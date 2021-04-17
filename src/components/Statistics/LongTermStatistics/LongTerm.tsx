@@ -6,9 +6,16 @@ import {
   VictoryLine,
   createContainer,
 } from 'victory';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../../../interfaces';
 
 const LongTermStatistics = () => {
+
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
+
+  const statistics = useSelector((state: IRootState) => state.statistics);
+  console.log(statistics)
+
   const data = [
     {
       x: 1,

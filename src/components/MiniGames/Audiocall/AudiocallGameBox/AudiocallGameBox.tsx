@@ -6,7 +6,6 @@ import { ArrowRight, VolumeUp } from 'react-bootstrap-icons';
 import styles from './AudioncallGameBox.module.css';
 import AudioCallGameCard from '../AudioCallGameCard/AudioCallGameCard';
 import { baseUrl } from '../../../../utils/constants';
-import AudioCallEndInfo from '../AudioCallEndInfo/AudioCallEndInfo';
 
 const AudiocallGameBox = (props: any) => {
 
@@ -86,7 +85,7 @@ const AudiocallGameBox = (props: any) => {
       score={score}
       setNextBtnDis={setNextBtnDis}
       setIsShowEndInfo={setIsShowEndInfo}
-      
+
     />;
   });
 
@@ -95,10 +94,6 @@ const AudiocallGameBox = (props: any) => {
       <h2>Аудиовызов</h2>
       <h3>Номер вопроса {questionNumber + 1}/{questionsNumbers}</h3>
       <h3>Количество праильных ответов: {score}</h3>
-      < AudioCallEndInfo
-        IsShowEndInfo={IsShowEndInfo}
-        handleClose={handleClose}
-      />
       <div className='slide-container'>
         {isShowAnswer ? <div className={styles.answerContainer}>
           <img src={`${baseUrl}${imageUrl}`} alt='' />

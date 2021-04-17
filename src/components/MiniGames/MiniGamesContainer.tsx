@@ -19,7 +19,7 @@ const games = [
 	{
 		id: 'sprint',
 		title: 'Sprint',
-		imageUrl: 'http://m.plonga.com/uploads/thumbs/100-meters-sprint-mobile.jpg',
+		imageUrl: 'https://www.mensjournal.com/wp-content/uploads/mf/1280-run-track-sprint-shuttle.jpg?w=900&h=506&crop=1&quality=86&strip=all&iswp=1',
 	},
 	{
 		id: 'swojaIgra',
