@@ -40,6 +40,7 @@ const addNewQuestionToArray = (words: IWord[], wordsCopy: IWord[]) => {
 			correct: word,
 			audio,
 			id: _id||id,
+			wordTranslate,
 			userWord: userWord || null,
 			objectCopy: {...words[
 				randomQuestionNumber

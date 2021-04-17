@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWords, createWord, updateWord } from '../../../redux/reducers/vocabulary';
 import QuestionBox from '../SwojaIgra/QuestionBox/QuestionBox';
@@ -19,7 +19,6 @@ interface IGameProps {
 
 const MiniGamesStartMenu = (props: any): JSX.Element => {
 	const { game, bookWords }: IGameProps = props.location.state;
-
 	const [isStarted, setStarted] = useState(false);
 	const [finish, setFinish] = useState(false);
 	const [questions, setQuestions]: any[] = useState([]);
@@ -27,6 +26,11 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
 	const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
+	const gameResults:{answered:any[],notAnswered:any[]} = useRef({
+		answered:[],
+		notAnswered:[]
+	}).current;
+
 
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
@@ -73,10 +77,10 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 	const showFinishInfo = () => {
 		setFinish(true);
 		setStarted(false);
-		setTimeout(() => {
-			setFinish(false);
-			setScore(0);
-		}, 5000);
+		// setTimeout(() => {
+		// 	setFinish(false);
+		// 	setScore(0);
+		// }, 5000);
 	};
 
 	const setQuestionNumbers = (val: number) => setQuestionsNumbers(val);
@@ -89,64 +93,59 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 		}
 	};
 
+	const addGameResults = useCallback((word:any,isWin:boolean)=>{
+		isWin? gameResults.answered.push(word):gameResults.notAnswered.push(word);
+		console.log(gameResults)
+	},[gameResults]);
+
+	const sendWordStats = useCallback((current:any,isTrue: boolean): void => {
+		addGameResults(current,isTrue);
+		if (current.userWord) {
+			const obj = { ...current.userWord.optional };
+			if (isTrue) obj.wins = obj.wins ? obj.wins + 1 : 1;
+			else obj.loses = obj.loses ? obj.loses + 1 : 1;
+			updateUserWord(current.id, obj);
+		}
+		else {
+			const obj = {
+				isLearn: true, isHard: false, isDeleted: false , wins:0, loses:0
+			};
+			if (isTrue) obj.wins = obj.wins+1;
+			else obj.loses = obj.loses+1;
+			addWordToUser(current.id, obj);
+		}
+	},[isLogin]);
+
+	const gameProps = {
+		isLogin,
+		addWordToUser,
+		updateUserWord,
+		questionsNumbers,
+		setStarted,
+		questions,
+		showFinishInfo,
+		setScore,
+		score,
+		sendWordStats
+	};
+
 	const currentMiniGame = () => {
 		switch (game) {
 			case 'SwojaIgra':
-				return (
-					<QuestionBox
-						addWordToUser={addWordToUser}
-						updateUserWord={updateUserWord}
-						questionsNumbers={questionsNumbers}
-						setStarted={setStarted}
-						questions={questions}
-						showFinishInfo={showFinishInfo}
-						setScore={setScore}
-						score={score}
-					/>
-				);
+				return <QuestionBox {...gameProps} />;
 			case 'Sprint':
-				return <SprintGame
-					isLogin={isLogin}
-					addWordToUser={addWordToUser}
-					updateUserWord={updateUserWord}
-					questionsNumbers={questionsNumbers}
-					setStarted={setStarted}
-					questions={questions}
-					showFinishInfo={showFinishInfo}
-					setScore={setScore}
-					score={score} />;
+				return <SprintGame {...gameProps} />;
 			case 'Savannah':
-				return (
-					<SavannahGame
-						isLogin={isLogin}
-						addWordToUser={addWordToUser}
-						updateUserWord={updateUserWord}
-						questionsNumbers={questionsNumbers}
-						setStarted={setStarted}
-						questions={questions}
-						showFinishInfo={showFinishInfo}
-						setScore={setScore}
-						score={score}
-					/>
-				);
+				return <SavannahGame {...gameProps} />;
 			case 'Audiocall':
-				return <AudiocallGameBox
-					addWordToUser={addWordToUser}
-					updateUserWord={updateUserWord}
-					questionsNumbers={questionsNumbers}
-					setStarted={setStarted}
-					questions={questions}
-					showFinishInfo={showFinishInfo}
-					setScore={setScore}
-					score={score}
-				/>;
+				return <AudiocallGameBox {...gameProps} />;
 		}
 	};
 
 	return (
 		<div className='Vocabulary'>
 			{finish ? (
-				<SwojaIgraStat questionsNumbers={questionsNumbers} score={score} />
+				<SwojaIgraStat questionsNumbers={questionsNumbers} score={score} gameResults={gameResults} />
 			) : !isLogin ? (
 				<Alert variant='danger'>
 					<Alert.Heading>Пожалуйста авторизируйтесь</Alert.Heading>

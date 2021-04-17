@@ -12,7 +12,7 @@ function WordCard({ mappedWords }: any): JSX.Element {
 				
 				<div className={`notWords ${mappedWords.length ?'':'b-show'}`}>
 					<h1 className='my-3' style={{color:'#355070'}}>
-						В данном разделе нет слов. Играйте в игры, или добавляйте слова из учебника
+						В данном разделе пока нет слов. Играйте в игры, или добавляйте слова из учебника
 					</h1>
 				<EmojiSmileUpsideDown color="#6d597a" style={{alignSelf:'center'}} size={120}/>
 				</div>

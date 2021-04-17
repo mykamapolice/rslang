@@ -93,19 +93,18 @@ const questionAnswers = questions[questionNumber].answers.map((el: IAnswers, i: 
 const SavannahGame = (props: any) => {
 	const {
 		isLogin,
-		addWordToUser,
-		updateUserWord,
 		questionsNumbers,
 		questions,
 		showFinishInfo,
 		setScore,
 		score,
+		sendWordStats,
+
 	} = props;
 
 	const {soundVolume} = useSelector((state:any)=> state.settings)
 	const [questionNumber, setQuestionNumber] = useState(0);
 	const [pigSize, setPigSize] = useState(0);
-	const [answer, setAnswer] = useState(false);
 	const containerRef: any | null = useRef(null);
 	audio.volume = soundVolume*0.01;
 
@@ -121,36 +120,17 @@ const SavannahGame = (props: any) => {
 		}
 	}, [questions]);
 
-	const sendWordStats = useCallback((isTrue: boolean): void => {
-		const current = questions[questionNumber];
-		console.log(current.correct)
-		if (questions[questionNumber].userWord) {
-			const obj = { ...current.userWord.optional };
-			if (isTrue) obj.wins = obj.wins ? obj.wins + 1 : 1;
-			else obj.loses = obj.loses ? obj.loses + 1 : 1;
-			updateUserWord(current.id, obj);
-		}
-		else {
-			const obj = {
-				isLearn: true, isHard: false, isDeleted: false , wins:0, loses:0
-			};
-			if (isTrue) obj.wins = obj.wins+1;
-			else obj.loses = obj.loses+1;
-			addWordToUser(current.id, obj);
-		}
-	},[isLogin,questionNumber]);
-
 	const nextWordHandler = (e?: any) => {
 		if (e && JSON.parse(e.target.dataset.iscorrect)) {
 			audio.src = `${process.env.PUBLIC_URL}/hruk.mp3`;
 			audio.play();
-			if (isLogin) sendWordStats(true);
+			if (isLogin) sendWordStats(questions[questionNumber],true);
 			setScore(score + 1);
 			setPigSize(pigSize+1);
 		} else {
 			audio.src = `${process.env.PUBLIC_URL}/vizg.mp3`;
 			audio.play();
-			if (isLogin) sendWordStats(false);
+			if (isLogin) sendWordStats(questions[questionNumber],false);
 			pigSize ? (setPigSize(pigSize-1)) : (setPigSize(0));
 		}
 		setQuestionNumber(questionNumber + 1);
