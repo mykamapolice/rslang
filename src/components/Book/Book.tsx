@@ -1,15 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { IRootState } from '../../interfaces';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Wrench } from 'react-bootstrap-icons';
 import {
-	clearWords,
 	createWord,
 	fetchingAggregated,
 	fetchingGeneral,
-	getWords,
 	updateWord,
 	setLvl,
 	setPage,
@@ -32,12 +30,12 @@ const WordListGames = WordListFilter(Games);
 const UserListGames = UserListFilter(Games);
 
 const images: string[] = [
-	`${process.env.PUBLIC_URL}/images/1.jpg`,
+	`${process.env.PUBLIC_URL}/images/1.png`,
 	`${process.env.PUBLIC_URL}/images/2.jpg`,
-	`${process.env.PUBLIC_URL}/images/3.jpg`,
-	`${process.env.PUBLIC_URL}/images/4.jpg`,
-	`${process.env.PUBLIC_URL}/images/5.jpg`,
-	`${process.env.PUBLIC_URL}/images/6.jpg`,
+	`${process.env.PUBLIC_URL}/images/3.png`,
+	`${process.env.PUBLIC_URL}/images/4.png`,
+	`${process.env.PUBLIC_URL}/images/5.gif`,
+	`${process.env.PUBLIC_URL}/images/6.png`,
 ];
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -49,25 +47,27 @@ function Book(): JSX.Element {
 	const user = useSelector((state: IRootState) => state.user);
 	const { vMode, page, lvl, words, userList, value } = vocabulary;
 	const { userId, token, isAuth } = user;
+	const { soundVolume } = useSelector((state: any) => state.settings);
+	const didMount = useRef(false);
 
 	const radioButtonHandler = async () => {
-		//	await dispatch(clearWords());
 		if (isAuth && !userList)
 			await dispatch(fetchingOnBookStart({ lvl, page, userId, token }));
 		else {
-			//isAuth && (await dispatch(getWords({ userId, token })));
 			isAuth
 				? await dispatch(fetchingAggregated({ lvl, page, userId, token }))
-				: await dispatch(fetchingGeneral({ lvl, page }));
+				: await dispatch(fetchingGeneral({ lvl, page, isAuth }));
 		}
 	};
 
-	React.useEffect(() => {
+	// useEffect(() => {
+	// 	if (didMount.current) dispatch(vModeSetOff(isAuth));
+	// 	else didMount.current = true;
+	// }, [isAuth]);
+
+	useEffect(() => {
 		radioButtonHandler();
-		if (!isAuth) {
-			dispatch(vModeSetOff());
-		}
-	}, [page, lvl, isAuth]);
+	}, [lvl, page, isAuth]);
 
 	const addWordToUser = async (wordId: string, type: any) => {
 		const obj = {
@@ -94,6 +94,7 @@ function Book(): JSX.Element {
 		(src: string[], i: number): void => {
 			if (i == src.length) return;
 			audio.src = `${baseUrl}${src[i]}`;
+			audio.volume = soundVolume;
 			audio.play();
 			audio.addEventListener(
 				'ended',
@@ -103,24 +104,25 @@ function Book(): JSX.Element {
 				{ once: true }
 			);
 		},
-		[audio]
+		[soundVolume]
 	);
 
 	return (
 		<div
-			className='Vocabulary'
+			className='Book'
 			style={{
-				// minHeight: 'calc(100vh - 50px)',
 				backgroundImage: `url(${images[lvl]})`,
-				backgroundSize: 'auto',
+				backgroundSize: 'auto auto',
+				backgroundPosition: `bottom 0px right ${300 * page}px`,
+				transition: 'background 1s ease-out',
 			}}
 		>
 			<div className='container-fluid'>
 				<div className='row mt-2 '>
 					{vMode ? <UserListGames /> : <WordListGames />}
 
-					<div className='col-6'>
-						<div className='d-sm-flex flex-wrap justify-content-center'>
+					<div className='col-lg-6 py-3'>
+						<div className='d-flex flex-wrap justify-content-center'>
 							<Lvl
 								levels={levels}
 								lvl={lvl}
@@ -147,7 +149,7 @@ function Book(): JSX.Element {
 							)}
 						</div>
 					</div>
-					<div className='d-flex col justify-content-around'>
+					<div className='d-flex py-3 col justify-content-around'>
 						{isAuth && (
 							<Button
 								style={{ width: '140px' }}
@@ -162,7 +164,7 @@ function Book(): JSX.Element {
 						)}
 						<NavLink style={{ display: 'block' }} to='/settings'>
 							<Button
-								className='buttonMarginer d-flex justify-content-center align-items-center'
+								className='py-3 buttonMarginer d-flex justify-content-center align-items-center'
 								size='lg'
 							>
 								<Wrench color='yellow' size={20} />
@@ -172,31 +174,13 @@ function Book(): JSX.Element {
 				</div>
 			</div>
 			<div className='container-fluid'>
-				<div className='d-sm-flex p-2 flex-wrap justify-content-center'>
+				<div className='d-flex p-2 flex-wrap justify-content-center'>
 					{vMode ? (
 						<Vocabulary
-							isAuth={isAuth}
-							value={value}
-							vMode={vMode}
-							token={token}
-							userId={userId}
-							updateUserWord={updateUserWord}
-							audioHandler={audioHandler}
-							baseUrl={baseUrl}
-							addWordToUser={addWordToUser}
-							setValue={setValue}
+							{...{ updateUserWord, audioHandler, addWordToUser, setValue }}
 						/>
 					) : (
-						<WordList
-							isAuth={isAuth}
-							vMode={vMode}
-							token={token}
-							words={words}
-							updateUserWord={updateUserWord}
-							audioHandler={audioHandler}
-							baseUrl={baseUrl}
-							addWordToUser={addWordToUser}
-						/>
+						<WordList {...{ updateUserWord, audioHandler, addWordToUser }} />
 					)}
 				</div>
 			</div>

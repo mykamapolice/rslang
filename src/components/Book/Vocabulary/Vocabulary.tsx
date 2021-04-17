@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { IWord } from '../../../interfaces';
+import {baseUrl} from '../../../utils/constants'
 import WordCards from '../WordCards/WordCards';
 
 const audio = new Audio();
@@ -32,32 +33,21 @@ const wordMapperCheck = (
 };
 
 interface IVocabulary {
-	userId: string | null;
-	vMode: boolean;
-	value: 0 | 1 | 2;
-	isAuth: boolean;
-	token?: string | null;
 	setValue: any;
 	addWordToUser: any;
 	updateUserWord: any;
 	audioHandler: any;
-	baseUrl: string;
 }
 
 function Vocabulary({
-	vMode,
-	value,
-	isAuth,
 	setValue,
 	addWordToUser,
 	updateUserWord,
-	audioHandler,
-	baseUrl,
+	audioHandler
 }: IVocabulary): JSX.Element {
-	const state: any = useSelector(state => state);
 	const dispatch = useDispatch();
-	const { userList, page, lvl } = state.vocabulary;
-
+	const { userList, page, lvl, vMode, value } = useSelector((state:any) => state.vocabulary);
+	const { isAuth,token,userId } = useSelector((state:any) => state.user);
 	const filteredWords = useMemo(
 		() =>
 			userList
@@ -80,38 +70,38 @@ function Vocabulary({
 	);
 	return (
 		<div className='Vocabulary'>
-			<div className="container-fluid" style={{maxWidth:'800px'}}>
-			<ToggleButtonGroup
-				size='lg'
-				type='radio'
-				name='options'
-				defaultValue={value}
-			>
-				<ToggleButton
-					variant='primary'
-					value={0}
-					onClick={(e: any) => dispatch(setValue(+e.target.value))}
+			<div className='container-fluid' style={{ maxWidth: '800px' }}>
+				<ToggleButtonGroup
+					size='lg'
+					type='radio'
+					name='options'
+					defaultValue={value}
 				>
-					Изучаемые слова
-				</ToggleButton>
-				<ToggleButton
-					variant='primary'
-					value={1}
-					onClick={(e: any) => dispatch(setValue(+e.target.value))}
-				>
-					Сложные слова
-				</ToggleButton>
-				<ToggleButton
-					variant='primary'
-					value={2}
-					onClick={(e: any) => dispatch(setValue(+e.target.value))}
-				>
-					Удалённые слова
-				</ToggleButton>
-			</ToggleButtonGroup>
+					<ToggleButton
+						variant='primary'
+						value={0}
+						onClick={(e: any) => dispatch(setValue(+e.target.value))}
+					>
+						Изучаемые слова
+					</ToggleButton>
+					<ToggleButton
+						variant='primary'
+						value={1}
+						onClick={(e: any) => dispatch(setValue(+e.target.value))}
+					>
+						Сложные слова
+					</ToggleButton>
+					<ToggleButton
+						variant='primary'
+						value={2}
+						onClick={(e: any) => dispatch(setValue(+e.target.value))}
+					>
+						Удалённые слова
+					</ToggleButton>
+				</ToggleButtonGroup>
 			</div>
 			<div className='container-fluid'>
-				<div className='d-sm-flex p-2 flex-wrap justify-content-center'>
+				<div className='d-flex p-2 flex-wrap justify-content-center'>
 					<WordCards
 						addWordToUser={addWordToUser}
 						vMode={vMode}

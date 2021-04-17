@@ -1,5 +1,7 @@
 import React from 'react';
 import Buttons from './Buttons/Buttons';
+import { PatchCheckFill, PatchMinusFill } from 'react-bootstrap-icons';
+import { useSelector } from 'react-redux';
 
 function BaseInfo({
 	el,
@@ -12,7 +14,7 @@ function BaseInfo({
 	audioHandler,
 }: any): JSX.Element {
 	const buttonProps = { el, isAuth, vMode, buttonHandler, value, audioHandler };
-
+	const { isViewTranslate } = useSelector((state: any) => state.settings);
 	return (
 		<div
 			className='card mx-3 mb-3 pb-3 animated'
@@ -52,20 +54,40 @@ function BaseInfo({
 								marginBottom: '0',
 							}}
 						>
-							{el.wordTranslate}
+							{isViewTranslate && el.wordTranslate}
 						</div>
-						<div style={{ fontSize: '14px' }}>{el.textMeaningTranslate}</div>
+						<div style={{ fontSize: '14px' }}>
+							{isViewTranslate && el.textMeaningTranslate}
+						</div>
 						<div
 							style={{ fontSize: '14px' }}
 							dangerouslySetInnerHTML={{ __html: el.textExample }}
 						/>
-						<div
-							style={{ fontSize: '14px' }}
-							dangerouslySetInnerHTML={{
-								__html: el.textExampleTranslate,
-							}}
-						/>
+						{isViewTranslate && (
+							<div
+								style={{ fontSize: '14px' }}
+								dangerouslySetInnerHTML={{
+									__html: el.textExampleTranslate,
+								}}
+							/>
+						)}
 					</div>
+					{isAuth&&
+					<div className='d-flex justify-content-center'>
+						<div title='Угадано'>
+							<PatchCheckFill color='#06d6a0' size={30} />
+							<span className='text-info mx-3'>{`${
+								el.userWord?.optional?.wins ? el.userWord?.optional?.wins : 0
+							} `}</span>
+						</div>
+						<div title='Не угадано'>
+							<PatchMinusFill color='#ef476f' size={30} />
+							<span className='text-info mx-3'>{`${
+								el.userWord?.optional?.loses ? el.userWord?.optional?.loses : 0
+							}`}</span>
+						</div>
+					</div>
+				}
 					<Buttons {...buttonProps} />
 				</div>
 			</div>

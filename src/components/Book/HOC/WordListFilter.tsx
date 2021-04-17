@@ -21,17 +21,12 @@ const WordListFilter = (Component: React.ComponentType<any>) => {
 		const { vMode, value, words } = state.vocabulary;
 
 		const cardFilter = (el: IWord) => {
-			if (el.hasOwnProperty('userWord')) {
-				if (el.userWord.hasOwnProperty('optional')) {
-					if (el.userWord.optional.hasOwnProperty('isDeleted')) {
-						if (!el.userWord.optional.isDeleted) {
+
+						if (!el.userWord?.optional?.isDeleted) {
 							return el;
 						} else if (vMode && value === 2) {
 							return el;
 						}
-					} else return el;
-				} else return el;
-			} else return el;
 		};
 
 		const filteredWords = words ? words.filter((el: IWord) => cardFilter(el)) : [];

@@ -46,3 +46,13 @@
 .home-content2 p span {
     font-weight: 500;
 }
+
+.home-container{
+    background-image: url("https://res.cloudinary.com/dygjvygpr/image/upload/v1618504487/english_wwuzim.jpg");
+    padding: 15%;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: multiply;
+    background-color: #adb5bd;
+    color: white;
+}

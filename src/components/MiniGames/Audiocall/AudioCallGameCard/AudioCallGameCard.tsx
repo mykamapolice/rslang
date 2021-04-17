@@ -6,6 +6,8 @@ const buttons = []
 
 const AudioCallGameCard = (props: any) => {
 
+  const [ser, setSer] = useState(0)
+
   const {
     audioHandler,
     answers,
@@ -13,7 +15,12 @@ const AudioCallGameCard = (props: any) => {
     setScore,
     score,
     setNextBtnDis,
-    setIsShowEndInfo
+    setIsShowEndInfo,
+    sendWordStats,
+    questions,
+    questionNumber,
+    longestSeries,
+    setLongestSeries
     } = props
 
   const [btnDisabled, setBtnDisabled] = useState(false)
@@ -25,9 +32,15 @@ const AudioCallGameCard = (props: any) => {
     const word = e.target.closest("button").children[1].innerHTML
     const ans: any = checkAnswer(word)
     if( ans.isCorrect ) {
-      setScore(score + 1)
+      setScore(score + 1);
+      setSer((prev: number) => prev + 1)
+      if(longestSeries <= ser) {
+        setLongestSeries(ser)
+      }
+    } else {
+      setSer(0)
     }
-
+    sendWordStats(questions[questionNumber],ans.isCorrect)
     setBtnDisabled(true)
     setIsShowAnswer(true)
   }

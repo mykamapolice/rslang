@@ -78,7 +78,7 @@ const Registration: FC = (): JSX.Element => {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Зарегестрироваться
+        Регистрация
       </Button>
 
 

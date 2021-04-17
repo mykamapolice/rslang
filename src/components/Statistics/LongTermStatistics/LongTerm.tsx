@@ -7,8 +7,9 @@ import {
   createContainer,
 } from 'victory';
 
-const LongTermStatistics = () => {
+const LongTermStatistics = (props: any) => {
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
+  const {allStatistics} = props
   const data = [
     {
       x: 1,

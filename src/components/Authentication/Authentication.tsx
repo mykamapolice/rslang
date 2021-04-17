@@ -17,7 +17,7 @@ const Authentication: FC = (): JSX.Element => {
     dispatch(logout());
   };
 
-  return (<div>
+  return (<div className={'authentication'}>
     {isAuth
       ?
       <div>

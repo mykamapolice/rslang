@@ -12,7 +12,8 @@ const QuestionBox = (props: any) => {
 		score,
 		setScore,
 		longestSeries,
-		setLongestSeries
+		setLongestSeries,
+		sendWordStats
 	} = props;
 
 	useEffect(() => {
@@ -28,12 +29,14 @@ const QuestionBox = (props: any) => {
 				setQuestionNumber={setQuestionNumber}
 				image={item.image}
 				answers={item.answers}
+				questions={questions}
 				score={score}
 				setScore={setScore}
 				ser={ser}
 				setSer={setSer}
 				longestSeries={longestSeries}
 				setLongestSeries={setLongestSeries}
+				sendWordStats={sendWordStats}
 			/>
 		);
 	});

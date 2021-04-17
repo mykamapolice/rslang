@@ -56,10 +56,13 @@ const vocabularySlice = createSlice({
       const { vMode } = state;
       state.vMode = !vMode;
       state.page = 0;
+      state.lvl = 0;
     },
-    vModeSetOff: state => {
-      state.vMode = false;
+    vModeSetOff: (state,action) => {
+      const isAuth = action.payload;
+      if(!isAuth) state.vMode = false;
       state.userList = null;
+      state.words = null;
       state.lvl = 0;
       state.page = 0;
       state.value = 0;
@@ -90,14 +93,23 @@ const vocabularySlice = createSlice({
         state.words = [...action.payload.words];
         state.userList = [...action.payload.userList];
       })
+     .addCase(fetchingOnBookStart.rejected, (state) => {
+        console.log('что-то не так...');
+      })
       .addCase(fetchingGeneral.fulfilled, (state, action) => {
         state.words = [...action.payload];
+      })
+      .addCase(fetchingGeneral.rejected, (state, action) => {
+        console.log('что-то не так...');
       })
       .addCase(fetchingAggregated.fulfilled, (state, action) => {
         state.words = [...action.payload[0].paginatedResults];
       })
       .addCase(getAllWords.fulfilled, (state, action) => {
         state.words = [...action.payload[0].paginatedResults];
+      })
+      .addCase(getAllWords.rejected, (state) => {
+        console.log('что-то не так...');
       })
       .addCase(createWord.fulfilled, (state, action) => {
         console.log(action.payload);

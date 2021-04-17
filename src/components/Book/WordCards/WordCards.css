@@ -1,0 +1,21 @@
+.notWords{
+    display: none;
+    color:#495057;
+    background-color:rgba(229, 107, 111, 0.9);
+    border-radius:50px;
+    padding:30px;
+  }
+  
+  .b-show {
+    display: block;
+    animation: showBlock 0.5s linear forwards;
+  }
+  
+  @keyframes showBlock {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

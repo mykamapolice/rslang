@@ -45,13 +45,13 @@ const QuestionCard = (props: any) => {
     if( ans.isCorrect ) {
       props.setScore(props.score + 1)
       setSer((prev: number) => prev + 1)
-      if(longestSeries < ser) {
+      if(longestSeries <= ser) {
         setLongestSeries(ser)
       }
     } else {
       setSer(0)
     }
-
+    props.sendWordStats(props.questions[props.questionNumber],ans.isCorrect)
     setBtnDisabled(true)
   }
 

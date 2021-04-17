@@ -1,24 +1,27 @@
 import React from 'react';
 import WordCards from '../WordCards/WordCards';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '../../../utils/constants';
 
 function WordList({
-	isAuth,
-	words,
 	updateUserWord,
 	audioHandler,
-	baseUrl,
 	addWordToUser,
 }: any): JSX.Element {
+	const { words } = useSelector((state: any) => state.vocabulary);
+	const { isAuth } = useSelector((state: any) => state.user);
 	return (
 		<>
 			{words ? (
 				<WordCards
-					isAuth={isAuth}
-					words={words}
-					updateUserWord={updateUserWord}
-					audioHandler={audioHandler}
-					baseUrl={baseUrl}
-					addWordToUser={addWordToUser}
+					{...{
+						isAuth,
+						words,
+						updateUserWord,
+						audioHandler,
+						baseUrl,
+						addWordToUser,
+					}}
 				/>
 			) : (
 				<div className='spinner-border text-info' role='status'>
