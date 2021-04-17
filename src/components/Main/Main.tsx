@@ -25,7 +25,7 @@ const didMount = useRef(false);
 
 useEffect(() => {
  if(didMount.current)dispatch(vModeSetOff(isAuth));
- else didMount.current=true
+ else didMount.current=true;
 }, [isAuth])
     return (
         <div className="Main">
