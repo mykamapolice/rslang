@@ -54,6 +54,7 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
+	dispatch(getStatistics());
 
 	const getKeyValue = (game: string) => (gamesStatisticsNames: Record<string, any>) => gamesStatisticsNames[game];
 	const gameName = getKeyValue(game)(gamesStatisticsNames)
