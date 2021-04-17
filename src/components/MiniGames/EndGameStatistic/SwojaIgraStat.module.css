@@ -1,5 +1,6 @@
 .statContainer {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -7,4 +8,43 @@
 
 .statContainer img {
     width: 40rem;
+}
+
+.statsPhoto img{
+    display: block;
+    width: 60px;
+    border-radius:3px;
+}
+
+.wordsBlock{
+    text-align: left;
+    padding: 30px;
+}
+
+.statWord {
+text-align: left;
+vertical-align: middle;
+flex-grow: 1;
+}
+
+.wordsContainer{
+    overflow-y: scroll;
+    height: 50vh;
+    background-color: #f0efeb;
+}
+
+.wordsContainer::-webkit-scrollbar-track {border-radius: 4px;}
+.wordsContainer::-webkit-scrollbar {width: 6px;}
+.wordsContainerk::-webkit-scrollbar-thumb {border-radius: 4px;background: #f0f2f5;}
+.wordsContainer:hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
+
+
+
+@media (max-width:600px) {
+    .statWord {
+       font-size: 10px !important;
+        }
+        .statContainer img {
+            width: 2rem;
+        }
 }

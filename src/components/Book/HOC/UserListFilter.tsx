@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useMemo} from 'react';
 import { IWord } from '../../../interfaces';
 import { useSelector } from 'react-redux';
 
@@ -37,10 +37,8 @@ const wordMapperCheck = (
 
 const userListFilter = (Component: React.ComponentType<any>) => {
 	return (props: any) => {
-		const state: any = useSelector(state => state);
-		const { userList, value, lvl, page } = state.vocabulary;
-
-		const filteredWords = userList
+		const { userList, value, lvl, page } = useSelector((state:any) => state.vocabulary);
+		const	filteredWords = useMemo( () => userList
 			? userList
 					.filter((el: IWord) => {
 						if (
@@ -55,7 +53,7 @@ const userListFilter = (Component: React.ComponentType<any>) => {
 						);
 						if (i >= startIndex && i < startIndex + 20) return el;
 					})
-			: [];
+			: [], [userList,value,lvl,page])
 
 		return <Component {...props} filteredWords={filteredWords} />;
 	};

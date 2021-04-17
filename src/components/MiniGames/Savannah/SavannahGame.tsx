@@ -49,7 +49,7 @@ const Card = ({
 
 	const buttonHandler = (e: any) => {
 		if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4') {
-			buttonsRef.current.children[+e.key - 1].click();	
+			buttonsRef.current?.children[+e.key - 1].click();	
 		}
 	};
 

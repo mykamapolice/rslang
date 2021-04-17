@@ -1,5 +1,7 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import { Route } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import { vModeSetOff } from '../../redux/reducers/vocabulary';
 import Home from '../Home/Home'
 import Book from '../Book/Book'
 import MiniGamesContainer from '../MiniGames/MiniGamesContainer'
@@ -17,12 +19,19 @@ export enum miniGames {
 }
 
 function Main(): JSX.Element {
+const dispatch = useDispatch();
+const { isAuth } = useSelector((state:any) => state.user );
+const didMount = useRef(false);
+
+useEffect(() => {
+ if(didMount.current)dispatch(vModeSetOff(isAuth));
+ else didMount.current=true
+}, [isAuth])
     return (
         <div className="Main">
 
             <Route path="/book" component={Book}/>
             <Route exact path="/mini-games" component={MiniGamesContainer}/>
-            {/*<Route exact path="/mini-games/:id" component={MiniGame} />*/}
             <Route exact path="/mini-games/savannah" component={MiniGamesStartMenu}/>
             <Route exact path="/mini-games/swojaIgra" component={MiniGamesStartMenu}/>
             <Route exact path="/mini-games/audiocall" component={MiniGamesStartMenu}/>

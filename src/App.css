@@ -3,6 +3,10 @@ html {
     overflow-y: scroll;
   }
 
+  html::-webkit-scrollbar-track {border-radius: 4px;}
+  html::-webkit-scrollbar {width: 6px;}
+  html::-webkit-scrollbar-thumb {border-radius: 4px;background: #f0f2f5;}
+  html:hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
 
 
 .authentication{

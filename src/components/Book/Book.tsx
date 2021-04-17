@@ -60,14 +60,14 @@ function Book(): JSX.Element {
 		}
 	};
 
-	useEffect(() => {
-		if (didMount.current) dispatch(vModeSetOff(isAuth));
-		else didMount.current = true;
-	}, [isAuth]);
+	// useEffect(() => {
+	// 	if (didMount.current) dispatch(vModeSetOff(isAuth));
+	// 	else didMount.current = true;
+	// }, [isAuth]);
 
 	useEffect(() => {
 		radioButtonHandler();
-	}, [lvl, page, vMode]);
+	}, [lvl, page, isAuth]);
 
 	const addWordToUser = async (wordId: string, type: any) => {
 		const obj = {

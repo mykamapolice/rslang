@@ -26,7 +26,7 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
 	const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
-	const gameResults:{answered:any[],notAnswered:any[]} = useRef({
+	const gameResults:{[key: string]:any[]} = useRef({
 		answered:[],
 		notAnswered:[]
 	}).current;
@@ -82,6 +82,11 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 		// 	setScore(0);
 		// }, 5000);
 	};
+	
+	const startNewGame = () => {
+					setFinish(false);
+			setScore(0);
+	}
 
 	const setQuestionNumbers = (val: number) => setQuestionsNumbers(val);
 	const setLevel = (val: number) => setLvl(val);
@@ -127,6 +132,7 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 		setScore,
 		score,
 		sendWordStats
+		
 	};
 
 	const currentMiniGame = () => {
@@ -145,7 +151,7 @@ const MiniGamesStartMenu = (props: any): JSX.Element => {
 	return (
 		<div className='Vocabulary'>
 			{finish ? (
-				<SwojaIgraStat questionsNumbers={questionsNumbers} score={score} gameResults={gameResults} />
+				<SwojaIgraStat startNewGame={startNewGame} questionsNumbers={questionsNumbers} score={score} gameResults={gameResults} />
 			) : !isLogin ? (
 				<Alert variant='danger'>
 					<Alert.Heading>Пожалуйста авторизируйтесь</Alert.Heading>

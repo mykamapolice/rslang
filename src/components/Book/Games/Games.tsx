@@ -32,10 +32,11 @@ const games = [
 
 function Games({filteredWords}:any): JSX.Element {
 
-	const { value } = useSelector((state:any) => state.vocabulary)
-
+	const { value, vMode } = useSelector((state:any) => state.vocabulary)
+	console.log(filteredWords)
+	const check = (vMode&&value==2)||!filteredWords.length ? false:true
 	return (
-		<div className='col py-3 animated' style={{visibility : value!==2&&filteredWords.length ? 'visible':'hidden' }}>
+		<div className='col py-3 animated' style={{visibility : check ? 'visible':'hidden' }}>
 			{games.map((el:any)=>{
 				return (
 					<NavLink key={el.title}
