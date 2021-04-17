@@ -10,11 +10,30 @@ import getQuestions from '../RandomiseQuestions';
 import AudiocallGameBox from '../Audiocall/AudiocallGameBox/AudiocallGameBox';
 import SavannahGame from '../SavannahGame';
 import { SprintGame } from '../SprintGame';
-import {IWord} from '../../../interfaces'
+import { IGameResult, IRootState, IWord } from '../../../interfaces';
+import {
+	getStatistics,
+	updateStatistics,
+} from '../../../redux/reducers/statistics';
+import { getTodaysDate } from '../../../utils/statistics-helper';
 
 interface IGameProps {
 	game: string,
 	bookWords?:IWord[]
+}
+
+enum gamesStatisticsNames {
+	SwojaIgra = "owngame",
+	Audiocall = "audiocall",
+	Sprint = "sprint",
+	Savannah = "savannah"
+}
+
+enum gamesRules {
+	SwojaIgra = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки',
+	Audiocall = "audiocall",
+	Sprint = "sprint",
+	Savannah = "savannah"
 }
 
 const MiniGamesStartMenu = (props:any): JSX.Element => {
@@ -26,10 +45,15 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	const [questionsNumbers, setQuestionsNumbers] = useState(bookWords?bookWords.length:20);
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
-	const rules = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки';
+	const [longestSeries, setLongestSeries] = useState(0);
 
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
+
+	const getKeyValue = (game: string) => (gamesStatisticsNames: Record<string, any>) => gamesStatisticsNames[game];
+	const gameName = getKeyValue(game)(gamesStatisticsNames)
+	const rules = getKeyValue(game)(gamesRules)
+
 	const isLogin = state.user.isAuth;
 	const token = state.user.token;
 	const userId = state.user.userId;
@@ -57,6 +81,22 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		[isLogin]
 	);
 
+	const sendStatistics = () => {
+
+		const gameStatistics: IGameResult = {
+			game: gameName,
+			result: {
+				date: getTodaysDate(),
+				bestSeries: longestSeries !== 0 ? longestSeries + 1 : 0,
+				attempts: questionsNumbers,
+				rightAnswers: score,
+				learnedWords: questionsNumbers,
+			},
+		};
+		console.log(gameStatistics)
+		dispatch(updateStatistics(gameStatistics));
+	}
+
 	const updateUserWord = useCallback(
 		async (wordId: string, type: any) => {
 			const obj = {
@@ -69,8 +109,10 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		},
 		[isLogin]
 	);
+	console.log(longestSeries + 1)
 
 	const showFinishInfo = () => {
+		sendStatistics()
 		setFinish(true);
 		setStarted(false);
 		setTimeout(() => {
@@ -100,6 +142,8 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 						showFinishInfo={showFinishInfo}
 						setScore={setScore}
 						score={score}
+						longestSeries={longestSeries}
+						setLongestSeries={setLongestSeries}
 					/>
 				);
 			case 'Sprint':

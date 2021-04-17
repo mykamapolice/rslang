@@ -6,6 +6,8 @@ const QuestionCard = (props: any) => {
 
   const [btnDisabled, setBtnDisabled] = useState(false)
 
+  const {ser, setSer, longestSeries, setLongestSeries} = props
+
   const setKey = (event: any) => {
     try {
       if (event.key !== ' ') {
@@ -42,6 +44,12 @@ const QuestionCard = (props: any) => {
     const ans: any = checkAnswer(word)
     if( ans.isCorrect ) {
       props.setScore(props.score + 1)
+      setSer((prev: number) => prev + 1)
+      if(longestSeries < ser) {
+        setLongestSeries(ser)
+      }
+    } else {
+      setSer(0)
     }
 
     setBtnDisabled(true)
