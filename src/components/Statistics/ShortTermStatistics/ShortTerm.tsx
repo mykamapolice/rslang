@@ -12,19 +12,23 @@ const ShortTermStatistics = () => {
 
   const [swojaIgraStat, setSwojaIgraStat]= useState({
     bestSeries: 0,
-    correct: 0
+    correct: 0,
+    general: 0
   });
   const [sprintStat, setSprintStat] = useState({
     bestSeries: 0,
-    correct: 0
+    correct: 0,
+    general: 0
   });
   const [savannahStat, setSavannahStat] = useState({
     bestSeries: 0,
-    correct: 0
+    correct: 0,
+    general: 0
   });
   const [audiocallStat, setAudiocallStat]= useState({
     bestSeries: 0,
-    correct: 0
+    correct: 0,
+    general: 0
   })
   const [general, setGeneral] = useState(0);
   const [percentOfCorrect, setPercentOfCorrect] = useState(0);
@@ -58,33 +62,34 @@ const ShortTermStatistics = () => {
     item.map((game: any) => {
       const correct = Math.ceil(game.rightAnswers / game.learnedWords * 100)
       const bestSeries = game.bestSeries
+      const general = game.learnedWords
       switch (key) {
         case `savannah`:
-          console.log(key, (Math.ceil(game.rightAnswers / game.learnedWords * 100)))
           setSavannahStat( {
               bestSeries: bestSeries,
-              correct: correct
+              correct: correct,
+              general: general
             })
           break
         case `audiocall`:
-          console.log(key, (Math.ceil(game.rightAnswers / game.learnedWords * 100)))
           setAudiocallStat( {
             bestSeries: bestSeries,
-            correct: correct
+            correct: correct,
+            general: general
           })
           break
         case `owngame`:
-          console.log(key, (Math.ceil(game.rightAnswers / game.learnedWords * 100)))
           setSwojaIgraStat( {
             bestSeries: bestSeries,
-            correct: correct
+            correct: correct,
+            general: general
           })
           break
         case `sprint`:
-          console.log(key, (Math.ceil(game.rightAnswers / game.learnedWords * 100)))
           setSprintStat( {
             bestSeries: bestSeries,
-            correct: correct
+            correct: correct,
+            general: general
           })
           break
       }

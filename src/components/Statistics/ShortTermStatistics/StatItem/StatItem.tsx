@@ -31,9 +31,9 @@ const ShortTermStatisticsItem = (props: any) => {
       </thead>
       <tbody>
       <tr>
-        <td>Процент правильных ответов</td>
+        <td>{stat.general}</td>
         <td>{stat.correct}</td>
-        <td>Otto</td>
+        <td>{stat.bestSeries}</td>
       </tr>
       </tbody>
     </Table>
