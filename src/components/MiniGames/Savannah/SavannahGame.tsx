@@ -84,7 +84,7 @@ const questionAnswers = questions[questionNumber].answers.map((el: IAnswers, i: 
 				}}
 				src={`${process.env.PUBLIC_URL}/pig.svg`}
 			></img>
-						<div ref={buttonsRef} className='d-flex justify-content-between'>
+						<div ref={buttonsRef} className='d-flex justify-content-between savannah__button-wrapper'>
 				{questionAnswers}
 			</div>
 		</div>
@@ -126,7 +126,7 @@ const SavannahGame = (props: any) => {
 
 	const nextWordHandler = (e?: any) => {
 		if (e && JSON.parse(e.target.dataset.iscorrect)) {
-			audio.src = `${publicFolder}/hruk.mp3`;
+			audio.src = `${publicFolder}/Savannah/hruk.mp3`;
 			audio.play();
 			setSer((prev: number) => prev + 1)
 			if(longestSeries < ser) {
@@ -137,7 +137,7 @@ const SavannahGame = (props: any) => {
 			setScore(score + 1);
 			setPigSize(pigSize+1);
 		} else {
-			audio.src = `${publicFolder}/vizg.mp3`;
+			audio.src = `${publicFolder}/Savannah/vizg.mp3`;
 			audio.play();
 			setSer(0)
 			if (isLogin) sendWordStats(questions[questionNumber],false);

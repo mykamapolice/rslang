@@ -43,12 +43,13 @@ export const getNewToken = async ({userId,refreshToken}:any) => {
 
 
 function setItemsInLocalStorage(value: any) {
+  console.log(value)
   const token = value.token;
   const userName = value.name;
   const userID = value.userId;
   const photoUrl = value.photoUrl;
   const refreshToken = value.refreshToken
-  const tokenDate = Math.floor(Date.now()/1000/60/60);
+  const tokenDate =Math.ceil(Date.now()/1000/60/60);
   localStorage.setItem('token', JSON.stringify(token));
   localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
   localStorage.setItem('tokenDate', JSON.stringify(tokenDate));

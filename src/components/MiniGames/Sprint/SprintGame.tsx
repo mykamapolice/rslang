@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState,useEffect, useCallback, useMemo, useRef } from 'react';
 import { Button } from 'react-bootstrap';
 import './SprintGame.css';
 
@@ -16,6 +16,32 @@ export const SprintGame = (props: any) => {
 
   const [ser, setSer] = useState(0)
   const [questionNumber, setQuestionNumber] = useState(0);
+  const timerRef: any | null  = useRef(null);
+
+  useEffect(() => {
+     console.log(timerRef.current);
+     timerRef.current?.addEventListener('animationend',timeIsOut)
+      return ()=>{
+        timerRef.current?.removeEventListener('animationend',timeIsOut)
+      }
+  }, [timerRef]);
+
+
+  
+const timeIsOut = useCallback(
+  () => {
+    questions.forEach((e:any, i:number)=>{
+      if(i>=questionNumber){
+        sendWordStats(e, false);
+      }
+      showFinishInfo();
+    })
+  },
+  [questionNumber],
+)
+
+
+  const cyphers = useMemo(() => [...Array(30)].map((el:any, i:number, arr:any[])=>(<span>{arr.length - i}</span>)), [])
 
   const question = questions[questionNumber];
   const {
@@ -41,6 +67,7 @@ export const SprintGame = (props: any) => {
       }
       if (questionNumber === questionsNumbers - 1) {
         showFinishInfo();
+
       }
       setQuestionNumber(prev => prev + 1);
     },
@@ -54,6 +81,15 @@ export const SprintGame = (props: any) => {
       </h1>
       <h2>Количество правильных ответов: {score}</h2>
       <h3>{correct} - {variant.wordTranslate}</h3>
+      <div className="timer">
+          <div className="timer__line"></div>
+          <div className="timer__body">
+            <div  ref={timerRef} className="timer__counter">
+          {cyphers}
+            </div>
+          </div>
+
+      </div>
 
       <Button variant='outline-success'
               onClick={() => validateAnswer(true)}>Верно</Button>

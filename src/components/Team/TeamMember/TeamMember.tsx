@@ -34,13 +34,13 @@ function TeamMember({
   },
 }: any) {
   return (
-        <div className="card" style={{height:'500px'}}>
-            <img src={`${photoUrl}`} className="card-img-top" style={{height:'250px', objectFit:'cover'}} />
+        <div className={`card mx-auto pb-2 mt-2`} style={{height:'500px', minWidth:'250px'}}>
+            <img src={`${photoUrl}`} className="card-img-top" style={{height:'250px',  objectFit:'cover'}} />
             <div className="card-body">
                 <h5 className="card-title">{name}</h5>
                 <p className="card-text">{description}</p>
             </div>
-            <div className="card-body d-flex justify-content-around align-items-center">
+            <div className="d-flex justify-content-around align-items-center">
                 {links.map((l: ISocialLink) => (
                     <SocialLink key={l.name} link={l} />
                 ))}

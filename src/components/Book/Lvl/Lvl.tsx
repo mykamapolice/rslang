@@ -52,7 +52,7 @@ function Lvl({ setLvl, levels }: any) {
 				className='btn-check'
 				name='btnradio'
 				id={`${i}`}
-				onClick={(e: any) => setLevelHandler(+e.target.id)}
+				onClick={(e: any) =>lvl===i ?'': setLevelHandler(+e.target.id)}
 				autoComplete='off'
 			/>
 			{elLvl}

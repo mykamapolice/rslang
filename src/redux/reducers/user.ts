@@ -103,7 +103,7 @@ const userSlice = createSlice({
 					state.token = token;
 					state.refreshToken = refreshToken;
 					state.photoUrl = photoUrl;
-					state.tokenDate = Math.floor(Date.now()/1000/60/60);
+					state.tokenDate = Math.ceil(Date.now()/1000/60/60);
 				} else {
 					state.message = action.payload;
 				}

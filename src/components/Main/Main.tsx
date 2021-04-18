@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from 'react'
 import { Route } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { vModeSetOff } from '../../redux/reducers/vocabulary';
-import { tokenRefresh } from '../../redux/reducers/user';
-import { tokenLifetime } from '../../utils/constants';
+import { logout, tokenRefresh } from '../../redux/reducers/user';
+import { tokenLifetime, publicFolder } from '../../utils/constants';
 import Home from '../Home/Home'
 import Book from '../Book/Book'
 import MiniGamesContainer from '../MiniGames/MiniGamesContainer'
@@ -26,16 +26,19 @@ const { isAuth, userId, refreshToken, tokenDate } = useSelector((state:any) => s
 const didMount = useRef(false);
 
 useEffect(() => {
-const diff = Math.floor(Date.now()/1000/60/60) - tokenDate;
+const diff = Math.ceil(Date.now()/1000/60/60) - tokenDate;
 console.log(diff);
-if(diff>=tokenLifetime)dispatch(tokenRefresh({userId, refreshToken}));
+if(diff===tokenLifetime)dispatch(tokenRefresh({userId, refreshToken}));
+else if(diff>tokenLifetime){
+    dispatch(logout());
+}
 else{
  if(didMount.current)dispatch(vModeSetOff(isAuth));
  else didMount.current=true;
 }
 }, [isAuth])
     return (
-        <div className="Main">
+        <div className="Main" style={{backgroundImage: `url(${publicFolder}/bg.png)`}}>
 
             <Route path="/book" component={Book}/>
             <Route exact path="/mini-games" component={MiniGamesContainer}/>

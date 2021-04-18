@@ -61,11 +61,11 @@ export const teamMembers: ITeamMember[] = [
 
 function Team() {
   return (
-        <CardDeck className='container mx-auto flex-wrap align-items-center' style={{flexGrow:1}}>
+        <div className='container d-flex flex-wrap justify-content-around' style={{flexGrow:1}}>
             {teamMembers.map((t) => (
                 <TeamMember key={t.name} personData={t} />
             ))}
-        </CardDeck>
+        </div>
   );
 }
 

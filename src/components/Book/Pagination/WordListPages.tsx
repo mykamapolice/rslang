@@ -28,7 +28,6 @@ const WordListPages = ({ setPage }: any) => {
 
 	const setActivePage = useCallback(
 		(page: number, isPlus?: boolean) => {
-			console.log(notActiveList)
 			if (page < 0) page = paginationLength - 1;
 			if (page > paginationLength - 1) page = 0;
 			const findEqualPage = notActiveList.findIndex(
@@ -87,7 +86,7 @@ const WordListPages = ({ setPage }: any) => {
 						<button
 							className='page-link'
 							id={`${i}`}
-							onClick={(e: any) => setActivePage(+e.target.id)}
+							onClick={(e: any) => page === i ?'':setActivePage(+e.target.id)}
 						>
 							{i + 1}
 						</button>
