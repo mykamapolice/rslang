@@ -112,7 +112,6 @@ const vocabularySlice = createSlice({
         console.log('что-то не так...');
       })
       .addCase(createWord.fulfilled, (state, action) => {
-        console.log(action.payload);
         const {
           words,
           userList,
@@ -135,7 +134,6 @@ const vocabularySlice = createSlice({
       })
       .addCase(updateWord.fulfilled, (state, action) => {
         const stateCopy = current(state);
-        console.log(action.payload);
         if (stateCopy.userList) {
           try {
             const userListCopy = stateCopy.userList.map(el => {

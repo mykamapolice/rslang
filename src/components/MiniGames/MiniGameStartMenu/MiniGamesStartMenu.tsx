@@ -31,9 +31,9 @@ enum gamesStatisticsNames {
 
 enum gamesRules {
 	SwojaIgra = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки',
-	Audiocall = "audiocall",
-	Sprint = "sprint",
-	Savannah = "savannah"
+	Audiocall = "Ты слышишь слово и видишь 5 вариантов его перевода. При этом не видишь, как это слово пишется по-английски. Твоя задача выбрать правильный перевод озвученного слова." ,
+	Sprint = "Нужно угадывать, верный перевод предложен к английскому слову или нет.",
+	Savannah = "Игра, в которой с неба падают английские слова, а вам нужно нажимать на правильное русское слово."
 }
 
 const MiniGamesStartMenu = (props:any): JSX.Element => {
@@ -54,7 +54,6 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
-	dispatch(getStatistics());
 
 	const getKeyValue = (game: string) => (gamesStatisticsNames: Record<string, any>) => gamesStatisticsNames[game];
 	const gameName = getKeyValue(game)(gamesStatisticsNames)
@@ -67,6 +66,11 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		vocabulary: { words },
 	} = state;
 	const wordsCopy = bookWords || words;
+
+	useEffect(() => {
+		dispatch(getStatistics());
+	},[])
+
 	useEffect(() => {
 		if (bookWords)
 			useQuestions();
