@@ -51,7 +51,7 @@ function MiniGamesContainer(): JSX.Element {
 								state: { game: `${g.title}` },
 							}}
 						>
-							<Card.Img variant='top' src={g.imageUrl} />
+							<Card.Img variant='top' className='gameMenuImg' src={g.imageUrl} />
 							<Card.Body>
 								<Card.Title>{g.title}</Card.Title>
 							</Card.Body>

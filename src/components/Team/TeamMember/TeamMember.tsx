@@ -34,18 +34,18 @@ function TeamMember({
   },
 }: any) {
   return (
-        <Card className="card">
-            <Card.Img variant="top" src={photoUrl} />
-            <Card.Body>
-                <Card.Title>{name}</Card.Title>
-                <Card.Text>{description}</Card.Text>
-            </Card.Body>
-            <Card.Body className="d-flex justify-content-around">
+        <div className="card" style={{height:'500px'}}>
+            <img src={`${photoUrl}`} className="card-img-top" style={{height:'250px', objectFit:'cover'}} />
+            <div className="card-body">
+                <h5 className="card-title">{name}</h5>
+                <p className="card-text">{description}</p>
+            </div>
+            <div className="card-body d-flex justify-content-around align-items-center">
                 {links.map((l: ISocialLink) => (
                     <SocialLink key={l.name} link={l} />
                 ))}
-            </Card.Body>
-        </Card>
+            </div>
+        </div>
   );
 }
 

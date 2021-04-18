@@ -17,7 +17,7 @@ import {
 	fetchingOnBookStart,
 } from '../../redux/reducers/vocabulary';
 import { tokenRefresh } from '../../redux/reducers/user';
-import { baseUrl,publicFolder } from '../../utils/constants';
+import { baseUrl,publicFolder,tokenLifetime } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
 import WordListPages from './Pagination/WordListPages';
 import VocabularyPages from './Pagination/VocabularyPages';
@@ -64,7 +64,7 @@ function Book(): JSX.Element {
 		const diff = tokenDate
 			? Math.floor(Date.now() / 1000 / 60 / 60) - tokenDate
 			: 0;
-		if (diff >= 3) {
+		if (diff >= tokenLifetime) {
 			dispatch(tokenRefresh({ userId, refreshToken }));
 		} else radioButtonHandler();
 	}, [lvl, page, isAuth, tokenDate]);

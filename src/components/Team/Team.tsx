@@ -1,6 +1,8 @@
 import React from 'react';
 import { CardDeck } from 'react-bootstrap';
 import TeamMember, { ITeamMember } from './TeamMember/TeamMember';
+import { publicFolder } from '../../utils/constants';
+
 
 export const teamMembers: ITeamMember[] = [
   {
@@ -22,7 +24,7 @@ export const teamMembers: ITeamMember[] = [
   {
     name: 'Ilya',
     photoUrl:
-            'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGljdHVyZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
+            `${publicFolder}/ilya.jpg`,
     description: 'Авторизация пользователя, логика игрового блока, блок статистики, игра Аудиовызов, игра "Swoja Igra"',
     links: [
       {
@@ -46,7 +48,7 @@ export const teamMembers: ITeamMember[] = [
   {
     name: 'Danik',
     photoUrl:
-            'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGljdHVyZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
+            `${publicFolder}/danik.jpg`,
     description: 'Электронный учебник, словарь, настройки, игра "Саванна", логика игрового блока',
     links: [
       {
@@ -59,7 +61,7 @@ export const teamMembers: ITeamMember[] = [
 
 function Team() {
   return (
-        <CardDeck className='container mx-auto flex-wrap'>
+        <CardDeck className='container mx-auto flex-wrap align-items-center' style={{flexGrow:1}}>
             {teamMembers.map((t) => (
                 <TeamMember key={t.name} personData={t} />
             ))}

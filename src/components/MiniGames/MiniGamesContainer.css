@@ -12,3 +12,8 @@
     justify-content: space-around;
 }
 
+
+.gameMenuImg{
+    height: 200px;
+    object-fit: cover;
+}

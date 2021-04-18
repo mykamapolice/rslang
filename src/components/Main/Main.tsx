@@ -25,7 +25,6 @@ const dispatch = useDispatch();
 const { isAuth, userId, refreshToken, tokenDate } = useSelector((state:any) => state.user );
 const didMount = useRef(false);
 
-
 useEffect(() => {
 const diff = Math.floor(Date.now()/1000/60/60) - tokenDate;
 console.log(diff);

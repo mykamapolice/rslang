@@ -12,7 +12,7 @@ interface ISettingsState {
 const initialState: ISettingsState = {
 	isViewTranslate: true,
 	isViewButtons: true,
-	isMusicON: true,
+	isMusicON: false,
 	isSoundON: true,
 	musicVolume: 0,
 	soundVolume: 50,
