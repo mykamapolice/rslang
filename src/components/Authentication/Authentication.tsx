@@ -22,7 +22,7 @@ const Authentication: FC = (): JSX.Element => {
       ?
       <div>
         <img
-          style={{ width: "3rem", borderRadius: "50%", marginRight: "1rem" }}
+          style={{ width: "3rem", borderRadius: "50%", marginRight: "1rem", height: "3rem" }}
           src={photoUrl}
           alt='[eq' />Вечер в хату, {name}
         <Button style={{ marginLeft: "0.5rem" }} variant='danger' onClick={onLogOutButtonClick}>Выйти</Button>
