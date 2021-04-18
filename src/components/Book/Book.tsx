@@ -16,7 +16,8 @@ import {
 	vModeSetOff,
 	fetchingOnBookStart,
 } from '../../redux/reducers/vocabulary';
-import { baseUrl } from '../../utils/constants';
+import { tokenRefresh } from '../../redux/reducers/user';
+import { baseUrl,publicFolder } from '../../utils/constants';
 import Lvl from './Lvl/Lvl';
 import WordListPages from './Pagination/WordListPages';
 import VocabularyPages from './Pagination/VocabularyPages';
@@ -30,12 +31,12 @@ const WordListGames = WordListFilter(Games);
 const UserListGames = UserListFilter(Games);
 
 const images: string[] = [
-	`${process.env.PUBLIC_URL}/images/1.png`,
-	`${process.env.PUBLIC_URL}/images/2.jpg`,
-	`${process.env.PUBLIC_URL}/images/3.png`,
-	`${process.env.PUBLIC_URL}/images/4.png`,
-	`${process.env.PUBLIC_URL}/images/5.gif`,
-	`${process.env.PUBLIC_URL}/images/6.png`,
+	`${publicFolder}/images/1.png`,
+	`${publicFolder}/images/2.jpg`,
+	`${publicFolder}/images/3.png`,
+	`${publicFolder}/images/4.png`,
+	`${publicFolder}/images/5.gif`,
+	`${publicFolder}/images/6.png`,
 ];
 const levels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -46,7 +47,7 @@ function Book(): JSX.Element {
 	const vocabulary = useSelector((state: IRootState) => state.vocabulary);
 	const user = useSelector((state: IRootState) => state.user);
 	const { vMode, page, lvl, words, userList, value } = vocabulary;
-	const { userId, token, isAuth } = user;
+	const { userId, token, isAuth, tokenDate, refreshToken } = user;
 	const { soundVolume } = useSelector((state: any) => state.settings);
 	const didMount = useRef(false);
 	const radioButtonHandler = async () => {
@@ -59,14 +60,14 @@ function Book(): JSX.Element {
 		}
 	};
 
-	// useEffect(() => {
-	// 	if (didMount.current) dispatch(vModeSetOff(isAuth));
-	// 	else didMount.current = true;
-	// }, [isAuth]);
-
 	useEffect(() => {
-		radioButtonHandler();
-	}, [lvl, page, isAuth]);
+		const diff = tokenDate
+			? Math.floor(Date.now() / 1000 / 60 / 60) - tokenDate
+			: 0;
+		if (diff >= 3) {
+			dispatch(tokenRefresh({ userId, refreshToken }));
+		} else radioButtonHandler();
+	}, [lvl, page, isAuth, tokenDate]);
 
 	const addWordToUser = async (wordId: string, type: any) => {
 		const obj = {

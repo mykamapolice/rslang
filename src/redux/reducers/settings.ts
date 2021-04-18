@@ -14,7 +14,7 @@ const initialState: ISettingsState = {
 	isViewButtons: true,
 	isMusicON: true,
 	isSoundON: true,
-	musicVolume: 50,
+	musicVolume: 0,
 	soundVolume: 50,
 };
 

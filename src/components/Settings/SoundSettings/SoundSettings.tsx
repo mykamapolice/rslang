@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { useAudio } from 'react-use';
 import useSound from 'use-sound';
 import styles from './SoundSettings.module.css';
+import {publicFolder} from '../../../utils/constants'
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setMusicVolume,
@@ -11,31 +12,31 @@ import {
 	setSoundToggle,
 } from '../../../redux/reducers/settings';
 
+const audioBackground = new Audio(`${publicFolder}/sound.mp3`)
+
 const SoundSettings = (): JSX.Element => {
-	// const [play] = useSound(`${process.env.PUBLIC_URL}/sound.mp3`);
-	// useEffect(() => {
-	//   play();
-	// }, []);
+
   const dispatch = useDispatch()
 	const { musicVolume, soundVolume, isMusicON, isSoundON } = useSelector(
 		(state: any) => state.settings
 	);
 
-	const audioBackground = new Audio(`${process.env.PUBLIC_URL}/sound.mp3`);
+useEffect(() => {
+	toggleMusic(isMusicON);
+}, [musicVolume])
 
-	const toggleMusic = () => {
-		// if(audioBackground.paused) {
-		//   audioBackground.play()
-		// } else {
-		//   audioBackground.pause()
-		// }
+
+	const toggleMusic = (bool:boolean) => {
+		if(bool) {
+			audioBackground.volume = musicVolume*0.01;
+		  audioBackground.play();
+		} else {
+		  audioBackground.pause();
+		}
 	};
-	const musicPause = () => {
-		//  audioBackground.pause()
-	};
+
 
 	const soundHandler = (e: any) => {
-   
 		switch (e.target.id) {
 			case 'music':
 				dispatch(setMusicVolume(+e.target.value));

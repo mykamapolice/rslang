@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { baseUrl } from '../../../utils/constants';
+import { publicFolder } from '../../../utils/constants';
 import './SavannahGame.css'
 
 
@@ -126,7 +126,7 @@ const SavannahGame = (props: any) => {
 
 	const nextWordHandler = (e?: any) => {
 		if (e && JSON.parse(e.target.dataset.iscorrect)) {
-			audio.src = `${process.env.PUBLIC_URL}/hruk.mp3`;
+			audio.src = `${publicFolder}/hruk.mp3`;
 			audio.play();
 			setSer((prev: number) => prev + 1)
 			if(longestSeries < ser) {
@@ -137,7 +137,7 @@ const SavannahGame = (props: any) => {
 			setScore(score + 1);
 			setPigSize(pigSize+1);
 		} else {
-			audio.src = `${process.env.PUBLIC_URL}/vizg.mp3`;
+			audio.src = `${publicFolder}/vizg.mp3`;
 			audio.play();
 			setSer(0)
 			if (isLogin) sendWordStats(questions[questionNumber],false);
@@ -154,7 +154,7 @@ const SavannahGame = (props: any) => {
 				flexGrow: 1,
 				position: 'relative',
 				zIndex: 1,
-				backgroundImage: `url('${process.env.PUBLIC_URL}/images/savannah.jpg')`,
+				backgroundImage: `url('${publicFolder}/images/savannah.jpg')`,
 				backgroundPosition: `top ${100*pigSize}px right 10px`,
 				transition: 'all 1s',
 			}}

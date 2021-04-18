@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IUser } from '../../interfaces';
-import { createUser, loginUser } from '../../utils/user-helper';
+import { createUser, loginUser, getNewToken } from '../../utils/user-helper';
 
 const initialState: IUser = {
 	isLoginForm: true,
@@ -9,14 +9,17 @@ const initialState: IUser = {
 	userId: null,
 	message: null,
 	token: null,
-	// refreshToken: null,
+	refreshToken: null,
 	photoUrl: '',
+	tokenDate: null
 };
 
 const photoUrl: any = localStorage.getItem('photoUrl');
 const userId = localStorage.getItem('id');
 const name: any = localStorage.getItem('name');
 const token: any = localStorage.getItem('token');
+const refreshToken:any = localStorage.getItem('refreshToken');
+const tokenDate:any = localStorage.getItem('tokenDate')
 
 if (userId !== null) {
 	initialState.isAuth = true;
@@ -24,10 +27,14 @@ if (userId !== null) {
 	initialState.userId = JSON.parse(userId);
 	initialState.photoUrl = JSON.parse(photoUrl);
 	initialState.token = JSON.parse(token);
+	initialState.refreshToken = JSON.parse(refreshToken);
+	initialState.tokenDate = JSON.parse(tokenDate)
 }
 
 export const registration = createAsyncThunk('user/registration', createUser);
 export const login = createAsyncThunk('user/login', loginUser);
+export const tokenRefresh = createAsyncThunk('user/token-refresh', getNewToken);
+
 
 const userSlice = createSlice({
 	name: 'user',
@@ -35,6 +42,8 @@ const userSlice = createSlice({
 	initialState,
 
 	reducers: {
+
+
 		changeLoginForm: state => {
 			const { isLoginForm } = state;
 
@@ -49,8 +58,9 @@ const userSlice = createSlice({
 				userId: null,
 				message: null,
 				token: null,
-				// refreshToken: null,
+				refreshToken: null,
 				photoUrl: '',
+				tokenDate: null
 			};
 
 			return (state = { ...newState });
@@ -61,9 +71,20 @@ const userSlice = createSlice({
 		builder
 
 			.addCase(registration.fulfilled, (state, action) => {
-				state.isLoginForm = true;
+				state.isLoginForm = true;				
 			})
 
+			.addCase(tokenRefresh.fulfilled, (state, action)=>{
+				console.log(action);
+				if (action.payload) {
+					const {
+						token,
+						refreshToken,
+					} = action.payload;
+					state.token = token;
+					state.refreshToken = refreshToken;
+				}
+			})
 			.addCase(login.fulfilled, (state, action) => {
 				if (action.payload.message === 'Authenticated') {
 					const {
@@ -80,8 +101,9 @@ const userSlice = createSlice({
 					state.userId = userId;
 					state.message = message;
 					state.token = token;
-					// state.refreshToken = refreshToken;
+					state.refreshToken = refreshToken;
 					state.photoUrl = photoUrl;
+					state.tokenDate = Math.floor(Date.now()/1000/60/60);
 				} else {
 					state.message = action.payload;
 				}

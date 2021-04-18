@@ -5,8 +5,9 @@ export interface IUser {
   userId: string | null;
   message: string | null;
   token: string | null;
-  // refreshToken : string | null;
+  refreshToken : string | null;
   photoUrl: string;
+  tokenDate:number|null;
 }
 
 export interface IGeneralVocabulary {
