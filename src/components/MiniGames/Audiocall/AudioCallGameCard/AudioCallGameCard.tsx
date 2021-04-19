@@ -15,7 +15,6 @@ const AudioCallGameCard = (props: any) => {
     setScore,
     score,
     setNextBtnDis,
-    setIsShowEndInfo,
     sendWordStats,
     questions,
     questionNumber,

@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllWords, createWord, updateWord } from '../../../redux/reducers/vocabulary';
+import {
+	getAllWords,
+	createWord,
+	updateWord,
+} from '../../../redux/reducers/vocabulary';
 import QuestionBox from '../SwojaIgra/QuestionBox/QuestionBox';
 import Rules from '../Rules/Rules';
 import { Alert, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
@@ -18,46 +22,52 @@ import { SprintGame } from '../Sprint/SprintGame';
 import SavannahGame from '../Savannah/SavannahGame';
 
 interface IGameProps {
-	game: string,
+	game: string;
 	bookWords?: IWord[];
 }
 
 enum gamesStatisticsNames {
-	SwojaIgra = "owngame",
-	Audiocall = "audiocall",
-	Sprint = "sprint",
-	Savannah = "savannah"
+	SwojaIgra = 'owngame',
+	Audiocall = 'audiocall',
+	Sprint = 'sprint',
+	Savannah = 'savannah',
 }
 
 enum gamesRules {
 	SwojaIgra = 'Вам дана картинка и 4 слова на английском языке. Нужно выбрать слово которое больше всего соответствует для данной картинки',
-	Audiocall = "Ты слышишь слово и видишь 5 вариантов его перевода. При этом не видишь, как это слово пишется по-английски. Твоя задача выбрать правильный перевод озвученного слова." ,
-	Sprint = "Нужно угадывать, верный перевод предложен к английскому слову или нет.",
-	Savannah = "Игра, в которой с неба падают английские слова, а вам нужно нажимать на правильное русское слово."
+	Audiocall = 'Вы слышите слово и видите 5 вариантов его перевода. При этом не видите, как это слово пишется по-английски. Ваша задача выбрать правильный перевод озвученного слова.',
+	Sprint = 'У вас есть только 30 секунд. Нужно угадывать, верный перевод предложен к английскому слову или нет. Если не уложитесь во время, слова с которыми вы не успели поиграть считаться неугаданными',
+	Savannah = 'Игра, в которой с неба падают английские слова, а вам нужно нажимать на правильное русское слово.',
 }
 
-const MiniGamesStartMenu = (props:any): JSX.Element => {
-	const { game, bookWords }:IGameProps = props.location.state;
+const MiniGamesStartMenu = (props: any): JSX.Element => {
+	const { game, bookWords }: IGameProps = props.location.state;
 
 	const [isStarted, setStarted] = useState(false);
 	const [finish, setFinish] = useState(false);
 	const [questions, setQuestions]: any[] = useState([]);
-	const [questionsNumbers, setQuestionsNumbers] = useState(bookWords ? bookWords.length : 20);
+	const [questionsNumbers, setQuestionsNumbers] = useState(
+		bookWords ? bookWords.length : 20
+	);
 	const [lvl, setLvl] = useState(0);
 	const [score, setScore] = useState(0);
 	const [longestSeries, setLongestSeries] = useState(0);
 
-	const gameResults:{[key: string]:any[]} = useRef({
-		answered:[],
-		notAnswered:[]
+	const gameResults: { [key: string]: any[] } = useRef({
+		answered: [],
+		notAnswered: [],
 	}).current;
 
 	const dispatch = useDispatch();
 	const state: any = useSelector(state => state);
+	const { soundVolume } = useSelector((state: any) => state.settings);
+	const randomPageQuestions = () => {};
 
-	const getKeyValue = (game: string) => (gamesStatisticsNames: Record<string, any>) => gamesStatisticsNames[game];
-	const gameName = getKeyValue(game)(gamesStatisticsNames)
-	const rules = getKeyValue(game)(gamesRules)
+	const getKeyValue = (game: string) => (
+		gamesStatisticsNames: Record<string, any>
+	) => gamesStatisticsNames[game];
+	const gameName = getKeyValue(game)(gamesStatisticsNames);
+	const rules = getKeyValue(game)(gamesRules);
 
 	const isLogin = state.user.isAuth;
 	const token = state.user.token;
@@ -69,11 +79,10 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 
 	useEffect(() => {
 		dispatch(getStatistics());
-	},[])
+	}, []);
 
 	useEffect(() => {
-		if (bookWords)
-			useQuestions();
+		if (bookWords) useQuestions();
 		if (!words) dispatch(getAllWords({ userId, token, lvl }));
 	}, [isStarted]);
 
@@ -92,10 +101,10 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	);
 
 	const sendStatistics = () => {
-		let bestSeries = 0
+		let bestSeries = 0;
 
-		if(score !== 0) {
-			bestSeries = longestSeries !== 0 ? longestSeries + 1 : 1
+		if (score !== 0) {
+			bestSeries = longestSeries !== 0 ? longestSeries + 1 : 1;
 		}
 
 		const gameStatistics: IGameResult = {
@@ -109,7 +118,7 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 			},
 		};
 		dispatch(updateStatistics(gameStatistics));
-	}
+	};
 
 	const updateUserWord = useCallback(
 		async (wordId: string, type: any) => {
@@ -125,15 +134,15 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	);
 
 	const showFinishInfo = () => {
-		sendStatistics()
+		sendStatistics();
 		setFinish(true);
 		setStarted(false);
 	};
 
 	const startNewGame = () => {
-			setFinish(false);
-			setScore(0);
-	}
+		setFinish(false);
+		setScore(0);
+	};
 
 	const setQuestionNumbers = (val: number) => setQuestionsNumbers(val);
 	const setLevel = (val: number) => setLvl(val);
@@ -145,27 +154,38 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		}
 	};
 
-	const addGameResults = useCallback((word:any,isWin:boolean)=>{
-		isWin? gameResults.answered.push(word):gameResults.notAnswered.push(word);
-	},[gameResults]);
+	const addGameResults = useCallback(
+		(word: any, isWin: boolean) => {
+			isWin
+				? gameResults.answered.push(word)
+				: gameResults.notAnswered.push(word);
+		},
+		[gameResults]
+	);
 
-	const sendWordStats = useCallback((current:any,isTrue: boolean): void => {
-		addGameResults(current,isTrue);
-		if (current.userWord) {
-			const obj = { ...current.userWord.optional };
-			if (isTrue) obj.wins = obj.wins ? obj.wins + 1 : 1;
-			else obj.loses = obj.loses ? obj.loses + 1 : 1;
-			updateUserWord(current.id, obj);
-		}
-		else {
-			const obj = {
-				isLearn: true, isHard: false, isDeleted: false , wins:0, loses:0
-			};
-			if (isTrue) obj.wins = obj.wins+1;
-			else obj.loses = obj.loses+1;
-			addWordToUser(current.id, obj);
-		}
-	},[isLogin]);
+	const sendWordStats = useCallback(
+		(current: any, isTrue: boolean): void => {
+			addGameResults(current, isTrue);
+			if (current.userWord) {
+				const obj = { ...current.userWord.optional };
+				if (isTrue) obj.wins = obj.wins ? obj.wins + 1 : 1;
+				else obj.loses = obj.loses ? obj.loses + 1 : 1;
+				updateUserWord(current.id, obj);
+			} else {
+				const obj = {
+					isLearn: true,
+					isHard: false,
+					isDeleted: false,
+					wins: 0,
+					loses: 0,
+				};
+				if (isTrue) obj.wins = obj.wins + 1;
+				else obj.loses = obj.loses + 1;
+				addWordToUser(current.id, obj);
+			}
+		},
+		[isLogin]
+	);
 
 	const gameProps = {
 		isLogin,
@@ -179,7 +199,8 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 		score,
 		sendWordStats,
 		longestSeries,
-		setLongestSeries
+		setLongestSeries,
+		soundVolume,
 	};
 
 	const currentMiniGame = () => {
@@ -198,7 +219,12 @@ const MiniGamesStartMenu = (props:any): JSX.Element => {
 	return (
 		<div className='Vocabulary'>
 			{finish ? (
-				<SwojaIgraStat startNewGame={startNewGame} questionsNumbers={questionsNumbers} score={score} gameResults={gameResults} />
+				<SwojaIgraStat
+					startNewGame={startNewGame}
+					questionsNumbers={questionsNumbers}
+					score={score}
+					gameResults={gameResults}
+				/>
 			) : !isLogin ? (
 				<Alert variant='danger'>
 					<Alert.Heading>Пожалуйста авторизируйтесь</Alert.Heading>

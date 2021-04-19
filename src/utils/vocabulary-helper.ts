@@ -70,9 +70,9 @@ export const createUserWord = async ({ userId, wordId, word, token }: any) => {
 export const fetchingAggregatedWords = async ({
 	lvl,
 	page,
-	userId,
-	token,
-}: any) => {
+}: any,thunkAPI:any ) => {
+	const { getState } = thunkAPI;
+	const { userId,token } = await getState().user
 	const headers = {
 		Authorization: `Bearer ${token}`,
 		Accept: 'application/json',
@@ -88,7 +88,8 @@ export const fetchingAggregatedWords = async ({
 	}
 };
 
-export const getUserWords = async ({ userId, token }: any) => {
+export const getUserWords = async ({ userId, token }: any , thunkAPI: any) => {
+	
 	const headers = {
 		Authorization: `Bearer ${token}`,
 		Accept: 'application/json',

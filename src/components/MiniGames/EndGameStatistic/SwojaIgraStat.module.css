@@ -30,7 +30,8 @@ flex-grow: 1;
 .wordsContainer{
     overflow-y: scroll;
     height: 50vh;
-    background-color: #f0efeb;
+    background-color: rgba(240, 239, 235, 0.7);
+
 }
 
 .wordsContainer::-webkit-scrollbar-track {border-radius: 4px;}
