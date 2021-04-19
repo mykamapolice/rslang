@@ -94,7 +94,7 @@ function Book(): JSX.Element {
 		(src: string[], i: number): void => {
 			if (i == src.length) return;
 			audio.src = `${baseUrl}${src[i]}`;
-			audio.volume = soundVolume;
+			audio.volume = soundVolume*0.01;
 			audio.play();
 			audio.addEventListener(
 				'ended',
